@@ -1412,6 +1412,14 @@
         context.fillText(text, x, y);
       }
 
+      function badgeLabel(text, x, y, size = 10, color = "#30363d", fill = "#ffffff") {
+        context.font = `600 ${size}px ui-sans-serif, system-ui, sans-serif`;
+        const width = context.measureText(text).width + 12;
+        context.fillStyle = fill;
+        context.fillRect(x - width / 2, y - size - 4, width, size + 8);
+        textLabel(text, x, y, size, color, "center");
+      }
+
       function box(x, y, width, height, fill = "#ffffff", stroke = "#8f98a3") {
         context.fillStyle = fill;
         context.fillRect(x, y, width, height);
@@ -1429,7 +1437,14 @@
         const labelSpace = 40;
         const cellWidth = (width - margin * 2 - gap * (cols - 1)) / cols;
         const cellHeight = (height - margin * 2 - labelSpace - gap * (rows - 1)) / rows;
-        textLabel(`${format(installedNodes)} nodes · ${format(installedNodes * gpusPerNode)} GH200`, margin, 22, 13);
+        textLabel(`${format(installedNodes)} nodes · ${format(installedNodes * gpusPerNode)} GH200`, margin, 20, 13);
+        textLabel(
+          `Global DragonFly+ · ${number("network.switch-link")} Gbit/s per switch link · adaptive routing`,
+          margin,
+          42,
+          10,
+          "#145da0",
+        );
         for (let index = 0; index < groups; index += 1) {
           const col = index % cols;
           const row = Math.floor(index / cols);
@@ -1454,36 +1469,62 @@
         const margin = 30;
         const gap = 12;
         const rackWidth = (width - margin * 2 - gap * (racks - 1)) / racks;
-        textLabel(`Representative full group · ${number("topology.nodes-group")} nodes`, margin, 24, 13);
+        const fabricY = 49;
+        const rackTop = 72;
+        const rackBottom = height - 18;
+        textLabel(`Representative full group · ${number("topology.nodes-group")} nodes`, margin, 21, 13);
+        context.strokeStyle = "#145da0";
+        context.lineWidth = 3;
+        context.beginPath();
+        context.moveTo(margin, fabricY);
+        context.lineTo(width - margin, fabricY);
+        context.stroke();
         for (let rack = 0; rack < racks; rack += 1) {
           const x = margin + rack * (rackWidth + gap);
-          box(x, 48, rackWidth, height - 78, "#f6f8fa", "#6d7782");
-          textLabel(`Rack ${rack + 1}`, x + rackWidth / 2, 68, 11, "#30363d", "center");
+          const rackCenter = x + rackWidth / 2;
+          context.strokeStyle = "#145da0";
+          context.lineWidth = 2;
+          context.beginPath();
+          context.moveTo(rackCenter, fabricY);
+          context.lineTo(rackCenter, rackTop);
+          context.stroke();
+          box(x, rackTop, rackWidth, rackBottom - rackTop, "#f6f8fa", "#6d7782");
+          textLabel(`Rack ${rack + 1}`, rackCenter, rackTop + 17, 11, "#30363d", "center");
+          textLabel(`48 nodes · 4×${number("network.hca-link")} Gbit/s/node`, rackCenter, rackTop + 31, 8, "#58616b", "center");
           const nodeGap = 1;
           const nodeWidth = rackWidth - 14;
-          const nodeHeight = (height - 118 - nodeGap * (nodes - 1)) / nodes;
+          const nodesTop = rackTop + 40;
+          const nodeHeight = (rackBottom - nodesTop - 7 - nodeGap * (nodes - 1)) / nodes;
           for (let node = 0; node < nodes; node += 1) {
             context.fillStyle = "#246b3c";
             context.fillRect(
               x + 7,
-              82 + node * (nodeHeight + nodeGap),
+              nodesTop + node * (nodeHeight + nodeGap),
               nodeWidth,
               Math.max(2, nodeHeight),
             );
           }
         }
+        badgeLabel(
+          `DragonFly+ fabric · ${number("network.switch-link")} Gbit/s per switch link`,
+          width / 2,
+          fabricY + 4,
+          10,
+          "#145da0",
+        );
         byId("topology-status").textContent = `${racks} racks · ${number("topology.nodes-group")} nodes · 4×${number("network.hca-link")} Gbit/s per node · ${number("network.switch-link")} Gbit/s switch links`;
       }
 
       function drawNodeCompact(width, height) {
         const margin = 14;
         const gap = 10;
-        const top = 42;
+        const top = 58;
         const columns = 2;
         const rows = 2;
         const cellWidth = (width - margin * 2 - gap) / columns;
         const cellHeight = (height - top - margin - gap) / rows;
         textLabel(`${number("node.cpu-cores")} cores · ${number("node.lpddr")} GB LPDDR · ${number("node.hbm")} GB HBM`, margin, 24, 11);
+        textLabel(`C2C ${number("interconnect.c2c")} GB/s · GPU pair ${number("interconnect.gpu-pair")} GB/s · HCA ${number("network.hca-link")} Gbit/s`, margin, 43, 9, "#58616b");
         locality.forEach((item, index) => {
           const column = index % columns;
           const row = Math.floor(index / columns);
@@ -1492,12 +1533,12 @@
           const selected = index === activeLocality;
           box(x, y, cellWidth, cellHeight, selected ? "#e8f1f8" : "#f6f8fa", selected ? "#145da0" : "#8f98a3");
           textLabel(`LOCALITY ${index}`, x + 8, y + 18, 10, selected ? "#145da0" : "#30363d");
-          box(x + 8, y + 29, cellWidth - 16, 45, "#ffffff", "#8f98a3");
-          textLabel(`Grace ${item.cpuNuma} · cores ${item.cpuCores}`, x + cellWidth / 2, y + 56, 10, "#191c20", "center");
-          box(x + 8, y + 84, cellWidth - 16, 50, selected ? "#145da0" : "#20252b", selected ? "#145da0" : "#20252b");
-          textLabel(`GPU ${item.gpu} · HBM ${item.hbmNuma}`, x + cellWidth / 2, y + 114, 11, "#ffffff", "center");
-          box(x + 8, y + 144, cellWidth - 16, 34, "#e9f4ed", "#246b3c");
-          textLabel(`${item.nic} · NUMA ${item.cpuNuma}`, x + cellWidth / 2, y + 166, 10, "#246b3c", "center");
+          box(x + 8, y + 27, cellWidth - 16, 39, "#ffffff", "#8f98a3");
+          textLabel(`Grace ${item.cpuNuma} · cores ${item.cpuCores}`, x + cellWidth / 2, y + 51, 9, "#191c20", "center");
+          box(x + 8, y + 75, cellWidth - 16, 46, selected ? "#145da0" : "#20252b", selected ? "#145da0" : "#20252b");
+          textLabel(`GPU ${item.gpu} · HBM ${item.hbmNuma}`, x + cellWidth / 2, y + 103, 10, "#ffffff", "center");
+          box(x + 8, y + 130, cellWidth - 16, 29, "#e9f4ed", "#246b3c");
+          textLabel(`${item.nic} · ${number("network.hca-link")} Gbit/s`, x + cellWidth / 2, y + 149, 9, "#246b3c", "center");
         });
         byId("topology-status").textContent = `GPU pair ${number("interconnect.gpu-pair")} GB/s aggregate · CPU↔GPU ${number("interconnect.c2c")} GB/s · HCA ${number("network.hca-link")} Gbit/s`;
       }
@@ -1551,6 +1592,13 @@
           }
         }
         context.restore();
+        badgeLabel(
+          `NVLink4 full mesh · ${number("interconnect.gpu-pair")} GB/s aggregate per GPU pair`,
+          width / 2,
+          height - 36,
+          10,
+          "#9a2f2f",
+        );
         byId("topology-status").textContent = `GPU pair ${number("interconnect.gpu-pair")} GB/s aggregate · CPU↔GPU ${number("interconnect.c2c")} GB/s · HCA ${number("network.hca-link")} Gbit/s`;
       }
 

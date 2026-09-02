@@ -1,0 +1,1122 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-02T09:22:55Z",
+  "title": "JUPITER Booster: ресурси, NUMA, accounting і сценарії використання",
+  "allocation": {
+    "account": "e-dev-2026d09-128",
+    "system": "jupiter",
+    "partition": "booster",
+    "periodStart": "2026-09-01",
+    "periodEnd": "2027-02-28",
+    "sourceIds": ["live-cpuquota"]
+  },
+  "sources": [
+    {
+      "id": "jsc-tech",
+      "confidence": "high",
+      "title": "JUPITER Technical Overview",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://www.fz-juelich.de/en/jsc/jupiter/tech/",
+      "snapshotPath": "evidence/official/jsc-tech.html",
+      "retrievedAt": "2026-09-02",
+      "version": "page updated 2026-06-26",
+      "updatedAt": "2026-06-26",
+      "kind": "web"
+    },
+    {
+      "id": "jsc-config",
+      "confidence": "high",
+      "title": "JUPITER Configuration",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://apps.fz-juelich.de/jsc/hps/jupiter/configuration.html",
+      "snapshotPath": "evidence/official/jsc-config.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "jsc-batch",
+      "confidence": "high",
+      "title": "JUPITER Batch System",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://apps.fz-juelich.de/jsc/hps/jupiter/batchsystem.html",
+      "snapshotPath": "evidence/official/jsc-batch.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "jsc-accounting",
+      "confidence": "high",
+      "title": "JUPITER Accounting",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://apps.fz-juelich.de/jsc/hps/jupiter/accounting.html",
+      "snapshotPath": "evidence/official/jsc-accounting.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "jsc-affinity",
+      "confidence": "high",
+      "title": "JUPITER Processor Affinity",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://apps.fz-juelich.de/jsc/hps/jupiter/affinity.html",
+      "snapshotPath": "evidence/official/jsc-affinity.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "jsc-gpu",
+      "confidence": "high",
+      "title": "JUPITER GPU Computing",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://apps.fz-juelich.de/jsc/hps/jupiter/gpu-computing.html",
+      "snapshotPath": "evidence/official/jsc-gpu.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "jsc-filesystems",
+      "confidence": "high",
+      "title": "JUPITER File Systems",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://apps.fz-juelich.de/jsc/hps/jupiter/filesystems.html",
+      "snapshotPath": "evidence/official/jsc-filesystems.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "jsc-buildup",
+      "confidence": "high",
+      "title": "JUPITER Build-Up Operation",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://apps.fz-juelich.de/jsc/hps/jupiter/buildup.html",
+      "snapshotPath": "evidence/official/jsc-buildup.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "jsc-data-transfer",
+      "confidence": "high",
+      "title": "Data Transfer to and from JUPITER",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://apps.fz-juelich.de/jsc/hps/jupiter/data-transfer.html",
+      "snapshotPath": "evidence/official/jsc-data-transfer.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "jsc-datamover",
+      "confidence": "high",
+      "title": "JUPITER Data Mover Service",
+      "publisher": "Juelich Supercomputing Centre",
+      "url": "https://apps.fz-juelich.de/jsc/hps/jupiter/datamover.html",
+      "snapshotPath": "evidence/official/jsc-datamover.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "nvidia-grace",
+      "confidence": "high",
+      "title": "NVIDIA Grace Performance Tuning Guide",
+      "publisher": "NVIDIA",
+      "url": "https://docs.nvidia.com/dccpu/grace-perf-tuning-guide/",
+      "snapshotPath": "evidence/official/nvidia-grace.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "nvidia-cuda-memory",
+      "confidence": "high",
+      "title": "CUDA Programming Guide: Understanding Memory",
+      "publisher": "NVIDIA",
+      "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/understanding-memory.html",
+      "snapshotPath": "evidence/official/nvidia-cuda-memory.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "nvidia-nccl",
+      "confidence": "high",
+      "title": "NCCL Performance Tuning",
+      "publisher": "NVIDIA",
+      "url": "https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/performance_and_tuning.html",
+      "snapshotPath": "evidence/official/nvidia-nccl.html",
+      "retrievedAt": "2026-09-02",
+      "version": "live documentation snapshot 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "eurohpc-systems",
+      "confidence": "high",
+      "title": "EuroHPC Supercomputers",
+      "publisher": "EuroHPC Joint Undertaking",
+      "url": "https://www.eurohpc-ju.europa.eu/supercomputers/our-supercomputers_en",
+      "snapshotPath": "evidence/official/eurohpc-systems.html",
+      "retrievedAt": "2026-09-02",
+      "version": "page retrieved 2026-09-02",
+      "kind": "web"
+    },
+    {
+      "id": "eviden-xh3000",
+      "confidence": "medium",
+      "title": "BullSequana XH3000",
+      "publisher": "Eviden",
+      "url": "https://eviden.com/wp-content/uploads/2024/10/Eviden-brochure-BullSequanaXH3000-HPC.pdf",
+      "snapshotPath": "evidence/official/eviden-xh3000.pdf",
+      "retrievedAt": "2026-09-02",
+      "version": "brochure 2024",
+      "kind": "web"
+    },
+    {
+      "id": "live-snapshot",
+      "confidence": "high",
+      "title": "JUPITER allocation and Slurm snapshot",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/live/manifest.txt",
+      "retrievedAt": "2026-09-02",
+      "version": "snapshot 2026-09-02T00:59:31Z",
+      "kind": "live"
+    },
+    {
+      "id": "live-sinfo",
+      "confidence": "high",
+      "title": "Slurm partition state snapshot",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/live/sinfo.txt",
+      "retrievedAt": "2026-09-02",
+      "version": "snapshot 2026-09-02T00:59:31Z",
+      "kind": "live"
+    },
+    {
+      "id": "live-partition-booster",
+      "confidence": "high",
+      "title": "Slurm booster partition snapshot",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/live/partition-booster.txt",
+      "retrievedAt": "2026-09-02",
+      "version": "snapshot 2026-09-02T00:59:31Z",
+      "kind": "live"
+    },
+    {
+      "id": "live-partition-largebooster",
+      "confidence": "high",
+      "title": "Slurm largebooster partition snapshot",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/live/partition-largebooster.txt",
+      "retrievedAt": "2026-09-02",
+      "version": "snapshot 2026-09-02T00:59:31Z",
+      "kind": "live"
+    },
+    {
+      "id": "live-cpuquota",
+      "confidence": "high",
+      "title": "Project CPU quota snapshot",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/live/cpu-quota.json",
+      "retrievedAt": "2026-09-02",
+      "version": "snapshot 2026-09-02T00:59:31Z",
+      "kind": "live"
+    },
+    {
+      "id": "live-dataquota",
+      "confidence": "high",
+      "title": "Project storage quota snapshot",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/live/data-quota.json",
+      "retrievedAt": "2026-09-02",
+      "version": "quota updated 2026-09-02T01:23:16 local service time",
+      "kind": "live"
+    },
+    {
+      "id": "live-user-dataquota",
+      "confidence": "high",
+      "title": "User HOME quota snapshot",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/live/user-data-quota.json",
+      "retrievedAt": "2026-09-02",
+      "version": "quota updated 2026-09-02T01:20:00 local service time",
+      "kind": "live"
+    },
+    {
+      "id": "baseline-1618664",
+      "confidence": "high",
+      "title": "Four-GPU nvidia-smi baseline job 1618664",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/live/baseline-job.txt",
+      "retrievedAt": "2026-09-02",
+      "version": "Slurm job 1618664",
+      "kind": "artifact"
+    },
+    {
+      "id": "gpu-baseline-output",
+      "confidence": "high",
+      "title": "Four-GPU nvidia-smi output",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/probes/jupiter-gpu-check-1618664.out",
+      "retrievedAt": "2026-09-02",
+      "version": "Slurm job 1618664",
+      "kind": "artifact"
+    },
+    {
+      "id": "topology-1618998",
+      "confidence": "high",
+      "title": "Full-node topology probe 1618998",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/probes/jupiter-topology-1618998.out",
+      "retrievedAt": "2026-09-02",
+      "version": "Slurm job 1618998",
+      "kind": "artifact"
+    },
+    {
+      "id": "onegpu-1618999",
+      "confidence": "high",
+      "title": "One-GPU accounting probe 1618999",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/probes/jupiter-one-gpu-1618999.out",
+      "retrievedAt": "2026-09-02",
+      "version": "Slurm job 1618999",
+      "kind": "artifact"
+    },
+    {
+      "id": "probe-accounting",
+      "confidence": "high",
+      "title": "Slurm accounting for topology and one-GPU probes",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/probes/sacct-probes.txt",
+      "retrievedAt": "2026-09-02",
+      "version": "Slurm jobs 1618998 and 1618999",
+      "kind": "artifact"
+    },
+    {
+      "id": "probe-cpuquota-after",
+      "confidence": "high",
+      "title": "Project CPU quota immediately after probes",
+      "publisher": "U-LM observed evidence",
+      "url": "evidence/probes/cpu-quota-after.json",
+      "retrievedAt": "2026-09-02",
+      "version": "post-probe snapshot 2026-09-02T01:01Z",
+      "kind": "artifact"
+    }
+  ],
+  "facts": [
+    {
+      "id": "system.modules",
+      "label": "Compute modules",
+      "value": 2,
+      "unit": "modules",
+      "scope": "JUPITER system",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-tech"],
+      "note": "GPU Booster and general-purpose Cluster Module; storage is separate."
+    },
+    {
+      "id": "booster.nodes.installed",
+      "label": "Installed Booster compute nodes",
+      "value": 5884,
+      "unit": "nodes",
+      "scope": "Booster installed design",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "booster.nodes.slurm-visible",
+      "label": "Nodes visible in booster partition snapshot",
+      "value": 5643,
+      "unit": "nodes",
+      "scope": "booster partition at snapshot",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-sinfo"],
+      "note": "Installed capacity and current partition membership are different scopes."
+    },
+    {
+      "id": "booster.nodes.idle",
+      "label": "Idle nodes at snapshot",
+      "value": 268,
+      "unit": "nodes",
+      "scope": "booster partition at snapshot",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-sinfo"]
+    },
+    {
+      "id": "booster.gh200.total",
+      "label": "Installed GH200 superchips",
+      "value": 23536,
+      "unit": "GH200",
+      "scope": "Booster installed design",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"],
+      "note": "5,884 nodes × 4 GH200 per node."
+    },
+    {
+      "id": "booster.grace-cores.total",
+      "label": "Installed Grace CPU cores",
+      "value": 1694592,
+      "unit": "cores",
+      "scope": "Booster installed design",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"],
+      "note": "5,884 nodes × 288 cores per node."
+    },
+    {
+      "id": "node.gh200",
+      "label": "GH200 superchips per node",
+      "value": 4,
+      "unit": "GH200",
+      "scope": "Booster node",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "node.cpu-cores",
+      "label": "Grace CPU cores per node",
+      "value": 288,
+      "unit": "cores",
+      "scope": "Booster node",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config", "live-partition-booster"]
+    },
+    {
+      "id": "node.lpddr",
+      "label": "Grace LPDDR5X per node",
+      "value": 480,
+      "unit": "GB",
+      "scope": "Booster node physical memory",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "node.hbm",
+      "label": "Hopper HBM3 per node",
+      "value": 384,
+      "unit": "GB",
+      "scope": "Booster node physical memory",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"],
+      "note": "4 GPUs × 96 GB HBM3."
+    },
+    {
+      "id": "node.coherent-memory",
+      "label": "Nominal addressable LPDDR5X + HBM3 hardware total",
+      "value": 864,
+      "unit": "GB",
+      "scope": "Booster node physical memory",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config", "nvidia-cuda-memory"],
+      "note": "LPDDR and four HBM pools remain distinct NUMA resources with different placement and capacity constraints; 864 GB is not fungible host DRAM."
+    },
+    {
+      "id": "node.slurm-memory",
+      "label": "Slurm RealMemory",
+      "value": 878535,
+      "unit": "M",
+      "scope": "booster Slurm node",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-partition-booster", "topology-1618998"],
+      "note": "Eight populated NUMA domains sum to 899,620,736 kB (878,535.875 MiB), whose integer-MiB floor equals observed RealMemory=878535M. The evidence does not establish whether Slurm derived or was configured with that value; LPDDR and HBM remain distinct pools."
+    },
+    {
+      "id": "gpu.hbm",
+      "label": "HBM3 per Hopper GPU",
+      "value": 96,
+      "unit": "GB",
+      "scope": "one GH200 GPU",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config", "gpu-baseline-output"],
+      "note": "nvidia-smi reports 97,871 MiB; the 120 GB product label refers to Grace-side LPDDR."
+    },
+    {
+      "id": "gpu.hbm-bandwidth",
+      "label": "HBM3 bandwidth per GPU",
+      "value": 4,
+      "unit": "TB/s",
+      "scope": "one Hopper GPU",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "cpu.lpddr-bandwidth",
+      "label": "LPDDR5X bandwidth per Grace CPU",
+      "value": 512,
+      "unit": "GB/s",
+      "scope": "one Grace CPU",
+      "evidenceType": "official",
+      "confidence": "medium",
+      "sourceIds": ["jsc-config", "jsc-tech"],
+      "note": "JSC pages use both 500 and 512 GB/s; 512 is the current configuration value."
+    },
+    {
+      "id": "interconnect.c2c",
+      "label": "NVLink-C2C CPU↔GPU aggregate bandwidth",
+      "value": 900,
+      "unit": "GB/s",
+      "scope": "one GH200",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config", "nvidia-grace"]
+    },
+    {
+      "id": "interconnect.gpu-pair",
+      "label": "NVLink4 aggregate bandwidth per GPU pair",
+      "value": 300,
+      "unit": "GB/s",
+      "scope": "Booster node GPU pair",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "network.hca-per-node",
+      "label": "ConnectX-7 NDR200 HCAs per node",
+      "value": 4,
+      "unit": "HCAs",
+      "scope": "Booster node",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "network.bandwidth-node",
+      "label": "Nominal network bandwidth per node",
+      "value": 800,
+      "unit": "Gbit/s",
+      "scope": "Booster node",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"],
+      "note": "4 HCAs × 200 Gbit/s."
+    },
+    {
+      "id": "numa.ids",
+      "label": "NUMA IDs exposed by the node",
+      "value": 36,
+      "unit": "NUMA IDs",
+      "scope": "Booster node",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-affinity", "topology-1618998"]
+    },
+    {
+      "id": "numa.active-domains",
+      "label": "Relevant populated CPU/HBM domains",
+      "value": 8,
+      "unit": "NUMA domains",
+      "scope": "Booster node",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-affinity", "topology-1618998"],
+      "note": "CPU domains 0–3 and HBM domains 4, 12, 20, 28; other IDs are reserved for unused MIG topology."
+    },
+    {
+      "id": "numa.locality-map",
+      "label": "Observed CPU/GPU/HBM/NIC locality groups",
+      "value": [
+        {"rank": 0, "cpuCores": "0-71", "cpuNuma": 0, "hbmNuma": 4, "gpu": 0, "nic": "mlx5_0"},
+        {"rank": 1, "cpuCores": "72-143", "cpuNuma": 1, "hbmNuma": 12, "gpu": 1, "nic": "mlx5_1"},
+        {"rank": 2, "cpuCores": "144-215", "cpuNuma": 2, "hbmNuma": 20, "gpu": 2, "nic": "mlx5_2"},
+        {"rank": 3, "cpuCores": "216-287", "cpuNuma": 3, "hbmNuma": 28, "gpu": 3, "nic": "mlx5_3"}
+      ],
+      "unit": "mapping",
+      "scope": "Booster node jpbo-024-02, job 1618998",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["topology-1618998"]
+    },
+    {
+      "id": "topology.gpu-mesh",
+      "label": "Observed intra-node GPU topology",
+      "value": "NV6 full mesh",
+      "unit": "topology",
+      "scope": "Booster node jpbo-024-02, job 1618998",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["topology-1618998"]
+    },
+    {
+      "id": "topology.racks",
+      "label": "Booster rack positions",
+      "value": 125,
+      "unit": "racks",
+      "scope": "Booster fabric",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-batch"]
+    },
+    {
+      "id": "topology.nodes-full-rack",
+      "label": "Compute nodes in a full rack",
+      "value": 48,
+      "unit": "nodes",
+      "scope": "Booster rack",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-batch"]
+    },
+    {
+      "id": "topology.nodes-partial-rack",
+      "label": "Compute nodes in partial rack 123",
+      "value": 28,
+      "unit": "nodes",
+      "scope": "Booster rack 123",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-batch"]
+    },
+    {
+      "id": "topology.empty-rack-positions",
+      "label": "Rack positions without compute nodes",
+      "value": 2,
+      "unit": "racks",
+      "scope": "Booster racks 124-125",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-batch"]
+    },
+    {
+      "id": "topology.dragonfly-groups",
+      "label": "Booster DragonFly+ groups",
+      "value": 25,
+      "unit": "groups",
+      "scope": "Booster fabric",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "topology.nodes-group",
+      "label": "Maximum nodes per DragonFly+ group",
+      "value": 240,
+      "unit": "nodes",
+      "scope": "Booster fabric group",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "performance.hpl",
+      "label": "Sustained HPL performance",
+      "value": 1,
+      "unit": "ExaFLOP/s FP64",
+      "scope": "JUPITER Booster",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-tech", "eurohpc-systems"]
+    },
+    {
+      "id": "storage.exaflash-usable",
+      "label": "ExaFLASH usable design capacity",
+      "value": 20,
+      "unit": "PB",
+      "scope": "JUPITER system storage",
+      "evidenceType": "official",
+      "confidence": "medium",
+      "sourceIds": ["jsc-tech", "jsc-buildup"],
+      "note": "Design capacity; ExaFLASH was still in acceptance in the latest build-up documentation."
+    },
+    {
+      "id": "storage.exastore-raw",
+      "label": "ExaSTORE raw design capacity",
+      "value": 308,
+      "unit": "PB",
+      "scope": "JUPITER system storage",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-tech"]
+    },
+    {
+      "id": "storage.exatape",
+      "label": "ExaTAPE design capacity",
+      "value": 379,
+      "unit": "PB",
+      "scope": "JUPITER system storage",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-tech"]
+    },
+    {
+      "id": "allocation.node-hours",
+      "label": "Allocation",
+      "value": 3500,
+      "unit": "node-hours",
+      "scope": "project e-dev-2026d09-128",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["live-cpuquota", "jsc-accounting", "jsc-config"],
+      "note": "1,008,000 core-hours ÷ 288 cores per node."
+    },
+    {
+      "id": "allocation.core-hours",
+      "label": "Fixed compute quota",
+      "value": 1008000,
+      "unit": "core-hours",
+      "scope": "project e-dev-2026d09-128",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-cpuquota"]
+    },
+    {
+      "id": "allocation.gpu-hour-equivalent",
+      "label": "Physical GPU-hour equivalent at full-node utilization",
+      "value": 14000,
+      "unit": "GH200-hours",
+      "scope": "project e-dev-2026d09-128",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["live-cpuquota", "jsc-accounting", "jsc-config"],
+      "note": "3,500 node-hours × 4 GH200; accounting remains node-based."
+    },
+    {
+      "id": "accounting.minimum-node",
+      "label": "Minimum billable compute allocation",
+      "value": 1,
+      "unit": "exclusive node",
+      "scope": "booster partition",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-batch", "jsc-accounting", "live-partition-booster"]
+    },
+    {
+      "id": "accounting.one-gpu",
+      "label": "Charge for a one-GPU job lasting one hour",
+      "value": 1,
+      "unit": "node-hour",
+      "scope": "booster partition",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-accounting", "jsc-batch"],
+      "note": "The node is exclusive even when requesting one of four GPUs."
+    },
+    {
+      "id": "accounting.one-gpu-allocated-gpus",
+      "label": "Physical GPUs allocated by Slurm for a one-GPU request",
+      "value": 4,
+      "unit": "GH200",
+      "scope": "job 1618999",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["onegpu-1618999", "probe-accounting"],
+      "note": "ReqTRES contained one GPU, while AllocTRES contained 288 CPUs and four GH200 on the exclusive node."
+    },
+    {
+      "id": "accounting.one-gpu-cuda-visible-devices",
+      "label": "CUDA_VISIBLE_DEVICES value in the one-GPU task",
+      "value": "0",
+      "unit": "environment value",
+      "scope": "job 1618999 task environment",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["onegpu-1618999", "jsc-gpu"],
+      "note": "The task was bound to CPU cores 0–71. CUDA runtime device count was not measured; nvidia-smi -L listed all four physical devices."
+    },
+    {
+      "id": "partition.default-time",
+      "label": "Default walltime",
+      "value": 1,
+      "unit": "hour",
+      "scope": "booster partition",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-partition-booster"]
+    },
+    {
+      "id": "partition.max-time",
+      "label": "Effective maximum walltime",
+      "value": 12,
+      "unit": "hours",
+      "scope": "booster QoS",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-batch"]
+    },
+    {
+      "id": "partition.largebooster-state",
+      "label": "largebooster state",
+      "value": "DOWN",
+      "unit": "state",
+      "scope": "current Slurm snapshot",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-partition-largebooster"]
+    },
+    {
+      "id": "baseline.driver",
+      "label": "Observed NVIDIA driver",
+      "value": "595.71.05",
+      "unit": "version",
+      "scope": "job 1618664 node jpbo-015-09",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["gpu-baseline-output"]
+    },
+    {
+      "id": "baseline.cuda",
+      "label": "Observed CUDA compatibility",
+      "value": "13.2",
+      "unit": "version",
+      "scope": "job 1618664 node jpbo-015-09",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["gpu-baseline-output"]
+    }
+  ],
+  "probes": [
+    {
+      "id": "baseline-four-gpu",
+      "jobId": "1618664",
+      "status": "complete",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "scope": "job 1618664 on jpbo-015-09",
+      "sourceIds": ["baseline-1618664", "gpu-baseline-output"],
+      "artifactPaths": [
+        "evidence/live/baseline-job.txt",
+        "evidence/probes/jupiter-gpu-check-1618664.out"
+      ],
+      "summary": "One node, four GH200, 15 seconds, completed successfully. The retained artifact does not contain the original requested time limit."
+    },
+    {
+      "id": "full-node-topology",
+      "jobId": "1618998",
+      "status": "complete",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "scope": "job 1618998 on jpbo-024-02",
+      "sourceIds": ["topology-1618998", "probe-accounting"],
+      "artifactPaths": [
+        "evidence/probes/jupiter-topology-1618998.out",
+        "evidence/probes/sacct-probes.txt",
+        "evidence/probes/reconstructed-jupiter-topology-1618998.sbatch"
+      ],
+      "commandArtifactPath": "evidence/probes/reconstructed-jupiter-topology-1618998.sbatch",
+      "commandProvenance": "Post-hoc copy of the local example added at 2026-09-02T08:52:32Z. Directives agree with retained Slurm metadata, but no submit-time byte hash exists.",
+      "summary": "Four ranks mapped GPU0–3 to CPU ranges 0–71, 72–143, 144–215 and 216–287; GPUs form an NV6 mesh and mlx5_0–3 map to NUMA 0–3.",
+      "maxNodeHours": 0.0834
+    },
+    {
+      "id": "one-gpu-accounting",
+      "jobId": "1618999",
+      "status": "complete",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "scope": "job 1618999 on jpbo-026-13",
+      "sourceIds": ["onegpu-1618999", "probe-accounting"],
+      "artifactPaths": [
+        "evidence/probes/jupiter-one-gpu-1618999.out",
+        "evidence/probes/sacct-probes.txt",
+        "evidence/probes/reconstructed-jupiter-one-gpu-1618999.sbatch"
+      ],
+      "commandArtifactPath": "evidence/probes/reconstructed-jupiter-one-gpu-1618999.sbatch",
+      "commandProvenance": "Post-hoc copy of the local example added at 2026-09-02T08:52:32Z. Directives agree with retained Slurm metadata, but no submit-time byte hash exists.",
+      "summary": "The task environment contained CUDA_VISIBLE_DEVICES=0 and cores 0–71, while Slurm AllocTRES reserved the full 288-core, four-GPU node. CUDA runtime device count was not measured.",
+      "maxNodeHours": 0.0334
+    }
+  ],
+  "calculations": [
+    {
+      "id": "allocation.node-hours",
+      "label": "Node-hour allocation",
+      "formula": "1,008,000 core-hours / 288 cores per node",
+      "result": 3500,
+      "unit": "node-hours",
+      "scope": "project e-dev-2026d09-128 allocation",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["live-cpuquota", "jsc-accounting", "jsc-config"]
+    },
+    {
+      "id": "allocation.gpu-hours",
+      "label": "Physical GPU-hour equivalent",
+      "formula": "3,500 node-hours × 4 GH200 per node",
+      "result": 14000,
+      "unit": "GH200-hours",
+      "scope": "project e-dev-2026d09-128 physical capacity equivalent",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config", "live-cpuquota"]
+    },
+    {
+      "id": "system.gh200",
+      "label": "Installed GH200",
+      "formula": "5,884 installed nodes × 4 GH200 per node",
+      "result": 23536,
+      "unit": "GH200",
+      "scope": "installed Booster design",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "system.cores",
+      "label": "Installed Grace cores",
+      "formula": "5,884 installed nodes × 288 cores per node",
+      "result": 1694592,
+      "unit": "cores",
+      "scope": "installed Booster design",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "system.memory",
+      "label": "Nominal installed LPDDR5X + HBM3",
+      "formula": "5,884 nodes × (480 GB LPDDR5X + 384 GB HBM3)",
+      "result": 5083776,
+      "unit": "GB",
+      "scope": "installed nominal hardware total across separate LPDDR and HBM pools",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "probes.raw-node-hours",
+      "label": "Raw allocated node time for topology and accounting probes",
+      "formula": "(19 seconds + 16 seconds) / 3,600",
+      "result": 0.009722222222222222,
+      "unit": "node-hours",
+      "scope": "sacct elapsed time for jobs 1618998 and 1618999; central ledger rounding unresolved",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["probe-accounting"]
+    }
+  ],
+  "storageTiers": [
+    {
+      "id": "home",
+      "path": "/e/home/jusers/[redacted-user]/jupiter",
+      "softLimitGB": 19.074,
+      "hardLimitGB": 20.981,
+      "softInodes": 80000,
+      "hardInodes": 82000,
+      "retention": "Project-independent personal home; no purge policy stated",
+      "backup": true,
+      "backupMethod": "ISP to tape; no archive or restore SLA inferred",
+      "use": "Configuration, small scripts and lightweight logs only",
+      "scope": "user [redacted-user] HOME quota at snapshot",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-user-dataquota", "jsc-filesystems"]
+    },
+    {
+      "id": "project",
+      "path": "/e/project1/e-dev-2026d09-128",
+      "softLimitGB": 20480,
+      "hardLimitGB": 22528,
+      "softInodes": 4000000,
+      "hardInodes": 4400000,
+      "retention": "Persistent for the project period; post-project retention requires JSC confirmation",
+      "backup": true,
+      "backupMethod": "ISP to tape; no archive or restore SLA inferred",
+      "use": "Canonical datasets, source checkpoints and reproducible outputs",
+      "scope": "project e-dev-2026d09-128 quota at snapshot",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-dataquota", "jsc-filesystems"]
+    },
+    {
+      "id": "fscratch",
+      "path": "/e/fscratch/e-dev-2026d09-128",
+      "softLimitGB": 40960,
+      "hardLimitGB": 45056,
+      "softInodes": 8000000,
+      "hardInodes": 8800000,
+      "retention": "Purge eligible after 30 days by modification and access date; empty directories after 3 days",
+      "backup": false,
+      "backupMethod": "None",
+      "use": "Active checkpoints and high-throughput staging",
+      "scope": "project e-dev-2026d09-128 quota at snapshot",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-dataquota", "jsc-filesystems"]
+    },
+    {
+      "id": "scratch",
+      "path": "/e/scratch/e-dev-2026d09-128",
+      "softLimitGB": 204800,
+      "hardLimitGB": 215040,
+      "softInodes": 8000000,
+      "hardInodes": 8800000,
+      "retention": "Purge eligible after 90 days by modification and access date; empty directories after 3 days",
+      "backup": false,
+      "backupMethod": "None",
+      "use": "Large transient corpora, generated samples and distributed job outputs",
+      "scope": "project e-dev-2026d09-128 quota at snapshot",
+      "evidenceType": "observed",
+      "confidence": "high",
+      "sourceIds": ["live-dataquota", "jsc-filesystems"]
+    }
+  ],
+  "workloadScenarios": [
+    {
+      "id": "one-gpu-debug",
+      "title": "Короткий one-GPU debug",
+      "layout": "1 node, 1 task, 72 CPU cores, 1 GPU, <= 2 minutes",
+      "utilization": "25% GPU occupancy; full node billed",
+      "recommendation": "conditional",
+      "template": "Frozen reconstructed command: evidence/probes/reconstructed-jupiter-one-gpu-1618999.sbatch",
+      "notes": "Use only for short correctness checks because the other three GPUs cannot be used by another job.",
+      "scope": "recommended workload layout for this project",
+      "evidenceType": "inferred",
+      "confidence": "high",
+      "sourceIds": ["jsc-batch", "onegpu-1618999", "probe-accounting"]
+    },
+    {
+      "id": "packed-four-workers",
+      "title": "Чотири незалежні single-GPU workers",
+      "layout": "1 node, 4 tasks, 72 CPU cores and 1 local GPU per task",
+      "utilization": "All four GH200 used",
+      "recommendation": "preferred",
+      "template": "Completion-order fail-fast template in workload-playbook.md and the standalone site",
+      "notes": "Suitable for four benchmark shards, inference replicas or data-generation workers. Monitor atomic result files in completion order and cancel all surviving Slurm steps on the first nonzero result.",
+      "scope": "recommended workload layout for this project",
+      "evidenceType": "inferred",
+      "confidence": "high",
+      "sourceIds": ["jsc-gpu", "topology-1618998"]
+    },
+    {
+      "id": "single-node-distributed",
+      "title": "Single-node distributed training or inference",
+      "layout": "1 node, 4 ranks, 1 GPU per rank, NCCL over NVLink4",
+      "utilization": "Full node",
+      "recommendation": "preferred",
+      "template": "4 ranks × 72 cores × 1 GPU",
+      "notes": "Use tensor, pipeline or data parallelism according to model memory and communication profile.",
+      "scope": "recommended workload layout for this project",
+      "evidenceType": "inferred",
+      "confidence": "medium",
+      "sourceIds": ["jsc-gpu", "topology-1618998"]
+    },
+    {
+      "id": "multi-node-ddp",
+      "title": "Multi-node DDP/NCCL",
+      "layout": "N nodes, 4 ranks per node; observed physical HCA locality, runtime transport unverified",
+      "utilization": "4N GPUs",
+      "recommendation": "preferred",
+      "template": "--nodes=N --ntasks-per-node=4 --cpus-per-task=72 --gpus-per-task=1",
+      "notes": "Allocation skeleton only. Add framework-specific rendezvous/rank mapping and verify NCCL IB, GDR and rail selection with nccl-tests before scaling.",
+      "scope": "recommended workload layout for this project",
+      "evidenceType": "inferred",
+      "confidence": "medium",
+      "sourceIds": ["jsc-batch", "jsc-affinity", "nvidia-nccl", "topology-1618998"]
+    },
+    {
+      "id": "tokenizer-transfer",
+      "title": "Tokenizer transfer and adaptation",
+      "layout": "Stage corpus on SCRATCH; run four data shards or one 4-GPU training job",
+      "utilization": "CPU-heavy preparation followed by full-node GPU work",
+      "recommendation": "preferred",
+      "template": "Separate preprocessing and GPU sbatch stages",
+      "notes": "Do not run Python preprocessing on the login node. CPU-only preprocessing still consumes a full exclusive Booster node; shard across all 288 cores.",
+      "scope": "recommended workload layout for this project",
+      "evidenceType": "inferred",
+      "confidence": "medium",
+      "sourceIds": ["jsc-batch", "jsc-filesystems", "jsc-data-transfer", "jsc-datamover"]
+    },
+    {
+      "id": "distillation-generation",
+      "title": "On-policy distillation and synthetic generation",
+      "layout": "Separate on-policy and self-distillation pipelines; up to four generation workers per node",
+      "utilization": "Full-node generation",
+      "recommendation": "preferred",
+      "template": "Job array or coordinated multi-node service",
+      "notes": "Record policy/teacher, checkpoint, tokenizer, prompt/input shard, seed, scorer/reward/reference and generation revisions plus output checksums. Enforce bounded staleness for on-policy consumption and write transient generations to SCRATCH.",
+      "scope": "recommended workload layout for this project",
+      "evidenceType": "inferred",
+      "confidence": "medium",
+      "sourceIds": ["jsc-batch", "jsc-filesystems", "jsc-datamover"]
+    },
+    {
+      "id": "benchmark-serving",
+      "title": "Benchmark serving",
+      "layout": "One 4-GPU server or four replicas; reserve CPU cores for a same-allocation client step",
+      "utilization": "Depends on tensor parallelism or replica packing",
+      "recommendation": "conditional",
+      "template": "Long-running server job plus bounded benchmark client",
+      "notes": "Prefer a CPU-only client srun step inside the same node allocation with explicitly reserved cores. A separate Booster client job incurs another full-node charge. Confirm one-process GPU visibility before use.",
+      "scope": "recommended workload layout for this project",
+      "evidenceType": "inferred",
+      "confidence": "medium",
+      "sourceIds": ["jsc-batch", "jsc-gpu", "onegpu-1618999"]
+    }
+  ],
+  "openQuestions": [
+    {
+      "id": "cnvlink-bandwidth",
+      "question": "Is CPU cNVLink bandwidth 100 GB/s bidirectional or 100 GB/s per direction in the production node?",
+      "resolution": "Retain both source wordings and request an as-built clarification from JSC.",
+      "status": "open",
+      "sourceIds": ["jsc-config", "jsc-tech"]
+    },
+    {
+      "id": "slurm-realmemory",
+      "question": "How exactly does Slurm derive RealMemory=878535M from LPDDR5X and HBM NUMA domains?",
+      "resolution": "Job 1618998 establishes numerical equality: populated CPU and HBM domains total 899,620,736 kB = 878,535.875 MiB, whose integer floor is 878535. The evidence does not establish whether Slurm derived or was explicitly configured with this value.",
+      "status": "open",
+      "sourceIds": ["topology-1618998", "live-partition-booster"]
+    },
+    {
+      "id": "accounting-rounding",
+      "question": "What is the minimum rounding unit for very short jobs in central jutil accounting?",
+      "resolution": "Compare sacct elapsed time with jutil after the next accounting refresh.",
+      "status": "open",
+      "sourceIds": ["jsc-accounting", "probe-accounting", "probe-cpuquota-after"]
+    },
+    {
+      "id": "largebooster-access",
+      "question": "What process enables largebooster for this Development allocation?",
+      "resolution": "Do not use while the partition is DOWN; ask JSC if a future campaign specifically requires that partition.",
+      "status": "deferred",
+      "sourceIds": ["jsc-batch", "live-partition-largebooster"]
+    },
+    {
+      "id": "project-retention",
+      "question": "How long is PROJECT retained after 2027-02-28?",
+      "resolution": "Confirm with JSC before the allocation end and export durable artifacts early.",
+      "status": "open",
+      "sourceIds": ["jsc-filesystems", "live-dataquota"]
+    },
+    {
+      "id": "one-gpu-runtime-visibility",
+      "question": "How many CUDA devices does the runtime enumerate inside the current one-GPU srun task?",
+      "resolution": "Run cudaGetDeviceCount or a framework runtime probe before relying on one-task visibility; job 1618999 measured only CUDA_VISIBLE_DEVICES and physical nvidia-smi output.",
+      "status": "open",
+      "sourceIds": ["jsc-gpu", "onegpu-1618999"]
+    },
+    {
+      "id": "memory-pool-headroom",
+      "question": "What per-pool LPDDR/HBM headroom and memory-cgroup behavior are safe for production workloads?",
+      "resolution": "Budget LPDDR and each HBM pool separately, monitor placement and validate memory pressure in a bounded Slurm job before large campaigns.",
+      "status": "open",
+      "sourceIds": ["nvidia-grace", "nvidia-cuda-memory", "topology-1618998"]
+    },
+    {
+      "id": "blade-packaging",
+      "question": "What is the as-built compute-node-to-blade mapping inside a JUPITER Booster rack?",
+      "resolution": "JSC documents 48 compute nodes per full rack and Eviden documents blade-based XH3000 packaging, but the frozen sources do not establish a production node-to-blade ratio. Do not publish a blade count without JSC confirmation.",
+      "status": "open",
+      "sourceIds": ["jsc-batch", "eviden-xh3000"]
+    }
+  ]
+}

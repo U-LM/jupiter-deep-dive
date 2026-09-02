@@ -1,0 +1,2378 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>JUPITER Booster | Technical Deep Dive</title>
+  <style>
+    :root {
+      --paper: #f4f5f6;
+      --surface: #ffffff;
+      --ink: #191c20;
+      --muted: #58616b;
+      --line: #c9ced4;
+      --line-strong: #8f98a3;
+      --blue: #145da0;
+      --blue-soft: #e8f1f8;
+      --green: #246b3c;
+      --green-soft: #e9f4ed;
+      --amber: #815800;
+      --amber-soft: #faf0d5;
+      --red: #9a2f2f;
+      --red-soft: #f8e9e9;
+      --code: #20252b;
+      --radius: 4px;
+      --content: 1240px;
+      --shadow: 0 1px 2px rgba(18, 24, 30, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    select {
+      color: inherit;
+      font: inherit;
+    }
+
+    button,
+    select,
+    input {
+      min-height: 38px;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    a:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 3px solid #f2b134;
+      outline-offset: 2px;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
+    code,
+    pre,
+    .mono {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    .shell {
+      width: min(100%, var(--content));
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .topbar-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: end;
+      padding-top: 24px;
+      padding-bottom: 20px;
+    }
+
+    .eyebrow,
+    .section-index,
+    .stamp-label {
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 4px;
+      font-size: 30px;
+      line-height: 1.15;
+      font-weight: 750;
+    }
+
+    h2 {
+      margin-bottom: 8px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 16px;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .stamp {
+      min-width: 270px;
+      border-left: 3px solid var(--ink);
+      padding-left: 14px;
+      font-size: 13px;
+    }
+
+    .stamp strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .nav-band {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(244, 245, 246, 0.97);
+    }
+
+    .nav {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+
+    .nav a {
+      flex: 0 0 auto;
+      border: 1px solid transparent;
+      padding: 6px 9px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .nav a:hover {
+      border-color: var(--line);
+      background: var(--surface);
+    }
+
+    main {
+      background: var(--surface);
+    }
+
+    section {
+      scroll-margin-top: 58px;
+      border-bottom: 1px solid var(--line);
+      padding: 34px 0 38px;
+    }
+
+    section:nth-child(even) {
+      background: #fafafa;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .metric {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-top: 3px solid var(--ink);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 13px 14px 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .metric .label {
+      display: block;
+      min-height: 38px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      display: block;
+      overflow-wrap: anywhere;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .metric .unit {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .notice {
+      border-left: 4px solid var(--amber);
+      background: var(--amber-soft);
+      padding: 11px 13px;
+      color: #4f3d12;
+      font-size: 13px;
+    }
+
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .scope-item {
+      border-top: 1px solid var(--line-strong);
+      padding-top: 10px;
+    }
+
+    .scope-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .scope-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      padding: 1px 7px;
+      font-size: 11px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .pill.official {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .pill.observed {
+      color: var(--green);
+      background: var(--green-soft);
+    }
+
+    .pill.derived {
+      color: var(--amber);
+      background: var(--amber-soft);
+    }
+
+    .pill.inferred {
+      color: var(--red);
+      background: var(--red-soft);
+    }
+
+    .table-wrap {
+      max-width: 100%;
+      overflow: auto;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #eceff1;
+      color: #30363d;
+      font-size: 11px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover td {
+      background: #f6f8fa;
+    }
+
+    td.num,
+    th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .segmented {
+      display: inline-flex;
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .segmented button {
+      border: 0;
+      border-right: 1px solid var(--line);
+      border-radius: 0;
+      background: transparent;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 650;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .segmented button:last-child {
+      border-right: 0;
+    }
+
+    .segmented button[aria-pressed="true"] {
+      color: #fff;
+      background: var(--ink);
+    }
+
+    .topology-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .topology-status {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .canvas-shell {
+      width: 100%;
+      min-height: 380px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 420px;
+    }
+
+    .locality-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .locality-button {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 11px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .locality-button[aria-pressed="true"] {
+      border-color: var(--blue);
+      box-shadow: inset 0 0 0 2px var(--blue);
+    }
+
+    .locality-button strong,
+    .locality-button span {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+
+    .locality-button span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .locality-detail {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      border-top: 1px solid var(--line-strong);
+      margin-top: 14px;
+      padding-top: 14px;
+    }
+
+    .datum span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .datum strong {
+      display: block;
+      overflow-wrap: anywhere;
+      font-size: 15px;
+    }
+
+    .accounting-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1.2fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .calculator {
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 16px;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input,
+    select {
+      width: 100%;
+      margin-top: 4px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 7px 9px;
+    }
+
+    .calc-output {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin-top: 14px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .calc-output .datum {
+      min-width: 0;
+      background: var(--surface);
+      padding: 10px;
+    }
+
+    .calc-output strong {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .calc-note {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .scenario-rec {
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .scenario-rec.preferred {
+      color: var(--green);
+    }
+
+    .scenario-rec.conditional {
+      color: var(--amber);
+    }
+
+    .scenario-rec.avoid {
+      color: var(--red);
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .template-tabs {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .template-tabs button {
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      padding: 10px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .template-tabs button:last-child {
+      border-bottom: 0;
+    }
+
+    .template-tabs button[aria-selected="true"] {
+      color: #fff;
+      background: var(--ink);
+    }
+
+    .code-panel {
+      min-width: 0;
+      border: 1px solid #0f1317;
+      border-radius: var(--radius);
+      background: var(--code);
+      color: #e8edf2;
+    }
+
+    .code-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid #4b545e;
+      padding: 8px 10px;
+      color: #c6cdd5;
+      font-size: 12px;
+    }
+
+    .copy-button,
+    .plain-button {
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .copy-button {
+      min-height: 32px;
+      border-color: #77818b;
+      color: #fff;
+      background: #303840;
+    }
+
+    pre {
+      margin: 0;
+      max-height: 440px;
+      overflow: auto;
+      padding: 14px;
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .filter-bar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 180px 160px auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 10px;
+    }
+
+    .result-count {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .faq-tools {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) 220px auto auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 10px;
+    }
+
+    .faq-list {
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .faq-item[hidden] {
+      display: none;
+    }
+
+    .faq-item summary {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr) 22px;
+      gap: 14px;
+      align-items: center;
+      min-height: 52px;
+      padding: 10px 12px;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 700;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: "+";
+      color: var(--muted);
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .faq-item[open] summary::after {
+      content: "−";
+    }
+
+    .faq-item[open] summary {
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .faq-category {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .faq-answer {
+      max-width: 940px;
+      padding: 14px 48px 16px 176px;
+      color: #252b31;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .faq-answer p {
+      margin: 0;
+    }
+
+    .faq-evidence {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .faq-evidence a {
+      color: var(--link);
+    }
+
+    .faq-empty {
+      border-bottom: 1px solid var(--line);
+      padding: 18px 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .evidence-table td:first-child,
+    .source-table td:first-child {
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+    }
+
+    .evidence-value {
+      max-width: 280px;
+      overflow-wrap: anywhere;
+    }
+
+    .question-list {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .question {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: 14px;
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+      font-size: 13px;
+    }
+
+    .question p {
+      margin: 0;
+    }
+
+    .question .resolution {
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--line-strong);
+      background: var(--paper);
+      padding: 20px 0 28px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      clip-path: inset(50%);
+    }
+
+    @media (max-width: 900px) {
+      .metric-grid,
+      .locality-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .scope-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head,
+      .accounting-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .locality-detail {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .filter-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .faq-tools {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-band {
+        position: static;
+      }
+
+      body {
+        font-size: 14px;
+      }
+
+      .shell {
+        padding: 0 14px;
+      }
+
+      .topbar-inner {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .stamp {
+        width: 100%;
+        min-width: 0;
+      }
+
+      section {
+        padding: 28px 0 30px;
+      }
+
+      .metric-grid,
+      .locality-grid,
+      .field-grid,
+      .calc-output,
+      .filter-bar,
+      .faq-tools {
+        grid-template-columns: 1fr;
+      }
+
+      .faq-item summary {
+        grid-template-columns: minmax(0, 1fr) 22px;
+        gap: 8px;
+      }
+
+      .faq-category {
+        grid-column: 1;
+      }
+
+      .faq-item summary::after {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+      }
+
+      .faq-answer {
+        padding: 12px 14px 16px;
+      }
+
+      .metric .label {
+        min-height: 0;
+      }
+
+      .topology-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .topology-status {
+        text-align: left;
+      }
+
+      canvas {
+        height: 500px;
+      }
+
+      .locality-detail {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .template-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .template-tabs {
+        flex-direction: row;
+        overflow-x: auto;
+      }
+
+      .template-tabs button {
+        flex: 0 0 auto;
+        border-right: 1px solid var(--line);
+        border-bottom: 0;
+      }
+
+      .question {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <div>
+        <p class="eyebrow">Technical audit · JUPITER Booster</p>
+        <h1>Ресурси, NUMA, accounting і сценарії використання</h1>
+        <p class="subtitle">Відтворюваний evidence bundle для EuroHPC allocation</p>
+      </div>
+      <div class="stamp" aria-label="Snapshot metadata">
+        <p class="stamp-label">Allocation</p>
+        <strong id="header-account" class="mono"></strong>
+        <span id="header-period"></span><br>
+        <span id="header-generated"></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="nav-band">
+    <nav class="shell nav" aria-label="Deep dive sections">
+      <a href="#summary">Allocation</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#topology">NUMA</a>
+      <a href="#accounting">Accounting</a>
+      <a href="#storage">Storage</a>
+      <a href="#scenarios">Scenarios</a>
+      <a href="#templates">Slurm</a>
+      <a href="#faq">FAQ</a>
+      <a href="#evidence">Evidence</a>
+    </nav>
+  </div>
+
+  <main>
+    <section id="summary">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-index">01 / Allocation</p>
+            <h2>Project capacity</h2>
+          </div>
+          <p>Core-hours є quota unit JSC. Node-hours і GH200-hours нижче є детермінованими еквівалентами.</p>
+        </div>
+        <div class="metric-grid" id="allocation-metrics"></div>
+        <div class="notice">
+          Booster nodes є exclusive. Запит одного GPU все одно резервує і оплачує повну 4-GPU / 288-core ноду.
+        </div>
+        <div class="scope-grid">
+          <div class="scope-item">
+            <strong>Installed capacity</strong>
+            <p>Фізична конфігурація Booster: 5,884 nodes і 23,536 GH200.</p>
+          </div>
+          <div class="scope-item">
+            <strong>Slurm snapshot</strong>
+            <p>Поточний стан partition: node membership, allocation, idle, drain і reservations.</p>
+          </div>
+          <div class="scope-item">
+            <strong>Project access</strong>
+            <p>Fixed quota: 1,008,000 core-hours протягом визначеного accounting period.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-index">02 / Architecture</p>
+            <h2>Installed system і live state</h2>
+          </div>
+          <p>Cluster Module відокремлений від Booster. Live Slurm count не замінює installed system specification.</p>
+        </div>
+        <div class="table-wrap" tabindex="0" aria-label="System scope comparison">
+          <table>
+            <thead><tr><th>Scope</th><th class="num">Nodes</th><th class="num">GH200</th><th class="num">Grace cores</th><th>Evidence</th></tr></thead>
+            <tbody id="architecture-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="topology">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-index">03 / Topology</p>
+            <h2>Rack → group → node → GH200</h2>
+          </div>
+          <p>Canvas використовує verified facts; locality mapping підтверджено Slurm job 1618998.</p>
+        </div>
+        <div class="topology-toolbar">
+          <div class="segmented" role="group" aria-label="Topology level">
+            <button type="button" data-topology="system" aria-pressed="true">System</button>
+            <button type="button" data-topology="group" aria-pressed="false">DragonFly+ group</button>
+            <button type="button" data-topology="node" aria-pressed="false">GH200 node</button>
+          </div>
+          <div id="topology-status" class="topology-status" aria-live="polite"></div>
+        </div>
+        <div class="canvas-shell">
+          <canvas id="topology-canvas" width="1160" height="420" aria-label="Interactive JUPITER topology diagram">
+            JUPITER topology: 25 DragonFly+ groups, up to five racks per group, 48 nodes per full rack and four GH200 per node.
+          </canvas>
+        </div>
+        <div id="locality-grid" class="locality-grid" aria-label="NUMA locality groups"></div>
+        <div id="locality-detail" class="locality-detail" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="accounting">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-index">04 / Accounting</p>
+            <h2>Node-hour calculator</h2>
+          </div>
+          <p>Формули використовують 288 billing cores і 4 physical GH200 на кожну allocated node.</p>
+        </div>
+        <div class="accounting-grid">
+          <form class="calculator" id="calculator" onsubmit="return false">
+            <h3>Campaign estimate</h3>
+            <div class="field-grid">
+              <label>Nodes
+                <input id="calc-nodes" type="number" min="0" step="1" value="8" inputmode="numeric">
+              </label>
+              <label>Elapsed hours
+                <input id="calc-hours" type="number" min="0" step="0.25" value="6" inputmode="decimal">
+              </label>
+              <label>Active GPUs/node
+                <input id="calc-active-gpus" type="number" min="0" max="4" step="1" value="4" inputmode="numeric">
+              </label>
+            </div>
+            <div class="calc-output" id="calc-output"></div>
+            <p class="calc-note">Useful GPU-hours вимірюють фактичне заповнення; quota списується за allocated node wall time.</p>
+          </form>
+          <div class="table-wrap" tabindex="0" aria-label="One GPU accounting probe">
+            <table>
+              <thead><tr><th>Probe 1618999</th><th class="num">Requested</th><th class="num">Allocated / observed</th></tr></thead>
+              <tbody>
+                <tr><td>Nodes</td><td class="num">1</td><td class="num">1</td></tr>
+                <tr><td>CPU cores</td><td class="num">72</td><td class="num">288</td></tr>
+                <tr><td>GPUs</td><td class="num">1</td><td class="num">4 in AllocTRES</td></tr>
+                <tr><td>Task environment</td><td class="num">one-GPU request</td><td class="num">CUDA_VISIBLE_DEVICES=0</td></tr>
+                <tr><td>Runtime device count</td><td class="num">-</td><td class="num">not measured; nvidia-smi listed 4 physical GPUs</td></tr>
+                <tr><td>Elapsed</td><td class="num">2 min limit</td><td class="num">16 sec</td></tr>
+                <tr><td>CPUTimeRAW</td><td class="num">-</td><td class="num">4,608 CPU-sec</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="storage">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-index">05 / Storage</p>
+            <h2>Project quota і retention</h2>
+          </div>
+          <p>System-wide ExaSTORE/ExaFLASH capacities та project quota мають різний scope.</p>
+        </div>
+        <div class="table-wrap" tabindex="0" aria-label="Storage quota">
+          <table>
+            <thead><tr><th>Tier</th><th>Path</th><th class="num">Soft / hard GB</th><th class="num">Soft / hard inodes</th><th>Retention</th><th>Backup</th><th>Use</th></tr></thead>
+            <tbody id="storage-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="scenarios">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-index">06 / Scenarios</p>
+            <h2>Workload comparison</h2>
+          </div>
+          <p>Рекомендації оптимізують корисну GPU occupancy на exclusive node і зберігають NUMA locality.</p>
+        </div>
+        <div class="table-wrap" tabindex="0" aria-label="Workload scenarios">
+          <table>
+            <thead><tr><th>Scenario</th><th>Layout</th><th>Utilization</th><th>Decision</th><th>Operational note</th></tr></thead>
+            <tbody id="scenario-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="templates">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-index">07 / Slurm templates</p>
+            <h2>Allocation layouts</h2>
+          </div>
+          <p>Усі compute steps запускаються через Slurm; project account додається явно.</p>
+        </div>
+        <div class="template-layout">
+          <div id="template-tabs" class="template-tabs" role="tablist" aria-label="Slurm templates" aria-orientation="vertical"></div>
+          <div class="code-panel" id="template-panel" role="tabpanel" aria-labelledby="template-tab-0">
+            <div class="code-head">
+              <span id="template-title"></span>
+              <button type="button" class="copy-button" id="copy-template" title="Copy Slurm template">Copy</button>
+            </div>
+            <pre><code id="template-code"></code></pre>
+          </div>
+        </div>
+        <p id="copy-status" class="sr-only" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-index">08 / FAQ</p>
+            <h2>Практичні питання про JUPITER</h2>
+          </div>
+          <p>Короткі відповіді про ресурси, storage, accounting, Slurm, data transfer і запуск LLM workloads.</p>
+        </div>
+        <div class="faq-tools">
+          <label>Search questions
+            <input id="faq-search" type="search" placeholder="скільки місця, один GPU, checkpoint">
+          </label>
+          <label>Category
+            <select id="faq-category"></select>
+          </label>
+          <button type="button" class="plain-button" id="faq-expand">Expand all</button>
+          <button type="button" class="plain-button" id="faq-collapse">Collapse all</button>
+        </div>
+        <p class="result-count" id="faq-count" aria-live="polite"></p>
+        <div id="faq-list" class="faq-list"></div>
+      </div>
+    </section>
+
+    <section id="evidence">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-index">09 / Evidence</p>
+            <h2>Claim browser</h2>
+          </div>
+          <p>Кожен claim має scope, evidence type, confidence і source IDs.</p>
+        </div>
+        <div class="filter-bar">
+          <label>Search claims
+            <input id="evidence-search" type="search" placeholder="NUMA, quota, HBM, nodes">
+          </label>
+          <label>Evidence type
+            <select id="evidence-type">
+              <option value="all">All types</option>
+              <option value="official">Official</option>
+              <option value="observed">Observed</option>
+              <option value="derived">Derived</option>
+              <option value="inferred">Inferred</option>
+            </select>
+          </label>
+          <label>Confidence
+            <select id="evidence-confidence">
+              <option value="all">All confidence</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </label>
+          <button type="button" class="plain-button" id="reset-filters">Reset</button>
+        </div>
+        <p class="result-count" id="evidence-count" aria-live="polite"></p>
+        <div class="table-wrap" tabindex="0" aria-label="Evidence claims">
+          <table class="evidence-table">
+            <thead><tr><th>Claim ID</th><th>Value</th><th>Scope</th><th>Type</th><th>Confidence</th><th>Sources</th></tr></thead>
+            <tbody id="evidence-table"></tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top: 28px">Source registry</h3>
+        <div class="table-wrap" tabindex="0" aria-label="Evidence sources">
+          <table class="source-table">
+            <thead><tr><th>ID</th><th>Title</th><th>Publisher</th><th>Kind</th><th>Confidence</th><th>Frozen</th><th>Version</th><th>Retrieved</th></tr></thead>
+            <tbody id="source-table"></tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top: 28px">Open questions</h3>
+        <div id="question-list" class="question-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">
+      Standalone artifact generated from <span class="mono">facts.json</span>.
+      Raw evidence is checksum-protected under <span class="mono">evidence/</span>.
+    </div>
+  </footer>
+
+  <script id="jupiter-facts" type="application/json">{"schemaVersion":1,"generatedAt":"2026-09-02T09:22:55Z","title":"JUPITER Booster: ресурси, NUMA, accounting і сценарії використання","allocation":{"account":"e-dev-2026d09-128","system":"jupiter","partition":"booster","periodStart":"2026-09-01","periodEnd":"2027-02-28","sourceIds":["live-cpuquota"]},"sources":[{"id":"jsc-tech","confidence":"high","title":"JUPITER Technical Overview","publisher":"Juelich Supercomputing Centre","url":"https://www.fz-juelich.de/en/jsc/jupiter/tech/","snapshotPath":"evidence/official/jsc-tech.html","retrievedAt":"2026-09-02","version":"page updated 2026-06-26","updatedAt":"2026-06-26","kind":"web"},{"id":"jsc-config","confidence":"high","title":"JUPITER Configuration","publisher":"Juelich Supercomputing Centre","url":"https://apps.fz-juelich.de/jsc/hps/jupiter/configuration.html","snapshotPath":"evidence/official/jsc-config.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"jsc-batch","confidence":"high","title":"JUPITER Batch System","publisher":"Juelich Supercomputing Centre","url":"https://apps.fz-juelich.de/jsc/hps/jupiter/batchsystem.html","snapshotPath":"evidence/official/jsc-batch.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"jsc-accounting","confidence":"high","title":"JUPITER Accounting","publisher":"Juelich Supercomputing Centre","url":"https://apps.fz-juelich.de/jsc/hps/jupiter/accounting.html","snapshotPath":"evidence/official/jsc-accounting.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"jsc-affinity","confidence":"high","title":"JUPITER Processor Affinity","publisher":"Juelich Supercomputing Centre","url":"https://apps.fz-juelich.de/jsc/hps/jupiter/affinity.html","snapshotPath":"evidence/official/jsc-affinity.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"jsc-gpu","confidence":"high","title":"JUPITER GPU Computing","publisher":"Juelich Supercomputing Centre","url":"https://apps.fz-juelich.de/jsc/hps/jupiter/gpu-computing.html","snapshotPath":"evidence/official/jsc-gpu.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"jsc-filesystems","confidence":"high","title":"JUPITER File Systems","publisher":"Juelich Supercomputing Centre","url":"https://apps.fz-juelich.de/jsc/hps/jupiter/filesystems.html","snapshotPath":"evidence/official/jsc-filesystems.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"jsc-buildup","confidence":"high","title":"JUPITER Build-Up Operation","publisher":"Juelich Supercomputing Centre","url":"https://apps.fz-juelich.de/jsc/hps/jupiter/buildup.html","snapshotPath":"evidence/official/jsc-buildup.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"jsc-data-transfer","confidence":"high","title":"Data Transfer to and from JUPITER","publisher":"Juelich Supercomputing Centre","url":"https://apps.fz-juelich.de/jsc/hps/jupiter/data-transfer.html","snapshotPath":"evidence/official/jsc-data-transfer.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"jsc-datamover","confidence":"high","title":"JUPITER Data Mover Service","publisher":"Juelich Supercomputing Centre","url":"https://apps.fz-juelich.de/jsc/hps/jupiter/datamover.html","snapshotPath":"evidence/official/jsc-datamover.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"nvidia-grace","confidence":"high","title":"NVIDIA Grace Performance Tuning Guide","publisher":"NVIDIA","url":"https://docs.nvidia.com/dccpu/grace-perf-tuning-guide/","snapshotPath":"evidence/official/nvidia-grace.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"nvidia-cuda-memory","confidence":"high","title":"CUDA Programming Guide: Understanding Memory","publisher":"NVIDIA","url":"https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/understanding-memory.html","snapshotPath":"evidence/official/nvidia-cuda-memory.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"nvidia-nccl","confidence":"high","title":"NCCL Performance Tuning","publisher":"NVIDIA","url":"https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/performance_and_tuning.html","snapshotPath":"evidence/official/nvidia-nccl.html","retrievedAt":"2026-09-02","version":"live documentation snapshot 2026-09-02","kind":"web"},{"id":"eurohpc-systems","confidence":"high","title":"EuroHPC Supercomputers","publisher":"EuroHPC Joint Undertaking","url":"https://www.eurohpc-ju.europa.eu/supercomputers/our-supercomputers_en","snapshotPath":"evidence/official/eurohpc-systems.html","retrievedAt":"2026-09-02","version":"page retrieved 2026-09-02","kind":"web"},{"id":"eviden-xh3000","confidence":"medium","title":"BullSequana XH3000","publisher":"Eviden","url":"https://eviden.com/wp-content/uploads/2024/10/Eviden-brochure-BullSequanaXH3000-HPC.pdf","snapshotPath":"evidence/official/eviden-xh3000.pdf","retrievedAt":"2026-09-02","version":"brochure 2024","kind":"web"},{"id":"live-snapshot","confidence":"high","title":"JUPITER allocation and Slurm snapshot","publisher":"U-LM observed evidence","url":"evidence/live/manifest.txt","retrievedAt":"2026-09-02","version":"snapshot 2026-09-02T00:59:31Z","kind":"live"},{"id":"live-sinfo","confidence":"high","title":"Slurm partition state snapshot","publisher":"U-LM observed evidence","url":"evidence/live/sinfo.txt","retrievedAt":"2026-09-02","version":"snapshot 2026-09-02T00:59:31Z","kind":"live"},{"id":"live-partition-booster","confidence":"high","title":"Slurm booster partition snapshot","publisher":"U-LM observed evidence","url":"evidence/live/partition-booster.txt","retrievedAt":"2026-09-02","version":"snapshot 2026-09-02T00:59:31Z","kind":"live"},{"id":"live-partition-largebooster","confidence":"high","title":"Slurm largebooster partition snapshot","publisher":"U-LM observed evidence","url":"evidence/live/partition-largebooster.txt","retrievedAt":"2026-09-02","version":"snapshot 2026-09-02T00:59:31Z","kind":"live"},{"id":"live-cpuquota","confidence":"high","title":"Project CPU quota snapshot","publisher":"U-LM observed evidence","url":"evidence/live/cpu-quota.json","retrievedAt":"2026-09-02","version":"snapshot 2026-09-02T00:59:31Z","kind":"live"},{"id":"live-dataquota","confidence":"high","title":"Project storage quota snapshot","publisher":"U-LM observed evidence","url":"evidence/live/data-quota.json","retrievedAt":"2026-09-02","version":"quota updated 2026-09-02T01:23:16 local service time","kind":"live"},{"id":"live-user-dataquota","confidence":"high","title":"User HOME quota snapshot","publisher":"U-LM observed evidence","url":"evidence/live/user-data-quota.json","retrievedAt":"2026-09-02","version":"quota updated 2026-09-02T01:20:00 local service time","kind":"live"},{"id":"baseline-1618664","confidence":"high","title":"Four-GPU nvidia-smi baseline job 1618664","publisher":"U-LM observed evidence","url":"evidence/live/baseline-job.txt","retrievedAt":"2026-09-02","version":"Slurm job 1618664","kind":"artifact"},{"id":"gpu-baseline-output","confidence":"high","title":"Four-GPU nvidia-smi output","publisher":"U-LM observed evidence","url":"evidence/probes/jupiter-gpu-check-1618664.out","retrievedAt":"2026-09-02","version":"Slurm job 1618664","kind":"artifact"},{"id":"topology-1618998","confidence":"high","title":"Full-node topology probe 1618998","publisher":"U-LM observed evidence","url":"evidence/probes/jupiter-topology-1618998.out","retrievedAt":"2026-09-02","version":"Slurm job 1618998","kind":"artifact"},{"id":"onegpu-1618999","confidence":"high","title":"One-GPU accounting probe 1618999","publisher":"U-LM observed evidence","url":"evidence/probes/jupiter-one-gpu-1618999.out","retrievedAt":"2026-09-02","version":"Slurm job 1618999","kind":"artifact"},{"id":"probe-accounting","confidence":"high","title":"Slurm accounting for topology and one-GPU probes","publisher":"U-LM observed evidence","url":"evidence/probes/sacct-probes.txt","retrievedAt":"2026-09-02","version":"Slurm jobs 1618998 and 1618999","kind":"artifact"},{"id":"probe-cpuquota-after","confidence":"high","title":"Project CPU quota immediately after probes","publisher":"U-LM observed evidence","url":"evidence/probes/cpu-quota-after.json","retrievedAt":"2026-09-02","version":"post-probe snapshot 2026-09-02T01:01Z","kind":"artifact"}],"facts":[{"id":"system.modules","label":"Compute modules","value":2,"unit":"modules","scope":"JUPITER system","evidenceType":"official","confidence":"high","sourceIds":["jsc-tech"],"note":"GPU Booster and general-purpose Cluster Module; storage is separate."},{"id":"booster.nodes.installed","label":"Installed Booster compute nodes","value":5884,"unit":"nodes","scope":"Booster installed design","evidenceType":"official","confidence":"high","sourceIds":["jsc-config"]},{"id":"booster.nodes.slurm-visible","label":"Nodes visible in booster partition snapshot","value":5643,"unit":"nodes","scope":"booster partition at snapshot","evidenceType":"observed","confidence":"high","sourceIds":["live-sinfo"],"note":"Installed capacity and current partition membership are different scopes."},{"id":"booster.nodes.idle","label":"Idle nodes at snapshot","value":268,"unit":"nodes","scope":"booster partition at snapshot","evidenceType":"observed","confidence":"high","sourceIds":["live-sinfo"]},{"id":"booster.gh200.total","label":"Installed GH200 superchips","value":23536,"unit":"GH200","scope":"Booster installed design","evidenceType":"derived","confidence":"high","sourceIds":["jsc-config"],"note":"5,884 nodes × 4 GH200 per node."},{"id":"booster.grace-cores.total","label":"Installed Grace CPU cores","value":1694592,"unit":"cores","scope":"Booster installed design","evidenceType":"derived","confidence":"high","sourceIds":["jsc-config"],"note":"5,884 nodes × 288 cores per node."},{"id":"node.gh200","label":"GH200 superchips per node","value":4,"unit":"GH200","scope":"Booster node","evidenceType":"official","confidence":"high","sourceIds":["jsc-config"]},{"id":"node.cpu-cores","label":"Grace CPU cores per node","value":288,"unit":"cores","scope":"Booster node","evidenceType":"official","confidence":"high","sourceIds":["jsc-config","live-partition-booster"]},{"id":"node.lpddr","label":"Grace LPDDR5X per node","value":480,"unit":"GB","scope":"Booster node physical memory","evidenceType":"official","confidence":"high","sourceIds":["jsc-config"]},{"id":"node.hbm","label":"Hopper HBM3 per node","value":384,"unit":"GB","scope":"Booster node physical memory","evidenceType":"derived","confidence":"high","sourceIds":["jsc-config"],"note":"4 GPUs × 96 GB HBM3."},{"id":"node.coherent-memory","label":"Nominal addressable LPDDR5X + HBM3 hardware total","value":864,"unit":"GB","scope":"Booster node physical memory","evidenceType":"derived","confidence":"high","sourceIds":["jsc-config","nvidia-cuda-memory"],"note":"LPDDR and four HBM pools remain distinct NUMA resources with different placement and capacity constraints; 864 GB is not fungible host DRAM."},{"id":"node.slurm-memory","label":"Slurm RealMemory","value":878535,"unit":"M","scope":"booster Slurm node","evidenceType":"observed","confidence":"high","sourceIds":["live-partition-booster","topology-1618998"],"note":"Eight populated NUMA domains sum to 899,620,736 kB (878,535.875 MiB), whose integer-MiB floor equals observed RealMemory=878535M. The evidence does not establish whether Slurm derived or was configured with that value; LPDDR and HBM remain distinct pools."},{"id":"gpu.hbm","label":"HBM3 per Hopper GPU","value":96,"unit":"GB","scope":"one GH200 GPU","evidenceType":"official","confidence":"high","sourceIds":["jsc-config","gpu-baseline-output"],"note":"nvidia-smi reports 97,871 MiB; the 120 GB product label refers to Grace-side LPDDR."},{"id":"gpu.hbm-bandwidth","label":"HBM3 bandwidth per GPU","value":4,"unit":"TB/s","scope":"one Hopper GPU","evidenceType":"official","confidence":"high","sourceIds":["jsc-config"]},{"id":"cpu.lpddr-bandwidth","label":"LPDDR5X bandwidth per Grace CPU","value":512,"unit":"GB/s","scope":"one Grace CPU","evidenceType":"official","confidence":"medium","sourceIds":["jsc-config","jsc-tech"],"note":"JSC pages use both 500 and 512 GB/s; 512 is the current configuration value."},{"id":"interconnect.c2c","label":"NVLink-C2C CPU↔GPU aggregate bandwidth","value":900,"unit":"GB/s","scope":"one GH200","evidenceType":"official","confidence":"high","sourceIds":["jsc-config","nvidia-grace"]},{"id":"interconnect.gpu-pair","label":"NVLink4 aggregate bandwidth per GPU pair","value":300,"unit":"GB/s","scope":"Booster node GPU pair","evidenceType":"official","confidence":"high","sourceIds":["jsc-config"]},{"id":"network.hca-per-node","label":"ConnectX-7 NDR200 HCAs per node","value":4,"unit":"HCAs","scope":"Booster node","evidenceType":"official","confidence":"high","sourceIds":["jsc-config"]},{"id":"network.bandwidth-node","label":"Nominal network bandwidth per node","value":800,"unit":"Gbit/s","scope":"Booster node","evidenceType":"derived","confidence":"high","sourceIds":["jsc-config"],"note":"4 HCAs × 200 Gbit/s."},{"id":"numa.ids","label":"NUMA IDs exposed by the node","value":36,"unit":"NUMA IDs","scope":"Booster node","evidenceType":"official","confidence":"high","sourceIds":["jsc-affinity","topology-1618998"]},{"id":"numa.active-domains","label":"Relevant populated CPU/HBM domains","value":8,"unit":"NUMA domains","scope":"Booster node","evidenceType":"official","confidence":"high","sourceIds":["jsc-affinity","topology-1618998"],"note":"CPU domains 0–3 and HBM domains 4, 12, 20, 28; other IDs are reserved for unused MIG topology."},{"id":"numa.locality-map","label":"Observed CPU/GPU/HBM/NIC locality groups","value":[{"rank":0,"cpuCores":"0-71","cpuNuma":0,"hbmNuma":4,"gpu":0,"nic":"mlx5_0"},{"rank":1,"cpuCores":"72-143","cpuNuma":1,"hbmNuma":12,"gpu":1,"nic":"mlx5_1"},{"rank":2,"cpuCores":"144-215","cpuNuma":2,"hbmNuma":20,"gpu":2,"nic":"mlx5_2"},{"rank":3,"cpuCores":"216-287","cpuNuma":3,"hbmNuma":28,"gpu":3,"nic":"mlx5_3"}],"unit":"mapping","scope":"Booster node jpbo-024-02, job 1618998","evidenceType":"observed","confidence":"high","sourceIds":["topology-1618998"]},{"id":"topology.gpu-mesh","label":"Observed intra-node GPU topology","value":"NV6 full mesh","unit":"topology","scope":"Booster node jpbo-024-02, job 1618998","evidenceType":"observed","confidence":"high","sourceIds":["topology-1618998"]},{"id":"topology.racks","label":"Booster rack positions","value":125,"unit":"racks","scope":"Booster fabric","evidenceType":"official","confidence":"high","sourceIds":["jsc-batch"]},{"id":"topology.nodes-full-rack","label":"Compute nodes in a full rack","value":48,"unit":"nodes","scope":"Booster rack","evidenceType":"official","confidence":"high","sourceIds":["jsc-batch"]},{"id":"topology.nodes-partial-rack","label":"Compute nodes in partial rack 123","value":28,"unit":"nodes","scope":"Booster rack 123","evidenceType":"official","confidence":"high","sourceIds":["jsc-batch"]},{"id":"topology.empty-rack-positions","label":"Rack positions without compute nodes","value":2,"unit":"racks","scope":"Booster racks 124-125","evidenceType":"official","confidence":"high","sourceIds":["jsc-batch"]},{"id":"topology.dragonfly-groups","label":"Booster DragonFly+ groups","value":25,"unit":"groups","scope":"Booster fabric","evidenceType":"official","confidence":"high","sourceIds":["jsc-config"]},{"id":"topology.nodes-group","label":"Maximum nodes per DragonFly+ group","value":240,"unit":"nodes","scope":"Booster fabric group","evidenceType":"official","confidence":"high","sourceIds":["jsc-config"]},{"id":"performance.hpl","label":"Sustained HPL performance","value":1,"unit":"ExaFLOP/s FP64","scope":"JUPITER Booster","evidenceType":"official","confidence":"high","sourceIds":["jsc-tech","eurohpc-systems"]},{"id":"storage.exaflash-usable","label":"ExaFLASH usable design capacity","value":20,"unit":"PB","scope":"JUPITER system storage","evidenceType":"official","confidence":"medium","sourceIds":["jsc-tech","jsc-buildup"],"note":"Design capacity; ExaFLASH was still in acceptance in the latest build-up documentation."},{"id":"storage.exastore-raw","label":"ExaSTORE raw design capacity","value":308,"unit":"PB","scope":"JUPITER system storage","evidenceType":"official","confidence":"high","sourceIds":["jsc-tech"]},{"id":"storage.exatape","label":"ExaTAPE design capacity","value":379,"unit":"PB","scope":"JUPITER system storage","evidenceType":"official","confidence":"high","sourceIds":["jsc-tech"]},{"id":"allocation.node-hours","label":"Allocation","value":3500,"unit":"node-hours","scope":"project e-dev-2026d09-128","evidenceType":"derived","confidence":"high","sourceIds":["live-cpuquota","jsc-accounting","jsc-config"],"note":"1,008,000 core-hours ÷ 288 cores per node."},{"id":"allocation.core-hours","label":"Fixed compute quota","value":1008000,"unit":"core-hours","scope":"project e-dev-2026d09-128","evidenceType":"observed","confidence":"high","sourceIds":["live-cpuquota"]},{"id":"allocation.gpu-hour-equivalent","label":"Physical GPU-hour equivalent at full-node utilization","value":14000,"unit":"GH200-hours","scope":"project e-dev-2026d09-128","evidenceType":"derived","confidence":"high","sourceIds":["live-cpuquota","jsc-accounting","jsc-config"],"note":"3,500 node-hours × 4 GH200; accounting remains node-based."},{"id":"accounting.minimum-node","label":"Minimum billable compute allocation","value":1,"unit":"exclusive node","scope":"booster partition","evidenceType":"official","confidence":"high","sourceIds":["jsc-batch","jsc-accounting","live-partition-booster"]},{"id":"accounting.one-gpu","label":"Charge for a one-GPU job lasting one hour","value":1,"unit":"node-hour","scope":"booster partition","evidenceType":"official","confidence":"high","sourceIds":["jsc-accounting","jsc-batch"],"note":"The node is exclusive even when requesting one of four GPUs."},{"id":"accounting.one-gpu-allocated-gpus","label":"Physical GPUs allocated by Slurm for a one-GPU request","value":4,"unit":"GH200","scope":"job 1618999","evidenceType":"observed","confidence":"high","sourceIds":["onegpu-1618999","probe-accounting"],"note":"ReqTRES contained one GPU, while AllocTRES contained 288 CPUs and four GH200 on the exclusive node."},{"id":"accounting.one-gpu-cuda-visible-devices","label":"CUDA_VISIBLE_DEVICES value in the one-GPU task","value":"0","unit":"environment value","scope":"job 1618999 task environment","evidenceType":"observed","confidence":"high","sourceIds":["onegpu-1618999","jsc-gpu"],"note":"The task was bound to CPU cores 0–71. CUDA runtime device count was not measured; nvidia-smi -L listed all four physical devices."},{"id":"partition.default-time","label":"Default walltime","value":1,"unit":"hour","scope":"booster partition","evidenceType":"observed","confidence":"high","sourceIds":["live-partition-booster"]},{"id":"partition.max-time","label":"Effective maximum walltime","value":12,"unit":"hours","scope":"booster QoS","evidenceType":"official","confidence":"high","sourceIds":["jsc-batch"]},{"id":"partition.largebooster-state","label":"largebooster state","value":"DOWN","unit":"state","scope":"current Slurm snapshot","evidenceType":"observed","confidence":"high","sourceIds":["live-partition-largebooster"]},{"id":"baseline.driver","label":"Observed NVIDIA driver","value":"595.71.05","unit":"version","scope":"job 1618664 node jpbo-015-09","evidenceType":"observed","confidence":"high","sourceIds":["gpu-baseline-output"]},{"id":"baseline.cuda","label":"Observed CUDA compatibility","value":"13.2","unit":"version","scope":"job 1618664 node jpbo-015-09","evidenceType":"observed","confidence":"high","sourceIds":["gpu-baseline-output"]}],"probes":[{"id":"baseline-four-gpu","jobId":"1618664","status":"complete","evidenceType":"observed","confidence":"high","scope":"job 1618664 on jpbo-015-09","sourceIds":["baseline-1618664","gpu-baseline-output"],"artifactPaths":["evidence/live/baseline-job.txt","evidence/probes/jupiter-gpu-check-1618664.out"],"summary":"One node, four GH200, 15 seconds, completed successfully. The retained artifact does not contain the original requested time limit."},{"id":"full-node-topology","jobId":"1618998","status":"complete","evidenceType":"observed","confidence":"high","scope":"job 1618998 on jpbo-024-02","sourceIds":["topology-1618998","probe-accounting"],"artifactPaths":["evidence/probes/jupiter-topology-1618998.out","evidence/probes/sacct-probes.txt","evidence/probes/reconstructed-jupiter-topology-1618998.sbatch"],"commandArtifactPath":"evidence/probes/reconstructed-jupiter-topology-1618998.sbatch","commandProvenance":"Post-hoc copy of the local example added at 2026-09-02T08:52:32Z. Directives agree with retained Slurm metadata, but no submit-time byte hash exists.","summary":"Four ranks mapped GPU0–3 to CPU ranges 0–71, 72–143, 144–215 and 216–287; GPUs form an NV6 mesh and mlx5_0–3 map to NUMA 0–3.","maxNodeHours":0.0834},{"id":"one-gpu-accounting","jobId":"1618999","status":"complete","evidenceType":"observed","confidence":"high","scope":"job 1618999 on jpbo-026-13","sourceIds":["onegpu-1618999","probe-accounting"],"artifactPaths":["evidence/probes/jupiter-one-gpu-1618999.out","evidence/probes/sacct-probes.txt","evidence/probes/reconstructed-jupiter-one-gpu-1618999.sbatch"],"commandArtifactPath":"evidence/probes/reconstructed-jupiter-one-gpu-1618999.sbatch","commandProvenance":"Post-hoc copy of the local example added at 2026-09-02T08:52:32Z. Directives agree with retained Slurm metadata, but no submit-time byte hash exists.","summary":"The task environment contained CUDA_VISIBLE_DEVICES=0 and cores 0–71, while Slurm AllocTRES reserved the full 288-core, four-GPU node. CUDA runtime device count was not measured.","maxNodeHours":0.0334}],"calculations":[{"id":"allocation.node-hours","label":"Node-hour allocation","formula":"1,008,000 core-hours / 288 cores per node","result":3500,"unit":"node-hours","scope":"project e-dev-2026d09-128 allocation","evidenceType":"derived","confidence":"high","sourceIds":["live-cpuquota","jsc-accounting","jsc-config"]},{"id":"allocation.gpu-hours","label":"Physical GPU-hour equivalent","formula":"3,500 node-hours × 4 GH200 per node","result":14000,"unit":"GH200-hours","scope":"project e-dev-2026d09-128 physical capacity equivalent","evidenceType":"derived","confidence":"high","sourceIds":["jsc-config","live-cpuquota"]},{"id":"system.gh200","label":"Installed GH200","formula":"5,884 installed nodes × 4 GH200 per node","result":23536,"unit":"GH200","scope":"installed Booster design","evidenceType":"derived","confidence":"high","sourceIds":["jsc-config"]},{"id":"system.cores","label":"Installed Grace cores","formula":"5,884 installed nodes × 288 cores per node","result":1694592,"unit":"cores","scope":"installed Booster design","evidenceType":"derived","confidence":"high","sourceIds":["jsc-config"]},{"id":"system.memory","label":"Nominal installed LPDDR5X + HBM3","formula":"5,884 nodes × (480 GB LPDDR5X + 384 GB HBM3)","result":5083776,"unit":"GB","scope":"installed nominal hardware total across separate LPDDR and HBM pools","evidenceType":"derived","confidence":"high","sourceIds":["jsc-config"]},{"id":"probes.raw-node-hours","label":"Raw allocated node time for topology and accounting probes","formula":"(19 seconds + 16 seconds) / 3,600","result":0.009722222222222222,"unit":"node-hours","scope":"sacct elapsed time for jobs 1618998 and 1618999; central ledger rounding unresolved","evidenceType":"derived","confidence":"high","sourceIds":["probe-accounting"]}],"storageTiers":[{"id":"home","path":"/e/home/jusers/[redacted-user]/jupiter","softLimitGB":19.074,"hardLimitGB":20.981,"softInodes":80000,"hardInodes":82000,"retention":"Project-independent personal home; no purge policy stated","backup":true,"backupMethod":"ISP to tape; no archive or restore SLA inferred","use":"Configuration, small scripts and lightweight logs only","scope":"user [redacted-user] HOME quota at snapshot","evidenceType":"observed","confidence":"high","sourceIds":["live-user-dataquota","jsc-filesystems"]},{"id":"project","path":"/e/project1/e-dev-2026d09-128","softLimitGB":20480,"hardLimitGB":22528,"softInodes":4000000,"hardInodes":4400000,"retention":"Persistent for the project period; post-project retention requires JSC confirmation","backup":true,"backupMethod":"ISP to tape; no archive or restore SLA inferred","use":"Canonical datasets, source checkpoints and reproducible outputs","scope":"project e-dev-2026d09-128 quota at snapshot","evidenceType":"observed","confidence":"high","sourceIds":["live-dataquota","jsc-filesystems"]},{"id":"fscratch","path":"/e/fscratch/e-dev-2026d09-128","softLimitGB":40960,"hardLimitGB":45056,"softInodes":8000000,"hardInodes":8800000,"retention":"Purge eligible after 30 days by modification and access date; empty directories after 3 days","backup":false,"backupMethod":"None","use":"Active checkpoints and high-throughput staging","scope":"project e-dev-2026d09-128 quota at snapshot","evidenceType":"observed","confidence":"high","sourceIds":["live-dataquota","jsc-filesystems"]},{"id":"scratch","path":"/e/scratch/e-dev-2026d09-128","softLimitGB":204800,"hardLimitGB":215040,"softInodes":8000000,"hardInodes":8800000,"retention":"Purge eligible after 90 days by modification and access date; empty directories after 3 days","backup":false,"backupMethod":"None","use":"Large transient corpora, generated samples and distributed job outputs","scope":"project e-dev-2026d09-128 quota at snapshot","evidenceType":"observed","confidence":"high","sourceIds":["live-dataquota","jsc-filesystems"]}],"workloadScenarios":[{"id":"one-gpu-debug","title":"Короткий one-GPU debug","layout":"1 node, 1 task, 72 CPU cores, 1 GPU, <= 2 minutes","utilization":"25% GPU occupancy; full node billed","recommendation":"conditional","template":"Frozen reconstructed command: evidence/probes/reconstructed-jupiter-one-gpu-1618999.sbatch","notes":"Use only for short correctness checks because the other three GPUs cannot be used by another job.","scope":"recommended workload layout for this project","evidenceType":"inferred","confidence":"high","sourceIds":["jsc-batch","onegpu-1618999","probe-accounting"]},{"id":"packed-four-workers","title":"Чотири незалежні single-GPU workers","layout":"1 node, 4 tasks, 72 CPU cores and 1 local GPU per task","utilization":"All four GH200 used","recommendation":"preferred","template":"Completion-order fail-fast template in workload-playbook.md and the standalone site","notes":"Suitable for four benchmark shards, inference replicas or data-generation workers. Monitor atomic result files in completion order and cancel all surviving Slurm steps on the first nonzero result.","scope":"recommended workload layout for this project","evidenceType":"inferred","confidence":"high","sourceIds":["jsc-gpu","topology-1618998"]},{"id":"single-node-distributed","title":"Single-node distributed training or inference","layout":"1 node, 4 ranks, 1 GPU per rank, NCCL over NVLink4","utilization":"Full node","recommendation":"preferred","template":"4 ranks × 72 cores × 1 GPU","notes":"Use tensor, pipeline or data parallelism according to model memory and communication profile.","scope":"recommended workload layout for this project","evidenceType":"inferred","confidence":"medium","sourceIds":["jsc-gpu","topology-1618998"]},{"id":"multi-node-ddp","title":"Multi-node DDP/NCCL","layout":"N nodes, 4 ranks per node; observed physical HCA locality, runtime transport unverified","utilization":"4N GPUs","recommendation":"preferred","template":"--nodes=N --ntasks-per-node=4 --cpus-per-task=72 --gpus-per-task=1","notes":"Allocation skeleton only. Add framework-specific rendezvous/rank mapping and verify NCCL IB, GDR and rail selection with nccl-tests before scaling.","scope":"recommended workload layout for this project","evidenceType":"inferred","confidence":"medium","sourceIds":["jsc-batch","jsc-affinity","nvidia-nccl","topology-1618998"]},{"id":"tokenizer-transfer","title":"Tokenizer transfer and adaptation","layout":"Stage corpus on SCRATCH; run four data shards or one 4-GPU training job","utilization":"CPU-heavy preparation followed by full-node GPU work","recommendation":"preferred","template":"Separate preprocessing and GPU sbatch stages","notes":"Do not run Python preprocessing on the login node. CPU-only preprocessing still consumes a full exclusive Booster node; shard across all 288 cores.","scope":"recommended workload layout for this project","evidenceType":"inferred","confidence":"medium","sourceIds":["jsc-batch","jsc-filesystems","jsc-data-transfer","jsc-datamover"]},{"id":"distillation-generation","title":"On-policy distillation and synthetic generation","layout":"Separate on-policy and self-distillation pipelines; up to four generation workers per node","utilization":"Full-node generation","recommendation":"preferred","template":"Job array or coordinated multi-node service","notes":"Record policy/teacher, checkpoint, tokenizer, prompt/input shard, seed, scorer/reward/reference and generation revisions plus output checksums. Enforce bounded staleness for on-policy consumption and write transient generations to SCRATCH.","scope":"recommended workload layout for this project","evidenceType":"inferred","confidence":"medium","sourceIds":["jsc-batch","jsc-filesystems","jsc-datamover"]},{"id":"benchmark-serving","title":"Benchmark serving","layout":"One 4-GPU server or four replicas; reserve CPU cores for a same-allocation client step","utilization":"Depends on tensor parallelism or replica packing","recommendation":"conditional","template":"Long-running server job plus bounded benchmark client","notes":"Prefer a CPU-only client srun step inside the same node allocation with explicitly reserved cores. A separate Booster client job incurs another full-node charge. Confirm one-process GPU visibility before use.","scope":"recommended workload layout for this project","evidenceType":"inferred","confidence":"medium","sourceIds":["jsc-batch","jsc-gpu","onegpu-1618999"]}],"openQuestions":[{"id":"cnvlink-bandwidth","question":"Is CPU cNVLink bandwidth 100 GB/s bidirectional or 100 GB/s per direction in the production node?","resolution":"Retain both source wordings and request an as-built clarification from JSC.","status":"open","sourceIds":["jsc-config","jsc-tech"]},{"id":"slurm-realmemory","question":"How exactly does Slurm derive RealMemory=878535M from LPDDR5X and HBM NUMA domains?","resolution":"Job 1618998 establishes numerical equality: populated CPU and HBM domains total 899,620,736 kB = 878,535.875 MiB, whose integer floor is 878535. The evidence does not establish whether Slurm derived or was explicitly configured with this value.","status":"open","sourceIds":["topology-1618998","live-partition-booster"]},{"id":"accounting-rounding","question":"What is the minimum rounding unit for very short jobs in central jutil accounting?","resolution":"Compare sacct elapsed time with jutil after the next accounting refresh.","status":"open","sourceIds":["jsc-accounting","probe-accounting","probe-cpuquota-after"]},{"id":"largebooster-access","question":"What process enables largebooster for this Development allocation?","resolution":"Do not use while the partition is DOWN; ask JSC if a future campaign specifically requires that partition.","status":"deferred","sourceIds":["jsc-batch","live-partition-largebooster"]},{"id":"project-retention","question":"How long is PROJECT retained after 2027-02-28?","resolution":"Confirm with JSC before the allocation end and export durable artifacts early.","status":"open","sourceIds":["jsc-filesystems","live-dataquota"]},{"id":"one-gpu-runtime-visibility","question":"How many CUDA devices does the runtime enumerate inside the current one-GPU srun task?","resolution":"Run cudaGetDeviceCount or a framework runtime probe before relying on one-task visibility; job 1618999 measured only CUDA_VISIBLE_DEVICES and physical nvidia-smi output.","status":"open","sourceIds":["jsc-gpu","onegpu-1618999"]},{"id":"memory-pool-headroom","question":"What per-pool LPDDR/HBM headroom and memory-cgroup behavior are safe for production workloads?","resolution":"Budget LPDDR and each HBM pool separately, monitor placement and validate memory pressure in a bounded Slurm job before large campaigns.","status":"open","sourceIds":["nvidia-grace","nvidia-cuda-memory","topology-1618998"]},{"id":"blade-packaging","question":"What is the as-built compute-node-to-blade mapping inside a JUPITER Booster rack?","resolution":"JSC documents 48 compute nodes per full rack and Eviden documents blade-based XH3000 packaging, but the frozen sources do not establish a production node-to-blade ratio. Do not publish a blade count without JSC confirmation.","status":"open","sourceIds":["jsc-batch","eviden-xh3000"]}]}</script>
+  <script>
+    (() => {
+      "use strict";
+
+      const data = JSON.parse(document.getElementById("jupiter-facts").textContent);
+      const facts = new Map(data.facts.map((item) => [item.id, item]));
+      const sources = new Map(data.sources.map((item) => [item.id, item]));
+      const byId = (id) => document.getElementById(id);
+      const value = (id) => facts.get(id)?.value;
+      const number = (id) => Number(value(id));
+      const format = (input, max = 6) => new Intl.NumberFormat("en-GB", {
+        maximumFractionDigits: max,
+      }).format(input);
+      const escapeHtml = (input) => String(input)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+      const artifactPrefix = window.location.protocol === "file:"
+        && /\/site\/index\.html$/.test(window.location.pathname)
+        ? "../"
+        : "";
+      const artifactHref = (path) => `${artifactPrefix}${path}`;
+      const sourceHref = (source) => source.url.startsWith("http")
+        ? source.url
+        : artifactHref(source.url);
+      const pill = (type) => `<span class="pill ${escapeHtml(type)}">${escapeHtml(type)}</span>`;
+
+      byId("header-account").textContent = data.allocation.account;
+      byId("header-period").textContent = `${data.allocation.periodStart} → ${data.allocation.periodEnd}`;
+      byId("header-generated").textContent = `Evidence generated ${data.generatedAt}`;
+
+      const metricItems = [
+        ["Node-hour allocation", number("allocation.node-hours"), "node-hours"],
+        ["JSC quota", number("allocation.core-hours"), "core-hours"],
+        ["Physical capacity equivalent", number("allocation.gpu-hour-equivalent"), "GH200-hours"],
+        ["Installed Booster", number("booster.gh200.total"), "GH200"],
+      ];
+      byId("allocation-metrics").innerHTML = metricItems.map(([label, amount, unit]) => `
+        <div class="metric">
+          <span class="label">${escapeHtml(label)}</span>
+          <strong>${format(amount)}</strong>
+          <span class="unit">${escapeHtml(unit)}</span>
+        </div>`).join("");
+
+      const installedNodes = number("booster.nodes.installed");
+      const liveNodes = number("booster.nodes.slurm-visible");
+      const idleNodes = number("booster.nodes.idle");
+      const gpusPerNode = number("node.gh200");
+      const coresPerNode = number("node.cpu-cores");
+      const architectureRows = [
+        ["Installed Booster design", installedNodes, installedNodes * gpusPerNode, installedNodes * coresPerNode, "official + derived"],
+        ["Slurm-visible booster snapshot", liveNodes, liveNodes * gpusPerNode, liveNodes * coresPerNode, "observed capacity ceiling"],
+        ["Idle at snapshot", idleNodes, idleNodes * gpusPerNode, idleNodes * coresPerNode, "observed transient state"],
+        ["Project allocation unit", 1, gpusPerNode, coresPerNode, "exclusive node"],
+      ];
+      byId("architecture-table").innerHTML = architectureRows.map((row) => `
+        <tr>
+          <td>${escapeHtml(row[0])}</td>
+          <td class="num">${format(row[1])}</td>
+          <td class="num">${format(row[2])}</td>
+          <td class="num">${format(row[3])}</td>
+          <td>${escapeHtml(row[4])}</td>
+        </tr>`).join("");
+
+      const locality = value("numa.locality-map");
+      let activeLocality = 0;
+      const localityGrid = byId("locality-grid");
+      const localityDetail = byId("locality-detail");
+
+      function updateLocality() {
+        localityGrid.querySelectorAll("button").forEach((button) => {
+          button.setAttribute("aria-pressed", String(Number(button.dataset.locality) === activeLocality));
+        });
+        const item = locality[activeLocality];
+        const details = [
+          ["Rank", item.rank],
+          ["CPU cores", item.cpuCores],
+          ["CPU NUMA", item.cpuNuma],
+          ["HBM NUMA", item.hbmNuma],
+          ["GPU / NIC", `GPU ${item.gpu} / ${item.nic}`],
+        ];
+        localityDetail.innerHTML = details.map(([label, detail]) => `
+          <div class="datum"><span>${escapeHtml(label)}</span><strong>${escapeHtml(detail)}</strong></div>
+        `).join("");
+      }
+
+      function renderLocality() {
+        localityGrid.innerHTML = locality.map((item, index) => `
+          <button type="button" class="locality-button" data-locality="${index}"
+            aria-pressed="${index === activeLocality}">
+            <strong>Locality ${index}</strong>
+            <span>CPU ${escapeHtml(item.cpuCores)}</span>
+            <span>GPU ${item.gpu} · ${escapeHtml(item.nic)}</span>
+          </button>`).join("");
+        localityGrid.querySelectorAll("button").forEach((button) => {
+          button.addEventListener("click", () => {
+            activeLocality = Number(button.dataset.locality);
+            updateLocality();
+            drawTopology("node");
+            selectTopologyButton("node");
+          });
+        });
+        updateLocality();
+      }
+
+      const canvas = byId("topology-canvas");
+      const context = canvas.getContext("2d");
+      let topologyMode = "system";
+
+      function setupCanvas() {
+        const ratio = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = Math.max(1, Math.floor(rect.width * ratio));
+        canvas.height = Math.floor(rect.height * ratio);
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        return { width: rect.width, height: rect.height };
+      }
+
+      function textLabel(text, x, y, size = 12, color = "#30363d", align = "left") {
+        context.fillStyle = color;
+        context.font = `600 ${size}px ui-sans-serif, system-ui, sans-serif`;
+        context.textAlign = align;
+        context.fillText(text, x, y);
+      }
+
+      function box(x, y, width, height, fill = "#ffffff", stroke = "#8f98a3") {
+        context.fillStyle = fill;
+        context.fillRect(x, y, width, height);
+        context.strokeStyle = stroke;
+        context.lineWidth = 1;
+        context.strokeRect(x, y, width, height);
+      }
+
+      function drawSystem(width, height) {
+        const groups = number("topology.dragonfly-groups");
+        const cols = 5;
+        const rows = Math.ceil(groups / cols);
+        const margin = 28;
+        const gap = 10;
+        const labelSpace = 40;
+        const cellWidth = (width - margin * 2 - gap * (cols - 1)) / cols;
+        const cellHeight = (height - margin * 2 - labelSpace - gap * (rows - 1)) / rows;
+        textLabel(`${format(installedNodes)} nodes · ${format(installedNodes * gpusPerNode)} GH200`, margin, 22, 13);
+        for (let index = 0; index < groups; index += 1) {
+          const col = index % cols;
+          const row = Math.floor(index / cols);
+          const x = margin + col * (cellWidth + gap);
+          const y = margin + labelSpace + row * (cellHeight + gap);
+          box(x, y, cellWidth, cellHeight, index === 24 ? "#faf0d5" : "#e8f1f8", "#6d7782");
+          textLabel(`G${index + 1}`, x + 6, y + 15, 10);
+          const rackGap = 3;
+          const rackWidth = (cellWidth - 12 - rackGap * 4) / 5;
+          for (let rack = 0; rack < 5; rack += 1) {
+            const rackX = x + 6 + rack * (rackWidth + rackGap);
+            context.fillStyle = index === 24 && rack >= 3 ? "#d6d9dd" : "#145da0";
+            context.fillRect(rackX, y + 24, rackWidth, Math.max(5, cellHeight - 31));
+          }
+        }
+        byId("topology-status").textContent = `${groups} DragonFly+ groups · 125 rack positions`;
+      }
+
+      function drawGroup(width, height) {
+        const racks = number("topology.nodes-group") / number("topology.nodes-full-rack");
+        const nodes = number("topology.nodes-full-rack");
+        const margin = 30;
+        const gap = 12;
+        const rackWidth = (width - margin * 2 - gap * (racks - 1)) / racks;
+        textLabel(`Representative full group · ${number("topology.nodes-group")} nodes`, margin, 24, 13);
+        for (let rack = 0; rack < racks; rack += 1) {
+          const x = margin + rack * (rackWidth + gap);
+          box(x, 48, rackWidth, height - 78, "#f6f8fa", "#6d7782");
+          textLabel(`Rack ${rack + 1}`, x + rackWidth / 2, 68, 11, "#30363d", "center");
+          const nodeGap = 3;
+          const cols = 6;
+          const rows = nodes / cols;
+          const nodeWidth = (rackWidth - 14 - nodeGap * (cols - 1)) / cols;
+          const nodeHeight = (height - 116 - nodeGap * (rows - 1)) / rows;
+          for (let node = 0; node < nodes; node += 1) {
+            const nodeCol = node % cols;
+            const nodeRow = Math.floor(node / cols);
+            context.fillStyle = "#246b3c";
+            context.fillRect(
+              x + 7 + nodeCol * (nodeWidth + nodeGap),
+              82 + nodeRow * (nodeHeight + nodeGap),
+              Math.max(3, nodeWidth),
+              Math.max(4, nodeHeight),
+            );
+          }
+        }
+        byId("topology-status").textContent = `${racks} racks · ${number("topology.nodes-group")} nodes · ${number("network.bandwidth-node")} Gbit/s per node`;
+      }
+
+      function drawNodeCompact(width, height) {
+        const margin = 14;
+        const gap = 10;
+        const top = 42;
+        const columns = 2;
+        const rows = 2;
+        const cellWidth = (width - margin * 2 - gap) / columns;
+        const cellHeight = (height - top - margin - gap) / rows;
+        textLabel(`${number("node.cpu-cores")} cores · ${number("node.lpddr")} GB LPDDR · ${number("node.hbm")} GB HBM`, margin, 24, 11);
+        locality.forEach((item, index) => {
+          const column = index % columns;
+          const row = Math.floor(index / columns);
+          const x = margin + column * (cellWidth + gap);
+          const y = top + row * (cellHeight + gap);
+          const selected = index === activeLocality;
+          box(x, y, cellWidth, cellHeight, selected ? "#e8f1f8" : "#f6f8fa", selected ? "#145da0" : "#8f98a3");
+          textLabel(`LOCALITY ${index}`, x + 8, y + 18, 10, selected ? "#145da0" : "#30363d");
+          box(x + 8, y + 29, cellWidth - 16, 45, "#ffffff", "#8f98a3");
+          textLabel(`Grace ${item.cpuNuma} · cores ${item.cpuCores}`, x + cellWidth / 2, y + 56, 10, "#191c20", "center");
+          box(x + 8, y + 84, cellWidth - 16, 50, selected ? "#145da0" : "#20252b", selected ? "#145da0" : "#20252b");
+          textLabel(`GPU ${item.gpu} · HBM ${item.hbmNuma}`, x + cellWidth / 2, y + 114, 11, "#ffffff", "center");
+          box(x + 8, y + 144, cellWidth - 16, 34, "#e9f4ed", "#246b3c");
+          textLabel(`${item.nic} · NUMA ${item.cpuNuma}`, x + cellWidth / 2, y + 166, 10, "#246b3c", "center");
+        });
+        byId("topology-status").textContent = `4 locality groups · ${value("topology.gpu-mesh")} · 4 local HCAs`;
+      }
+
+      function drawNode(width, height) {
+        if (width < 620) {
+          drawNodeCompact(width, height);
+          return;
+        }
+        const margin = 22;
+        const gap = 10;
+        const usable = width - margin * 2;
+        const columnWidth = (usable - gap * 3) / 4;
+        const gpuCenters = [];
+        textLabel(`${number("node.cpu-cores")} Grace cores · ${number("node.lpddr")} GB LPDDR5X · ${number("node.hbm")} GB HBM3`, margin, 23, 13);
+        locality.forEach((item, index) => {
+          const x = margin + index * (columnWidth + gap);
+          const selected = index === activeLocality;
+          box(x, 46, columnWidth, height - 70, selected ? "#e8f1f8" : "#f6f8fa", selected ? "#145da0" : "#8f98a3");
+          textLabel(`LOCALITY ${index}`, x + 9, 67, 10, selected ? "#145da0" : "#30363d");
+          box(x + 10, 82, columnWidth - 20, 70, "#ffffff", "#8f98a3");
+          textLabel(`Grace ${item.cpuNuma}`, x + columnWidth / 2, 105, 12, "#191c20", "center");
+          textLabel(`cores ${item.cpuCores}`, x + columnWidth / 2, 127, 10, "#58616b", "center");
+          context.strokeStyle = "#815800";
+          context.lineWidth = 3;
+          context.beginPath();
+          context.moveTo(x + columnWidth / 2, 153);
+          context.lineTo(x + columnWidth / 2, 190);
+          context.stroke();
+          textLabel("NVLink-C2C", x + columnWidth / 2, 174, 9, "#815800", "center");
+          const gpuX = x + 10;
+          const gpuY = 192;
+          box(gpuX, gpuY, columnWidth - 20, 72, selected ? "#145da0" : "#20252b", selected ? "#145da0" : "#20252b");
+          textLabel(`GPU ${item.gpu}`, x + columnWidth / 2, gpuY + 27, 13, "#ffffff", "center");
+          textLabel(`HBM NUMA ${item.hbmNuma}`, x + columnWidth / 2, gpuY + 49, 10, "#e8edf2", "center");
+          gpuCenters.push([x + columnWidth / 2, gpuY + 36]);
+          box(x + 10, 286, columnWidth - 20, 48, "#e9f4ed", "#246b3c");
+          textLabel(item.nic, x + columnWidth / 2, 307, 11, "#246b3c", "center");
+          textLabel(`NUMA ${item.cpuNuma}`, x + columnWidth / 2, 325, 9, "#58616b", "center");
+        });
+        context.save();
+        context.strokeStyle = "#9a2f2f";
+        context.lineWidth = 1;
+        context.setLineDash([4, 4]);
+        for (let a = 0; a < gpuCenters.length; a += 1) {
+          for (let b = a + 1; b < gpuCenters.length; b += 1) {
+            context.beginPath();
+            context.moveTo(gpuCenters[a][0], gpuCenters[a][1]);
+            context.lineTo(gpuCenters[b][0], gpuCenters[b][1]);
+            context.stroke();
+          }
+        }
+        context.restore();
+        byId("topology-status").textContent = `4 locality groups · ${value("topology.gpu-mesh")} · 4 local HCAs`;
+      }
+
+      function drawTopology(mode = topologyMode) {
+        topologyMode = mode;
+        const { width, height } = setupCanvas();
+        context.clearRect(0, 0, width, height);
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, width, height);
+        if (mode === "system") drawSystem(width, height);
+        if (mode === "group") drawGroup(width, height);
+        if (mode === "node") drawNode(width, height);
+        canvas.dataset.drawn = "true";
+      }
+
+      function selectTopologyButton(mode) {
+        document.querySelectorAll("[data-topology]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.topology === mode));
+        });
+      }
+
+      document.querySelectorAll("[data-topology]").forEach((button) => {
+        button.addEventListener("click", () => {
+          selectTopologyButton(button.dataset.topology);
+          drawTopology(button.dataset.topology);
+        });
+      });
+      new ResizeObserver(() => drawTopology()).observe(canvas);
+      renderLocality();
+      drawTopology();
+
+      function calculate(nodes, hours, activeGpus) {
+        const periodStart = Date.parse(`${data.allocation.periodStart}T00:00:00Z`);
+        const periodEnd = Date.parse(`${data.allocation.periodEnd}T00:00:00Z`);
+        const allocationHours = (periodEnd - periodStart) / 3600000 + 24;
+        const safeNodes = Math.min(
+          installedNodes,
+          Math.max(0, Number.isFinite(nodes) ? Math.floor(nodes) : 0),
+        );
+        const safeHours = Math.min(
+          allocationHours,
+          Math.max(0, Number.isFinite(hours) ? hours : 0),
+        );
+        const safeActive = Math.min(
+          gpusPerNode,
+          Math.max(0, Number.isFinite(activeGpus) ? Math.floor(activeGpus) : 0),
+        );
+        const nodeHours = safeNodes * safeHours;
+        const physicalGpuHours = nodeHours * gpusPerNode;
+        const usefulGpuHours = nodeHours * safeActive;
+        return {
+          nodeHours,
+          coreHours: nodeHours * coresPerNode,
+          physicalGpuHours,
+          usefulGpuHours,
+          utilization: physicalGpuHours ? usefulGpuHours / physicalGpuHours * 100 : 0,
+        };
+      }
+
+      function renderCalculator() {
+        const result = calculate(
+          Number(byId("calc-nodes").value),
+          Number(byId("calc-hours").value),
+          Number(byId("calc-active-gpus").value),
+        );
+        const items = [
+          ["Node-hours", result.nodeHours],
+          ["Core-hours", result.coreHours],
+          ["Physical GH200-hours", result.physicalGpuHours],
+          ["Useful GPU-hours", result.usefulGpuHours],
+          ["GPU occupancy", `${format(result.utilization, 2)}%`],
+        ];
+        byId("calc-output").innerHTML = items.map(([label, resultValue]) => `
+          <div class="datum"><span>${escapeHtml(label)}</span><strong>${typeof resultValue === "number" ? format(resultValue) : escapeHtml(resultValue)}</strong></div>
+        `).join("");
+      }
+      const allocationHours = (Date.parse(`${data.allocation.periodEnd}T00:00:00Z`)
+        - Date.parse(`${data.allocation.periodStart}T00:00:00Z`)) / 3600000 + 24;
+      byId("calc-nodes").max = String(installedNodes);
+      byId("calc-hours").max = String(allocationHours);
+      byId("calc-active-gpus").max = String(gpusPerNode);
+      byId("calculator").querySelectorAll("input").forEach((input) => input.addEventListener("input", renderCalculator));
+      renderCalculator();
+
+      byId("storage-table").innerHTML = data.storageTiers.map((tier) => `
+        <tr>
+          <td><strong>${escapeHtml(tier.id.toUpperCase())}</strong></td>
+          <td class="mono">${escapeHtml(tier.path)}</td>
+          <td class="num">${format(tier.softLimitGB)} / ${format(tier.hardLimitGB)}</td>
+          <td class="num">${format(tier.softInodes)} / ${format(tier.hardInodes)}</td>
+          <td>${escapeHtml(tier.retention)}</td>
+          <td>${escapeHtml(tier.backupMethod)}</td>
+          <td>${escapeHtml(tier.use)}</td>
+        </tr>`).join("");
+
+      byId("scenario-table").innerHTML = data.workloadScenarios.map((scenario) => `
+        <tr>
+          <td><strong>${escapeHtml(scenario.title)}</strong></td>
+          <td>${escapeHtml(scenario.layout)}</td>
+          <td>${escapeHtml(scenario.utilization)}</td>
+          <td><span class="scenario-rec ${escapeHtml(scenario.recommendation)}">${escapeHtml(scenario.recommendation)}</span></td>
+          <td>${escapeHtml(scenario.notes || "")}</td>
+        </tr>`).join("");
+
+      const cpuPerGpu = coresPerNode / gpusPerNode;
+      const templates = [
+        {
+          id: "full-node",
+          title: "Single-node distributed",
+          code: `#!/bin/bash\n#SBATCH --account=${data.allocation.account}\n#SBATCH --partition=${data.allocation.partition}\n#SBATCH --nodes=1\n#SBATCH --ntasks-per-node=${gpusPerNode}\n#SBATCH --cpus-per-task=${cpuPerGpu}\n#SBATCH --gpus-per-task=1\n#SBATCH --time=00:30:00\n#SBATCH --output=%x-%j.out\n\nset -euo pipefail\nexport SRUN_CPUS_PER_TASK="$SLURM_CPUS_PER_TASK"\nsrun --cpu-bind=cores python -u train.py`,
+        },
+        {
+          id: "packed-workers",
+          title: "Four packed workers",
+          code: `#!/bin/bash\n#SBATCH --account=${data.allocation.account}\n#SBATCH --partition=${data.allocation.partition}\n#SBATCH --nodes=1\n#SBATCH --gres=gpu:${gpusPerNode}\n#SBATCH --time=00:30:00\n#SBATCH --output=%x-%j.out\n\nset -euo pipefail\nstatus_dir=$(mktemp -d "\${TMPDIR:-/tmp}/packed-\${SLURM_JOB_ID}.XXXXXX")\npids=()\nshards=(0 1 2 3)\nterminate_children() {\n  local pid\n  for pid in "\${pids[@]}"; do\n    if [[ -n "$pid" ]]; then\n      kill "$pid" 2>/dev/null || true\n    fi\n  done\n  wait || true\n}\ntrap 'terminate_children; rm -rf "$status_dir"; exit 130' INT TERM\n\nfor shard in "\${shards[@]}"; do\n  (\n    step_pid=\n    stop_step() {\n      if [[ -n "$step_pid" ]]; then\n        kill "$step_pid" 2>/dev/null || true\n        wait "$step_pid" 2>/dev/null || true\n      fi\n      exit 143\n    }\n    trap stop_step INT TERM\n    set +e\n    srun --exclusive -n1 -c${cpuPerGpu} --gres=gpu:1 --cpu-bind=cores \\\n      python -u worker.py --shard "$shard" \\\n      >"worker-$shard-\${SLURM_JOB_ID}.log" 2>&1 &\n    step_pid=$!\n    wait "$step_pid"\n    rc=$?\n    printf '%s\\n' "$rc" >"$status_dir/$shard.tmp"\n    mv "$status_dir/$shard.tmp" "$status_dir/$shard.done"\n    exit "$rc"\n  ) &\n  pids+=("$!")\ndone\n\nremaining=\${#shards[@]}\nwhile ((remaining)); do\n  found=0\n  for index in "\${!shards[@]}"; do\n    shard=\${shards[$index]}\n    [[ -n "$shard" ]] || continue\n    result="$status_dir/$shard.done"\n    [[ -f "$result" ]] || continue\n    found=1\n    rc=$(<"$result")\n    wait "\${pids[$index]}" 2>/dev/null || true\n    pids[$index]=""\n    shards[$index]=""\n    remaining=$((remaining - 1))\n    if ((rc != 0)); then\n      terminate_children\n      rm -rf "$status_dir"\n      exit "$rc"\n    fi\n  done\n  if ((remaining && !found)); then\n    sleep 0.2\n  fi\ndone\nrm -rf "$status_dir"\ntrap - INT TERM`,
+        },
+        {
+          id: "multi-node",
+          title: "Multi-node allocation skeleton",
+          code: `#!/bin/bash\n#SBATCH --account=${data.allocation.account}\n#SBATCH --partition=${data.allocation.partition}\n#SBATCH --nodes=<N>\n#SBATCH --ntasks-per-node=${gpusPerNode}\n#SBATCH --cpus-per-task=${cpuPerGpu}\n#SBATCH --gpus-per-task=1\n#SBATCH --time=06:00:00\n#SBATCH --output=%x-%j.out\n\nset -euo pipefail\nexport SRUN_CPUS_PER_TASK="$SLURM_CPUS_PER_TASK"\nexport MASTER_ADDR="$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n1)"\nexport MASTER_PORT=29500\nexport NCCL_DEBUG=WARN\n\n# Allocation skeleton: add framework-specific rendezvous and rank mapping.\n# Validate NCCL IB, GDR, HCA and rail selection with nccl-tests first.\nsrun --cpu-bind=cores bash -lc \\\n  'python -u train.py --rank "$SLURM_PROCID" --world-size "$SLURM_NTASKS"'`,
+        },
+      ];
+      let activeTemplate = 0;
+
+      function selectTemplate(index, moveFocus = false) {
+        activeTemplate = (index + templates.length) % templates.length;
+        const buttons = [...byId("template-tabs").querySelectorAll("button")];
+        buttons.forEach((button, buttonIndex) => {
+          const selected = buttonIndex === activeTemplate;
+          button.setAttribute("aria-selected", String(selected));
+          button.tabIndex = selected ? 0 : -1;
+        });
+        byId("template-title").textContent = templates[activeTemplate].title;
+        byId("template-code").textContent = templates[activeTemplate].code;
+        byId("template-panel").setAttribute("aria-labelledby", `template-tab-${activeTemplate}`);
+        if (moveFocus) buttons[activeTemplate].focus();
+      }
+
+      function renderTemplate() {
+        byId("template-tabs").innerHTML = templates.map((template, index) => `
+          <button type="button" id="template-tab-${index}" role="tab"
+            aria-controls="template-panel" aria-selected="${index === activeTemplate}"
+            tabindex="${index === activeTemplate ? 0 : -1}" data-template="${index}">
+            ${escapeHtml(template.title)}
+          </button>
+        `).join("");
+        byId("template-tabs").querySelectorAll("button").forEach((button) => {
+          button.addEventListener("click", () => selectTemplate(Number(button.dataset.template)));
+          button.addEventListener("keydown", (event) => {
+            const current = Number(button.dataset.template);
+            let next = current;
+            if (event.key === "ArrowRight" || event.key === "ArrowDown") next = current + 1;
+            if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = current - 1;
+            if (event.key === "Home") next = 0;
+            if (event.key === "End") next = templates.length - 1;
+            if (next !== current) {
+              event.preventDefault();
+              selectTemplate(next, true);
+            }
+          });
+        });
+        selectTemplate(activeTemplate);
+      }
+
+      async function copyText(text, forceFallback = false) {
+        if (!forceFallback && navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+        const area = document.createElement("textarea");
+        area.value = text;
+        area.setAttribute("readonly", "");
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        let copied = false;
+        try {
+          copied = document.execCommand("copy");
+        } finally {
+          area.remove();
+        }
+        if (!copied) throw new Error("Browser denied clipboard access");
+      }
+
+      byId("copy-template").addEventListener("click", async () => {
+        const button = byId("copy-template");
+        try {
+          await copyText(templates[activeTemplate].code);
+          button.textContent = "Copied";
+          byId("copy-status").textContent = "Slurm template copied";
+        } catch (error) {
+          button.textContent = "Copy failed";
+          byId("copy-status").textContent = `Copy failed: ${error.message}`;
+        }
+        window.setTimeout(() => { button.textContent = "Copy"; }, 1400);
+      });
+      renderTemplate();
+
+      function displayValue(item) {
+        if (Array.isArray(item.value)) return `${item.value.length} mapped groups`;
+        if (typeof item.value === "object" && item.value !== null) return JSON.stringify(item.value);
+        return `${item.value} ${item.unit}`;
+      }
+
+      function sourceLinks(ids) {
+        return ids.map((id) => {
+          const source = sources.get(id);
+          return `<a href="${escapeHtml(sourceHref(source))}" target="_blank" rel="noreferrer">${escapeHtml(id)}</a>`;
+        }).join(", ");
+      }
+
+      const storageById = new Map(data.storageTiers.map((item) => [item.id, item]));
+      const home = storageById.get("home");
+      const project = storageById.get("project");
+      const fscratch = storageById.get("fscratch");
+      const scratch = storageById.get("scratch");
+      const projectSoftTotal = project.softLimitGB + fscratch.softLimitGB + scratch.softLimitGB;
+      const projectHardTotal = project.hardLimitGB + fscratch.hardLimitGB + scratch.hardLimitGB;
+      const faqCategories = {
+        allocation: "Allocation & accounting",
+        hardware: "Node hardware & NUMA",
+        storage: "Storage & retention",
+        transfer: "Data transfer",
+        slurm: "Slurm & jobs",
+        workloads: "LLM workflows",
+        operations: "Access & operations",
+      };
+      const faqItems = [
+        {
+          id: "allocation-total",
+          category: "allocation",
+          question: "Скільки compute ми отримали?",
+          answer: `Allocation становить ${format(number("allocation.core-hours"))} core-hours. Для Booster це еквівалент ${format(number("allocation.node-hours"))} node-hours або максимум ${format(number("allocation.gpu-hour-equivalent"))} фізичних GH200-hours за повного використання чотирьох GPU на кожній ноді.`,
+          sourceIds: ["live-cpuquota", "jsc-config", "jsc-accounting"],
+          keywords: "quota бюджет ресурси gpu hours core node",
+        },
+        {
+          id: "allocation-period",
+          category: "allocation",
+          question: "Коли діє allocation?",
+          answer: `Accounting period починається ${data.allocation.periodStart} і завершується ${data.allocation.periodEnd}. Durable outputs варто експортувати завчасно, оскільки post-project retention для PROJECT ще потребує підтвердження JSC.`,
+          sourceIds: ["live-cpuquota", "jsc-filesystems"],
+          keywords: "дата початок кінець термін period",
+        },
+        {
+          id: "node-hour-definition",
+          category: "allocation",
+          question: "Що таке одна node-hour?",
+          answer: `Одна node-hour означає одну exclusive Booster node протягом однієї години. У поточній конфігурації це ${format(number("node.cpu-cores"))} billing cores і ${format(number("node.gh200"))} фізичні GH200, незалежно від того, скільки GPU бачить окремий task.`,
+          sourceIds: ["jsc-accounting", "jsc-config", "live-partition-booster"],
+          keywords: "визначення node hour оплата",
+        },
+        {
+          id: "one-gpu-charge",
+          category: "allocation",
+          question: "Як рахується job, що запитує лише один GPU?",
+          answer: `Probe 1618999 запросив 72 CPU cores і 1 GPU, але Slurm AllocTRES містив ${format(number("node.cpu-cores"))} CPU cores і ${format(number("node.gh200"))} GPUs. Одна година такого job займає приблизно одну node-hour, тому тривалий one-GPU запуск використовує лише 25% фізичних GPU ноди.`,
+          sourceIds: ["onegpu-1618999", "probe-accounting", "jsc-accounting"],
+          keywords: "один gpu 1 gpu charge alloc tres",
+        },
+        {
+          id: "partial-node-request",
+          category: "allocation",
+          question: "Чи можна платити лише за частину ноди?",
+          answer: "Поточний Booster partition працює з exclusive nodes. Менший ReqTRES може обмежити task environment, але зафіксований one-GPU probe отримав повну ноду в AllocTRES. Плануйте packing чотирьох GPU workloads в одній allocation.",
+          sourceIds: ["live-partition-booster", "onegpu-1618999", "probe-accounting"],
+          keywords: "partial node shared exclusive",
+        },
+        {
+          id: "short-job-billing",
+          category: "allocation",
+          question: "Як рахується короткий job, що завершився раніше wall-time?",
+          answer: "sacct показує фактичний elapsed time та allocated TRES. Центральний jutil оновлюється із затримкою; мінімальна одиниця округлення дуже коротких jobs ще не підтверджена. Для оцінки використовуйте фактичний elapsed, а остаточний debit перевіряйте після refresh jutil.",
+          sourceIds: ["probe-accounting", "jsc-accounting", "probe-cpuquota-after"],
+          keywords: "короткий job rounding elapsed walltime",
+        },
+        {
+          id: "pending-charge",
+          category: "allocation",
+          question: "Чи витрачає quota job у стані PENDING?",
+          answer: "Node-hour виникає з allocated resources та elapsed runtime. PENDING job ще не має allocated node; після старту перевіряйте sacct, а aggregate quota звіряйте через jutil. Reservation або policy edge cases слід перевіряти в актуальній документації JSC.",
+          sourceIds: ["jsc-accounting", "jsc-batch"],
+          keywords: "pending queue очікування charge",
+        },
+        {
+          id: "campaign-example",
+          category: "allocation",
+          question: "Скільки коштує запуск на 8 нодах протягом 6 годин?",
+          answer: `8 × 6 = 48 node-hours, або ${format(48 * number("node.cpu-cores"))} core-hours і ${format(48 * number("node.gh200"))} фізичних GH200-hours. Це близько ${format(100 * 48 / number("allocation.node-hours"), 2)}% усієї allocation.`,
+          sourceIds: ["live-cpuquota", "jsc-config", "jsc-accounting"],
+          keywords: "8 nodes 6 hours приклад калькулятор",
+        },
+        {
+          id: "quota-check",
+          category: "allocation",
+          question: "Як перевірити залишок compute quota?",
+          answer: `Виконайте eurohpc-bridge run -- jutil project cpuquota -p ${data.allocation.account} -o json. sacct дає оперативні job-level дані, а jutil є центральним project ledger після accounting refresh.`,
+          sourceIds: ["live-cpuquota", "jsc-accounting"],
+          keywords: "jutil balance залишок quota monitor",
+        },
+        {
+          id: "snapshot-consumption",
+          category: "allocation",
+          question: "Чому snapshot показував нульове споживання після probes?",
+          answer: "Відразу після jobs sacct уже показував 35 секунд raw allocated time, а jutil ще повертав 0 consumed core-hours. JSC описує періодичне accounting ingestion, тому ці системи мають різну затримку оновлення.",
+          sourceIds: ["probe-accounting", "probe-cpuquota-after", "jsc-accounting"],
+          keywords: "zero consumption delay refresh jutil sacct",
+        },
+        {
+          id: "concurrency-limit",
+          category: "allocation",
+          question: "Скільки нод можна запустити одночасно?",
+          answer: "Evidence bundle підтверджує загальний fixed quota, але не встановлює окремий project concurrency cap. Фактичний старт залежить від scheduler, idle nodes, reservations, fair-share та актуального стану partition. Перевіряйте sinfo, squeue і reason для PENDING jobs.",
+          sourceIds: ["live-sinfo", "live-partition-booster", "jsc-batch"],
+          keywords: "concurrent nodes одночасно scheduler limit",
+        },
+        {
+          id: "time-limits",
+          category: "allocation",
+          question: "Який default і максимальний wall-time?",
+          answer: `У snapshot default time для booster становив ${format(number("partition.default-time"))} годину, maximum ${format(number("partition.max-time"))} годин. Запитуйте найкоротший реалістичний час і використовуйте checkpoints для довших кампаній.`,
+          sourceIds: ["live-partition-booster", "jsc-batch"],
+          keywords: "time walltime default maximum 12 hours",
+        },
+        {
+          id: "largebooster-state",
+          category: "allocation",
+          question: "Чи можна використовувати largebooster?",
+          answer: `Snapshot зафіксував largebooster у стані ${escapeHtml(value("partition.largebooster-state"))}. Не подавайте jobs туди, доки partition не стане доступним і JSC не підтвердить access procedure для цієї allocation.`,
+          sourceIds: ["live-partition-largebooster", "jsc-batch"],
+          keywords: "largebooster down partition",
+        },
+        {
+          id: "node-configuration",
+          category: "hardware",
+          question: "Що фізично є в одній Booster node?",
+          answer: `Одна node має ${format(number("node.gh200"))} GH200 Superchips, ${format(number("node.cpu-cores"))} Grace Arm cores, ${format(number("node.lpddr"))} GB LPDDR5X і ${format(number("node.hbm"))} GB HBM3. Також доступні ${format(number("network.hca-per-node"))} local HCAs.`,
+          sourceIds: ["jsc-config", "jsc-affinity"],
+          keywords: "node hardware cpu gpu ram configuration",
+        },
+        {
+          id: "node-memory",
+          category: "hardware",
+          question: "Скільки RAM і GPU memory доступно на ноді?",
+          answer: `Фізично є ${format(number("node.lpddr"))} GB Grace LPDDR5X і ${format(number("node.hbm"))} GB Hopper HBM3. Це різні NUMA pools із різними bandwidth та locality; планувати їх як один взаємозамінний ${format(number("node.coherent-memory"))} GB buffer не можна.`,
+          sourceIds: ["jsc-config", "nvidia-grace", "nvidia-cuda-memory"],
+          keywords: "ram memory hbm lpddr 864 gb",
+        },
+        {
+          id: "gpu-memory",
+          category: "hardware",
+          question: "Скільки HBM має кожен GPU?",
+          answer: `Кожен Hopper має ${format(number("gpu.hbm"))} GB HBM3; чотири GPU дають ${format(number("node.hbm"))} GB фізичної HBM на node. Baseline nvidia-smi показав 97,871 MiB на кожному GPU, що узгоджується з цією конфігурацією.`,
+          sourceIds: ["jsc-config", "gpu-baseline-output", "nvidia-grace"],
+          keywords: "gpu vram hbm 96 97871",
+        },
+        {
+          id: "gh200-120gb-label",
+          category: "hardware",
+          question: "Чому nvidia-smi пише GH200 120GB, якщо GPU має 96 GB HBM?",
+          answer: "У JUPITER назва GH200 120GB стосується Grace LPDDR5X component, а Hopper HBM3 становить 96 GB. Для memory planning використовуйте фактичні HBM значення nvidia-smi та NUMA topology, а не product label.",
+          sourceIds: ["jsc-config", "jsc-affinity", "gpu-baseline-output"],
+          keywords: "120gb label nvidia smi 96 hbm",
+        },
+        {
+          id: "slurm-realmemory",
+          category: "hardware",
+          question: "Що означає Slurm RealMemory=878535M?",
+          answer: "Observed populated CPU і HBM NUMA domains разом дорівнювали 878,535.875 MiB, integer floor збігся з RealMemory=878535M. Evidence не встановлює, чи Slurm обчислив це значення або його налаштували явно; LPDDR та HBM все одно потрібно бюджетувати окремо.",
+          sourceIds: ["topology-1618998", "live-partition-booster"],
+          keywords: "realmemory 878535 slurm memory",
+        },
+        {
+          id: "numa-count",
+          category: "hardware",
+          question: "Чому numactl показує 36 NUMA IDs, але memory є лише у восьми?",
+          answer: `Нода enumerates ${format(number("numa.ids"))} NUMA IDs, проте memory-populated domains лише ${format(number("numa.active-domains"))}: CPU NUMA 0-3 та HBM NUMA 4, 12, 20, 28. Решта IDs не є додатковими memory pools.`,
+          sourceIds: ["topology-1618998", "jsc-affinity"],
+          keywords: "numa 36 8 domains numactl",
+        },
+        {
+          id: "locality-map",
+          category: "hardware",
+          question: "Як співвідносяться CPU cores, GPU, HBM і NIC?",
+          answer: "Є чотири locality groups: cores 0-71 / GPU0 / HBM4 / mlx5_0; 72-143 / GPU1 / HBM12 / mlx5_1; 144-215 / GPU2 / HBM20 / mlx5_2; 216-287 / GPU3 / HBM28 / mlx5_3. Рекомендований baseline має чотири ranks по 72 cores.",
+          sourceIds: ["topology-1618998", "jsc-affinity"],
+          keywords: "cpu gpu nic mapping mlx5 hbm locality",
+        },
+        {
+          id: "gpu-interconnect",
+          category: "hardware",
+          question: "Як чотири GPU з’єднані між собою?",
+          answer: `Observed nvidia-smi topo показав ${escapeHtml(value("topology.gpu-mesh"))}. Це topology label для peer links; покоління fabric є NVLink4, а documented pair bandwidth становить до ${format(number("interconnect.gpu-pair"))} GB/s.`,
+          sourceIds: ["topology-1618998", "jsc-config", "nvidia-nccl"],
+          keywords: "nvlink nv6 mesh bandwidth gpu peer",
+        },
+        {
+          id: "cpu-gpu-coherence",
+          category: "hardware",
+          question: "Яка швидкість Grace-Hopper NVLink-C2C?",
+          answer: `Documented aggregate coherent CPU-GPU bandwidth становить ${format(number("interconnect.c2c"))} GB/s. Directional wording відрізняється між frozen sources, тому для directional claims потрібне окреме as-built clarification.`,
+          sourceIds: ["jsc-config", "jsc-tech", "nvidia-grace"],
+          keywords: "c2c 900 gb coherent cpu gpu",
+        },
+        {
+          id: "node-network",
+          category: "hardware",
+          question: "Яка мережа доступна з ноди?",
+          answer: `Нода має ${format(number("network.hca-per-node"))} local HCAs із сумарним documented bandwidth ${format(number("network.bandwidth-node"))} Gbit/s. Для multi-node workloads перевіряйте фактичні NCCL IB, GDR, HCA та rail selection перед довгим запуском.`,
+          sourceIds: ["jsc-config", "jsc-affinity", "nvidia-nccl"],
+          keywords: "network hca infiniband 800 gbit rail",
+        },
+        {
+          id: "memory-bandwidth",
+          category: "hardware",
+          question: "Яка пропускна здатність memory?",
+          answer: `Кожен GPU має documented HBM bandwidth близько ${format(number("gpu.hbm-bandwidth"))} TB/s, а Grace LPDDR5X близько ${format(number("cpu.lpddr-bandwidth"))} GB/s. Реальна application throughput залежить від access pattern, placement і framework.`,
+          sourceIds: ["jsc-config", "nvidia-grace"],
+          keywords: "bandwidth hbm lpddr 4 tb 512",
+        },
+        {
+          id: "driver-cuda",
+          category: "hardware",
+          question: "Які driver і CUDA були на probe node?",
+          answer: `Baseline job спостерігав NVIDIA driver ${escapeHtml(value("baseline.driver"))} і CUDA compatibility ${escapeHtml(value("baseline.cuda"))}. JUPITER перебуває в Early Access, тому software stack може змінюватися; перевіряйте його в кожній кампанії.`,
+          sourceIds: ["gpu-baseline-output", "jsc-buildup"],
+          keywords: "driver cuda version software stack",
+        },
+        {
+          id: "installed-versus-live",
+          category: "hardware",
+          question: "Скільки Booster nodes встановлено і скільки видно Slurm?",
+          answer: `Installed design містить ${format(number("booster.nodes.installed"))} nodes і ${format(number("booster.gh200.total"))} GH200. Snapshot Slurm показав ${format(number("booster.nodes.slurm-visible"))} visible nodes, з яких ${format(number("booster.nodes.idle"))} були idle. Ці scopes не слід змішувати.`,
+          sourceIds: ["jsc-config", "live-sinfo"],
+          keywords: "installed live visible idle nodes capacity",
+        },
+        {
+          id: "storage-total",
+          category: "storage",
+          question: "Скільки місця ми реально можемо використовувати?",
+          answer: `Project soft quotas: PROJECT ${format(project.softLimitGB)} GB (${format(project.softLimitGB / 1024)} TiB), FSCRATCH ${format(fscratch.softLimitGB)} GB (${format(fscratch.softLimitGB / 1024)} TiB) і SCRATCH ${format(scratch.softLimitGB)} GB (${format(scratch.softLimitGB / 1024)} TiB). Разом це ${format(projectSoftTotal)} GB (${format(projectSoftTotal / 1024)} TiB), але tiers мають різну retention, backup і performance, тому ця сума не є єдиним взаємозамінним диском.`,
+          sourceIds: ["live-dataquota", "jsc-filesystems"],
+          keywords: "скільки місця storage disk space total tb tib",
+        },
+        {
+          id: "storage-hard-total",
+          category: "storage",
+          question: "Які hard limits project storage?",
+          answer: `Hard limits становлять PROJECT ${format(project.hardLimitGB)} GB, FSCRATCH ${format(fscratch.hardLimitGB)} GB і SCRATCH ${format(scratch.hardLimitGB)} GB; арифметична сума ${format(projectHardTotal)} GB (${format(projectHardTotal / 1024)} TiB). Для planning використовуйте нижчі soft limits і залишайте operational headroom.`,
+          sourceIds: ["live-dataquota"],
+          keywords: "hard limit quota storage 276 tib",
+        },
+        {
+          id: "home-quota",
+          category: "storage",
+          question: "Скільки місця у HOME?",
+          answer: `Для observed user HOME soft limit ${format(home.softLimitGB)} GB, hard limit ${format(home.hardLimitGB)} GB, inode limits ${format(home.softInodes)} / ${format(home.hardInodes)}. HOME призначений для configs, small scripts і lightweight logs, а не datasets або checkpoints.`,
+          sourceIds: ["live-user-dataquota", "jsc-filesystems"],
+          keywords: "home quota 20 gb user",
+        },
+        {
+          id: "project-quota",
+          category: "storage",
+          question: "Для чого використовувати PROJECT?",
+          answer: `PROJECT має soft/hard limits ${format(project.softLimitGB)} / ${format(project.hardLimitGB)} GB і ${format(project.softInodes)} / ${format(project.hardInodes)} inodes. Тут зберігайте canonical datasets, source checkpoints, manifests, compact logs і reproducible outputs.`,
+          sourceIds: ["live-dataquota", "jsc-filesystems"],
+          keywords: "project quota canonical durable dataset checkpoint",
+        },
+        {
+          id: "fscratch-quota",
+          category: "storage",
+          question: "Для чого використовувати FSCRATCH?",
+          answer: `FSCRATCH має soft/hard limits ${format(fscratch.softLimitGB)} / ${format(fscratch.hardLimitGB)} GB. Це high-throughput staging для hot shards і active checkpoints; files purge-eligible після 30 днів за access та modification date, backup відсутній.`,
+          sourceIds: ["live-dataquota", "jsc-filesystems", "jsc-buildup"],
+          keywords: "fscratch 40 tb fast purge 30 days",
+        },
+        {
+          id: "scratch-quota",
+          category: "storage",
+          question: "Для чого використовувати SCRATCH?",
+          answer: `SCRATCH має soft/hard limits ${format(scratch.softLimitGB)} / ${format(scratch.hardLimitGB)} GB. Це найбільший transient tier для expanded corpora, synthetic generations і distributed outputs; purge eligibility настає після 90 днів, backup відсутній.`,
+          sourceIds: ["live-dataquota", "jsc-filesystems"],
+          keywords: "scratch 200 tb purge 90 days synthetic",
+        },
+        {
+          id: "empty-directory-retention",
+          category: "storage",
+          question: "Що відбувається з порожніми scratch directories?",
+          answer: "Frozen JSC policy зазначає purge eligibility порожніх directories через 3 дні для FSCRATCH і SCRATCH. Pipeline не повинен покладатися на порожню directory structure як durable state.",
+          sourceIds: ["jsc-filesystems"],
+          keywords: "empty directory 3 days purge",
+        },
+        {
+          id: "storage-backup",
+          category: "storage",
+          question: "Які tiers мають backup?",
+          answer: "HOME і PROJECT позначені ISP to tape, але evidence не дає archive retention або restore SLA. FSCRATCH і SCRATCH не мають backup. Milestone artifacts потрібно явно перевіряти та копіювати в PROJECT і зовнішнє durable storage.",
+          sourceIds: ["jsc-filesystems", "live-dataquota", "live-user-dataquota"],
+          keywords: "backup tape restore archive",
+        },
+        {
+          id: "inode-quota",
+          category: "storage",
+          question: "Чому важливі inode limits?",
+          answer: `PROJECT має soft inode limit ${format(project.softInodes)}, FSCRATCH і SCRATCH по ${format(fscratch.softInodes)}. Мільйони дрібних files можуть вичерпати inode quota раніше byte quota; пакуйте shards у archives або container formats.`,
+          sourceIds: ["live-dataquota"],
+          keywords: "inode small files tar parquet shards",
+        },
+        {
+          id: "storage-system-capacity",
+          category: "storage",
+          question: "Чи належать нам 20 PB ExaFLASH або 308 PB ExaSTORE?",
+          answer: `Ні. ${format(number("storage.exaflash-usable"))} PB usable ExaFLASH, ${format(number("storage.exastore-raw"))} PB raw ExaSTORE і ${format(number("storage.exatape"))} PB ExaTAPE описують system-wide service. Наш usable scope визначають project/user quotas в jutil.`,
+          sourceIds: ["jsc-tech", "live-dataquota", "live-user-dataquota"],
+          keywords: "exaflash exastore exatape pb system wide",
+        },
+        {
+          id: "storage-current-usage",
+          category: "storage",
+          question: "Як перевірити поточне використання disk space та inodes?",
+          answer: `Виконайте eurohpc-bridge run -- jutil project dataquota -p ${data.allocation.account} -U GB -o json. Для personal HOME використовуйте відповідний user dataquota query. Перевіряйте bytes та inodes перед кожною великою кампанією.`,
+          sourceIds: ["live-dataquota", "live-user-dataquota"],
+          keywords: "dataquota usage disk inode jutil",
+        },
+        {
+          id: "post-project-storage",
+          category: "storage",
+          question: "Скільки зберігатиметься PROJECT після завершення allocation?",
+          answer: `Точний post-project retention window після ${data.allocation.periodEnd} у frozen evidence не встановлений. Потрібно отримати відповідь JSC і експортувати durable artifacts до завершення періоду.`,
+          sourceIds: ["jsc-filesystems", "live-dataquota"],
+          keywords: "after project retention end export",
+        },
+        {
+          id: "external-transfer",
+          category: "transfer",
+          question: "Як завантажувати великі datasets із зовнішньої мережі?",
+          answer: "JSC визначає JUDAC як external gateway до parallel file systems. Використовуйте approved JUDAC transfer client; не передавайте bulk payload через JUPITER login session або bridge small-file helpers.",
+          sourceIds: ["jsc-data-transfer", "jsc-filesystems"],
+          keywords: "upload download external judac transfer dataset",
+        },
+        {
+          id: "internal-transfer",
+          category: "transfer",
+          question: "Як переносити data між PROJECT, FSCRATCH і SCRATCH?",
+          answer: "Для ExaSTORE ↔ ExaFLASH staging JSC надає nd Data Mover. Submit nd copy як lightweight control operation, збережіть task ID, перевірте nd task status і лише після успішного завершення запускайте dependent GPU job.",
+          sourceIds: ["jsc-datamover", "jsc-data-transfer"],
+          keywords: "nd copy data mover project fscratch scratch",
+        },
+        {
+          id: "login-node-transfer",
+          category: "transfer",
+          question: "Чи можна копіювати сотні гігабайтів через login node?",
+          answer: "Не слід. Login node призначений для submission, monitoring, lightweight Data Mover control та читання малих logs. Bulk traffic має йти через JUDAC або dedicated Data Mover nodes.",
+          sourceIds: ["jsc-data-transfer", "jsc-datamover", "jsc-batch"],
+          keywords: "login node bulk copy rsync scp",
+        },
+        {
+          id: "staging-before-allocation",
+          category: "transfer",
+          question: "Коли staging має відбуватися відносно GPU job?",
+          answer: "Виконуйте staging до allocation і перевіряйте completion task ID. Якщо GPU nodes простоюють, очікуючи copy, весь elapsed час ноди продовжує споживати allocation.",
+          sourceIds: ["jsc-datamover", "jsc-accounting"],
+          keywords: "staging before job idle cost",
+        },
+        {
+          id: "result-promotion",
+          category: "transfer",
+          question: "Як безпечно зберігати результати після job?",
+          answer: "Пишіть transient outputs у scratch, перевіряйте checksums, а milestone checkpoints, accepted data та compact metrics promote в PROJECT через Data Mover. Після copy перевірте destination manifest перед видаленням source.",
+          sourceIds: ["jsc-datamover", "jsc-filesystems"],
+          keywords: "promote results checksum milestone",
+        },
+        {
+          id: "login-node-usage",
+          category: "slurm",
+          question: "Що дозволено робити на login node?",
+          answer: "Submission і cancellation jobs, squeue/sacct/jutil monitoring, lightweight nd control commands та читання малих logs. Python workloads, tests, preprocessing, model loading і compute виконуються через sbatch/srun на allocated nodes.",
+          sourceIds: ["jsc-batch", "jsc-datamover"],
+          keywords: "login node allowed compute sbatch",
+        },
+        {
+          id: "baseline-layout",
+          category: "slurm",
+          question: "Який baseline Slurm layout для повної ноди?",
+          answer: `Одна node, ${format(number("node.gh200"))} tasks per node, 72 CPUs per task, 1 GPU per task, cpu-bind=cores. Це відповідає чотирьом observed locality groups і займає всі ${format(number("node.cpu-cores"))} CPU cores та ${format(number("node.gh200"))} GPUs.`,
+          sourceIds: ["topology-1618998", "jsc-affinity", "jsc-batch"],
+          keywords: "slurm layout ntasks cpus per task gpu bind",
+        },
+        {
+          id: "packed-workers",
+          category: "slurm",
+          question: "Як запустити чотири незалежні single-GPU workers на одній ноді?",
+          answer: "Зробіть одну sbatch allocation на 4 GPUs і чотири srun --exclusive steps по 72 cores та 1 GPU. Використовуйте окремі logs, completion-order status files і негайно скасовуйте siblings після першого failure.",
+          sourceIds: ["jsc-batch", "jsc-affinity", "topology-1618998"],
+          keywords: "four workers pack srun exclusive",
+        },
+        {
+          id: "separate-jobs-sharing",
+          category: "slurm",
+          question: "Чи можуть чотири окремі sbatch jobs ділити одну ноду?",
+          answer: "За поточної exclusive scheduling semantics ні. Packing має відбуватися як кілька srun steps усередині однієї node allocation, інакше кожен job може вимагати окрему повну ноду.",
+          sourceIds: ["live-partition-booster", "jsc-batch", "onegpu-1618999"],
+          keywords: "share node separate sbatch exclusive",
+        },
+        {
+          id: "one-gpu-debug",
+          category: "slurm",
+          question: "Коли допустимий one-GPU debug job?",
+          answer: "Для короткої correctness перевірки, бажано до двох хвилин. Він все одно резервує повну ноду, тому після підтвердження environment і runtime device count переходьте до packed або distributed layout.",
+          sourceIds: ["onegpu-1618999", "probe-accounting", "jsc-accounting"],
+          keywords: "debug one gpu two minutes",
+        },
+        {
+          id: "multi-node-ddp",
+          category: "slurm",
+          question: "Що потрібно для multi-node DDP?",
+          answer: "Запускайте 4 ranks на node з 72 cores і 1 GPU кожному. Додайте framework rendezvous, rank/world-size mapping, master endpoint, PMIx/module initialization, checkpoints і restart policy. До масштабування перевірте NCCL IB/GDR/HCA/rails на 1, 2, 4 і 8 nodes.",
+          sourceIds: ["jsc-batch", "jsc-affinity", "nvidia-nccl"],
+          keywords: "ddp multinode nccl ranks rendezvous",
+        },
+        {
+          id: "nccl-debug",
+          category: "slurm",
+          question: "Який NCCL_DEBUG використовувати?",
+          answer: "Для routine runs використовуйте WARN. INFO вмикайте лише для diagnosis, оскільки verbose output може швидко створювати великі logs та додатковий I/O.",
+          sourceIds: ["nvidia-nccl"],
+          keywords: "nccl debug info warn logs",
+        },
+        {
+          id: "job-monitoring",
+          category: "slurm",
+          question: "Як моніторити jobs і utilization?",
+          answer: "З login side використовуйте squeue, sacct JOB_ID і jutil. Усередині allocation робіть bounded sampling nvidia-smi, application throughput і profiler metrics. Не запускайте high-frequency telemetry, що спотворює I/O.",
+          sourceIds: ["jsc-accounting", "jsc-batch", "gpu-baseline-output"],
+          keywords: "monitor squeue sacct nvidia smi utilization",
+        },
+        {
+          id: "job-output",
+          category: "slurm",
+          question: "Куди писати logs і checkpoints?",
+          answer: "Малі logs та final metrics зберігайте в PROJECT. Active checkpoints і великий transient output пишіть у FSCRATCH або SCRATCH, а milestone artifacts promote в PROJECT із checksums. HOME не використовуйте для великих outputs.",
+          sourceIds: ["live-dataquota", "live-user-dataquota", "jsc-filesystems"],
+          keywords: "logs checkpoint output path",
+        },
+        {
+          id: "job-failure",
+          category: "slurm",
+          question: "Що робити, якщо один worker впав?",
+          answer: "Supervisor має швидко виявити nonzero status, завершити surviving Slurm steps, reap processes і повернути failing code. Зберігайте per-worker logs та atomic status files; не дозволяйте решті workers витрачати wall-time без корисної роботи.",
+          sourceIds: ["jsc-batch", "jsc-accounting"],
+          keywords: "failure cancel siblings fail fast",
+        },
+        {
+          id: "queue-state",
+          category: "slurm",
+          question: "Як зрозуміти, чому job не стартує?",
+          answer: "Перевірте squeue reason, partition state, reservations і live sinfo. Snapshot idle count є лише моментним станом; він не гарантує негайного scheduling конкретного job.",
+          sourceIds: ["live-sinfo", "live-partition-booster", "jsc-batch"],
+          keywords: "queue pending reason reservation idle",
+        },
+        {
+          id: "tokenizer-transfer-workflow",
+          category: "workloads",
+          question: "Як організувати tokenizer replacement або transfer?",
+          answer: "Зберігайте canonical input manifests у PROJECT, stage hot data через Data Mover, tokenize чотирма CPU shards по 72 cores, перевіряйте shard hashes і token statistics, а GPU adaptation запускайте чотирма ranks. Milestone tokenizer assets і checkpoints повертайте в PROJECT.",
+          sourceIds: ["jsc-datamover", "jsc-affinity", "live-dataquota"],
+          keywords: "tokenizer transfer replacement shards adaptation",
+        },
+        {
+          id: "distillation-layout",
+          category: "workloads",
+          question: "Який layout підходить для distillation і synthetic generation?",
+          answer: "Коли replica поміщається в 96 GB HBM, пакуйте чотири generation workers на node. Multi-GPU inference використовуйте після memory/throughput measurement. Пишіть raw generations у SCRATCH і validate/deduplicate окремими Slurm jobs.",
+          sourceIds: ["jsc-config", "jsc-batch", "live-dataquota"],
+          keywords: "distillation synthetic generation inference workers",
+        },
+        {
+          id: "on-policy-lineage",
+          category: "workloads",
+          question: "Які metadata потрібні для on-policy distillation?",
+          answer: "Записуйте policy/teacher revision, checkpoint і tokenizer hashes, prompt/template revision, input shard checksum, RNG seed, scorer/reward/reference revision, generation config та output checksum. Також визначте maximum policy staleness і backpressure.",
+          sourceIds: ["jsc-filesystems", "jsc-accounting"],
+          keywords: "on policy self distillation lineage seed scorer",
+        },
+        {
+          id: "benchmark-serving",
+          category: "workloads",
+          question: "Як запускати benchmark serving без зайвої другої ноди?",
+          answer: "За можливості reserve CPU cores для client srun step усередині тієї самої allocation, дочекайтеся readiness server і запускайте requests там. Окремий Booster client job може додати ще одну повністю оплачувану node.",
+          sourceIds: ["jsc-accounting", "onegpu-1618999", "jsc-batch"],
+          keywords: "benchmark serving client second node cost",
+        },
+        {
+          id: "model-fit",
+          category: "workloads",
+          question: "Як зрозуміти, чи model поміщається на один GH200?",
+          answer: "Порівняйте реальний memory footprint weights, KV cache, activations і framework overhead з observed 97,871 MiB HBM, залишивши headroom. Не покладайтеся лише на parameter count або 120GB product label; виконайте bounded Slurm memory probe.",
+          sourceIds: ["gpu-baseline-output", "nvidia-cuda-memory", "jsc-gpu"],
+          keywords: "model fit memory oom kv cache weights",
+        },
+        {
+          id: "training-efficiency",
+          category: "workloads",
+          question: "Які metrics визначають compute efficiency?",
+          answer: "Вимірюйте tokens або samples per second, step time, communication fraction, accepted tokens per node-hour, GPU utilization і checkpoint overhead. Порівнюйте 1/2/4/8-node scaling та рахуйте node-hours на корисний output.",
+          sourceIds: ["jsc-accounting", "nvidia-nccl"],
+          keywords: "tokens per second efficiency scaling metrics",
+        },
+        {
+          id: "synthetic-data-placement",
+          category: "workloads",
+          question: "Де зберігати synthetic data?",
+          answer: "Raw generations пишіть у SCRATCH. Після validation, deduplication і quality filtering promote accepted shards та manifests у PROJECT. Кожен output shard повинен мати checksum і lineage metadata.",
+          sourceIds: ["live-dataquota", "jsc-filesystems"],
+          keywords: "synthetic data scratch project validate deduplicate",
+        },
+        {
+          id: "checkpoint-policy",
+          category: "workloads",
+          question: "Яка checkpoint policy мінімізує втрати та I/O?",
+          answer: "Часті active checkpoints пишіть у scratch tier, обмежуйте кількість retained copies, а перевірені milestone checkpoints promote в PROJECT. Interval визначайте через measured checkpoint time, failure cost та максимальний 12-hour wall-time.",
+          sourceIds: ["live-partition-booster", "jsc-filesystems", "jsc-accounting"],
+          keywords: "checkpoint interval failure io retention",
+        },
+        {
+          id: "snapshot-freshness",
+          category: "operations",
+          question: "Наскільки актуальні цифри на цьому сайті?",
+          answer: `Canonical evidence generated ${data.generatedAt}. Installed specifications змінюються рідше, але Slurm-visible nodes, idle state, driver stack, quotas і known issues є snapshots. Перед campaign повторіть read-only collector через bridge.`,
+          sourceIds: ["live-snapshot", "jsc-buildup"],
+          keywords: "fresh current snapshot date update",
+        },
+        {
+          id: "early-access",
+          category: "operations",
+          question: "Що означає Early Access для наших jobs?",
+          answer: "Software stack, node availability, affinity behavior і filesystem status можуть змінюватися. Починайте з короткого representative job, перевіряйте JSC known issues та фіксуйте exact environment для кожного run.",
+          sourceIds: ["jsc-buildup", "jsc-affinity"],
+          keywords: "early access changes known issues",
+        },
+        {
+          id: "bridge-usage",
+          category: "operations",
+          question: "Як agent має працювати з JUPITER?",
+          answer: "У цьому project environment всі remote operations виконуються через eurohpc-bridge. Login-side commands залишаються lightweight, а будь-який compute або Python workload подається через Slurm. Це зберігає одну контрольовану authenticated session.",
+          sourceIds: ["jsc-batch"],
+          keywords: "bridge agent access session",
+        },
+        {
+          id: "credentials-safety",
+          category: "operations",
+          question: "Чи містить публічний сайт SSH keys, passphrases або TOTP secrets?",
+          answer: "Ні. Pages artifact формується лише з rendered HTML, canonical facts, technical documents і checksum-protected evidence. Repository secret guard та gitleaks перевіряють source tree; credentials і authenticator exports не входять у deployment artifact.",
+          sourceIds: [],
+          keywords: "security secret key password totp public pages",
+        },
+        {
+          id: "user-versus-project-storage",
+          category: "operations",
+          question: "Чим відрізняються personal HOME і shared project tiers?",
+          answer: `HOME path та quota належать конкретному JSC user і мають soft limit ${format(home.softLimitGB)} GB. PROJECT, FSCRATCH і SCRATCH прив’язані до ${data.allocation.account}; team members мають використовувати власні accounts та project permissions, без shared credentials.`,
+          sourceIds: ["live-user-dataquota", "live-dataquota", "jsc-filesystems"],
+          keywords: "team shared storage home project users",
+        },
+        {
+          id: "unknown-answer",
+          category: "operations",
+          question: "Що робити, якщо відповідь залежить від непідтвердженої JSC policy?",
+          answer: "Не робіть числове припущення. Перевірте Open questions і Evidence registry, поставте точне питання JSC support та додайте відповідь як нове frozen source. Поточні unresolved items включають accounting rounding, post-project retention, memory headroom і production blade mapping.",
+          sourceIds: ["jsc-accounting", "jsc-filesystems", "jsc-config"],
+          keywords: "unknown open question support evidence",
+        },
+      ];
+
+      byId("faq-category").innerHTML = [
+        '<option value="all">All categories</option>',
+        ...Object.entries(faqCategories).map(([id, label]) => (
+          `<option value="${escapeHtml(id)}">${escapeHtml(label)}</option>`
+        )),
+      ].join("");
+
+      function renderFaq() {
+        const query = byId("faq-search").value.trim().toLowerCase();
+        const category = byId("faq-category").value;
+        const filtered = faqItems.filter((item) => {
+          const haystack = `${item.question} ${item.answer} ${item.keywords} ${faqCategories[item.category]}`.toLowerCase();
+          return (!query || haystack.includes(query))
+            && (category === "all" || item.category === category);
+        });
+        byId("faq-count").textContent = `${filtered.length} of ${faqItems.length} questions`;
+        byId("faq-list").innerHTML = filtered.length ? filtered.map((item) => `
+          <details class="faq-item" data-faq-id="${escapeHtml(item.id)}" data-category="${escapeHtml(item.category)}">
+            <summary>
+              <span class="faq-category">${escapeHtml(faqCategories[item.category])}</span>
+              <span>${escapeHtml(item.question)}</span>
+            </summary>
+            <div class="faq-answer">
+              <p>${escapeHtml(item.answer)}</p>
+              <div class="faq-evidence">${item.sourceIds.length
+                ? `Evidence: ${sourceLinks(item.sourceIds)}`
+                : "Operational control: deployment secret guard"}</div>
+            </div>
+          </details>`).join("") : '<p class="faq-empty">No questions match the current filters.</p>';
+      }
+
+      byId("faq-search").addEventListener("input", renderFaq);
+      byId("faq-category").addEventListener("change", renderFaq);
+      byId("faq-expand").addEventListener("click", () => {
+        byId("faq-list").querySelectorAll("details").forEach((item) => { item.open = true; });
+      });
+      byId("faq-collapse").addEventListener("click", () => {
+        byId("faq-list").querySelectorAll("details").forEach((item) => { item.open = false; });
+      });
+      renderFaq();
+
+      function renderEvidence() {
+        const query = byId("evidence-search").value.trim().toLowerCase();
+        const type = byId("evidence-type").value;
+        const confidence = byId("evidence-confidence").value;
+        const filtered = data.facts.filter((item) => {
+          const haystack = `${item.id} ${item.label} ${item.scope} ${item.note || ""} ${displayValue(item)}`.toLowerCase();
+          return (!query || haystack.includes(query))
+            && (type === "all" || item.evidenceType === type)
+            && (confidence === "all" || item.confidence === confidence);
+        });
+        byId("evidence-count").textContent = `${filtered.length} of ${data.facts.length} claims`;
+        byId("evidence-table").innerHTML = filtered.map((item) => `
+          <tr>
+            <td>${escapeHtml(item.id)}</td>
+            <td class="evidence-value">${escapeHtml(displayValue(item))}</td>
+            <td>${escapeHtml(item.scope)}</td>
+            <td>${pill(item.evidenceType)}</td>
+            <td>${escapeHtml(item.confidence)}</td>
+            <td>${sourceLinks(item.sourceIds)}</td>
+          </tr>`).join("");
+      }
+      ["evidence-search", "evidence-type", "evidence-confidence"].forEach((id) => {
+        byId(id).addEventListener(id === "evidence-search" ? "input" : "change", renderEvidence);
+      });
+      byId("reset-filters").addEventListener("click", () => {
+        byId("evidence-search").value = "";
+        byId("evidence-type").value = "all";
+        byId("evidence-confidence").value = "all";
+        renderEvidence();
+      });
+      renderEvidence();
+
+      byId("source-table").innerHTML = data.sources.map((source) => `
+        <tr>
+          <td><a href="${escapeHtml(sourceHref(source))}" target="_blank" rel="noreferrer">${escapeHtml(source.id)}</a></td>
+          <td>${escapeHtml(source.title)}</td>
+          <td>${escapeHtml(source.publisher)}</td>
+          <td>${escapeHtml(source.kind)}</td>
+          <td>${escapeHtml(source.confidence)}</td>
+          <td>${source.snapshotPath
+            ? `<a href="${escapeHtml(artifactHref(source.snapshotPath))}">snapshot</a>`
+            : "—"}</td>
+          <td>${escapeHtml(source.version)}</td>
+          <td>${escapeHtml(source.retrievedAt)}</td>
+        </tr>`).join("");
+
+      byId("question-list").innerHTML = data.openQuestions.map((item) => `
+        <div class="question">
+          <div><span class="pill ${item.status === "resolved" ? "observed" : "derived"}">${escapeHtml(item.status || "open")}</span></div>
+          <p><strong>${escapeHtml(item.question)}</strong></p>
+          <p class="resolution">${escapeHtml(item.resolution)}</p>
+        </div>`).join("");
+
+      window.__JUPITER_DEEP_DIVE__ = {
+        calculate,
+        copyText,
+        data,
+        drawTopology,
+        faqItems,
+        version: data.schemaVersion,
+      };
+      document.documentElement.dataset.ready = "true";
+    })();
+  </script>
+</body>
+</html>

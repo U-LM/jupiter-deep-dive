@@ -1,0 +1,4 @@
+captured_at_utc=2026-09-02T00:59:31Z
+bridge=eurohpc-bridge
+account=e-dev-2026d09-128
+baseline_job=1618664

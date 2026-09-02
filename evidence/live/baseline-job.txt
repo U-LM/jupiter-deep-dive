@@ -1,0 +1,2 @@
+JobID|Account|Partition|State|Elapsed|ElapsedRaw|NNodes|NCPUS|AllocTRES|ReqTRES|CPUTimeRAW|TotalCPU|NodeList
+1618664|e-dev-2026d09-128|booster|COMPLETED|00:00:15|15|1|288|billing=288,cpu=288,gres/gpu:gh200=4,gres/gpu=4,node=1|billing=1,cpu=1,gres/gpu=4,mem=878535M,node=1|4320|00:00:00|jpbo-015-09

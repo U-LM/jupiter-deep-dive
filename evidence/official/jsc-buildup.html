@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build-Up Operation &mdash; JUPITER user documentation  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=9c2bc42b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Known Issues on JUPITER" href="known-issues.html" />
+    <link rel="prev" title="Data Transfer to and from JUPITER" href="data-transfer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #023D6B" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            JUPITER user documentation
+              <img src="_static/FZJ_logo_white.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="access.html">Access</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="access.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="access.html#ssh-login">SSH Login</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="access.html#restrictions">Restrictions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="access.html#openssh">OpenSSH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="access.html#openssh-installation">OpenSSH Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#openssh-key-generation">OpenSSH Key Generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#key-upload-key-restriction">Key Upload, Key Restriction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#logging-in-to-system-name">Logging in to JUPITER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#key-agent">Key Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#openssh-configuration">OpenSSH Configuration</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="access.html#x-forwarding">X Forwarding</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="access.html#putty">PuTTY</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="access.html#putty-installation">PuTTY Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#putty-key-generation">PuTTY Key Generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#putty-configuration">PuTTY Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="access.html#mfa-with-totp">MFA with TOTP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="access.html#mfa-persistent-connection">MFA Persistent Connection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="access.html#login-nodes">Login Nodes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="access.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="access.html#alternative-login-methods">Alternative Login Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#jupiter-hardware-overview">JUPITER Hardware Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#jupiter-booster-design">JUPITER Booster Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#jupiter-cluster-design">JUPITER Cluster Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#network-design">Network Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#software-overview">Software Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#shell">Shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#active-project">Active project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#available-file-systems">Available file systems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="environment.html#file-systems-for-compute-projects">File systems for compute projects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#home-directory-home">Home directory ($HOME)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#project-directory-project">Project directory ($PROJECT)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#working-directory-scratch">Working directory ($SCRATCH)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html#file-systems-for-data-projects">File systems for data projects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#data-directory-data">Data directory ($DATA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#archive-directory-archive">Archive directory ($ARCHIVE)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#machine-identification-file">Machine identification file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#transferring-files-with-scp-rsync-etc">Transferring files with <code class="docutils literal notranslate"><span class="pre">scp</span></code>, <code class="docutils literal notranslate"><span class="pre">rsync</span></code>, etc.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#using-git-on-system-name">Using Git on JUPITER</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="compile.html">Building Software</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="compile.html#compiled-languages">Compiled Languages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#compilers">Compilers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#mpi-compiler-wrappers">MPI Compiler Wrappers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#cuda">CUDA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#build-systems">Build Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#exotic-languages">Exotic Languages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="compile.html#interpreted-languages">Interpreted Languages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#python">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#julia">Julia</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="compile.html#pre-compiled-binaries">Pre-Compiled Binaries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#conda-mamba">Conda/Mamba</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="batchsystem.html">Batch system</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#slurm-partitions">Slurm Partitions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="batchsystem.html#hardware-overview">Hardware Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="batchsystem.html#available-partitions">Available Partitions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#internet-access">Internet Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#allocations-jobs-and-job-steps">Allocations, Jobs and Job Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#writing-a-batch-script">Writing a Batch Script</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="batchsystem.html#job-script-examples">Job Script Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#generic-resources-features-and-topology-aware-allocations">Generic Resources, Features and Topology-aware Allocations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#job-steps">Job Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#dependency-chains">Dependency Chains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#interactive-sessions">Interactive Sessions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#hold-and-release-batch-jobs">Hold and Release Batch Jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#slurm-commands">Slurm commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#summary-of-sbatch-and-srun-options">Summary of sbatch and srun Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batchsystem.html#cpu-limiting-options">CPU Limiting Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="affinity.html">Processor Affinity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="affinity.html#slurm-options">Slurm options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#terminology">Terminology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#cpu-bind"><code class="docutils literal notranslate"><span class="pre">--cpu-bind</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#implicit-types">Implicit types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#explicit-types">Explicit types</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#distribution"><code class="docutils literal notranslate"><span class="pre">--distribution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#first-part-node-level">First part (<code class="docutils literal notranslate"><span class="pre">node_level</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#second-part-socket-level">Second part (<code class="docutils literal notranslate"><span class="pre">socket_level</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#third-part-core-level">Third part (<code class="docutils literal notranslate"><span class="pre">core_level</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#fourth-part">Fourth part</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#hint"><code class="docutils literal notranslate"><span class="pre">--hint</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="affinity.html#affinity-visualization-tool">Affinity visualization tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="affinity.html#affinity-examples">Affinity examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#default-processor-affinity">Default processor affinity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#further-examples">Further examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mpmd.html">MPMD: Multiple Program Multiple Data Execution Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mpmd.html#basic-functionality">Basic Functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpmd.html#advanced-concurrent-gpu-and-cpu-usage">Advanced Concurrent GPU and CPU Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mpmd.html#step-1-remove-global-core-affinity">Step 1 - Remove Global Core Affinity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpmd.html#step-2-individual-affinities">Step 2 - Individual Affinities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-computing.html">GPU Computing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#system-name-gpu-nodes">JUPITER GPU Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#gpu-visibility-affinity">GPU Visibility/Affinity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#setting-gpu-clock-rates">Setting GPU Clock Rates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#nvidia-profiling-tools-and-clock-speed">NVIDIA Profiling Tools and Clock Speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#cuda-mps-multiple-mpi-ranks-per-gpu">CUDA MPS: Multiple MPI Ranks per GPU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#job-script-examples">Job Script Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="filesystems.html">GPFS File Systems in the Jülich Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="filesystems.html#best-practice-notes">Best practice notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-data-rules.html">HPC Data Rules for GPFS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hpc-data-rules.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hpc-data-rules.html#file-system-and-group-project-directories">File system and group/project-directories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hpc-data-rules.html#user-home-directory">User $HOME Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hpc-data-rules.html#user-data">User data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datamover.html">Data Mover Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datamover.html#technical-concept">Technical Concept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datamover.html#data-mover-command-line-interface-cli">Data Mover Command Line Interface (CLI)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#the-nodeum-tool">The Nodeum Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datamover.html#data-transfer-task">Data transfer task</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#create-copy-or-move-data-task">Create <em>copy</em> or <em>move</em> data task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#example-copying-data">Example: copying data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#task-handling">Task handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#list-all-created-tasks">List all created tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#list-task-details">List task details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data-transfer.html">Data Transfer to and from JUPITER</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Build-Up Operation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#slurm-mpi">Slurm &amp; MPI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prolog-epilog-runtime-customization-preps-framework">Prolog/Epilog Runtime Customization (PrEpS Framework)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#user-controlled-runtime-tuning">User-Controlled Runtime Tuning</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#currently-supported-options">Currently Supported Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gh200-superchip-power-cap">GH200 Superchip Power Cap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tuning-for-large-scale-execution">Tuning for Large-Scale Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#health-checker">Health Checker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#affinity">Affinity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#stability">Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#storage-mounts">Storage Mounts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#system-name-specific-known-issues">JUPITER Specific known issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#slurm-backend-change">SLURM Backend Change</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openmp-acc-device-offloading-with-gcc-aarch64">OpenMP/ACC device offloading with GCC/AArch64</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="known-issues.html">Known Issues on JUPITER</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="known-issues.html#open-issues">Open Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="known-issues.html#recently-resolved-and-closed-issues">Recently Resolved and Closed Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#general-faq">General FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-generate-and-upload-ssh-keys">How to generate and upload ssh keys?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#my-job-failed-with-transport-retry-count-exceeded">My job failed with “Transport retry count exceeded”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#my-job-failed-was-killed-for-no-apparent-reason">My job failed/was killed for no apparent reason</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-can-a-compute-node-in-an-active-allocation-be-accessed">How can a compute node in an active allocation be accessed?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#estimating-power-and-energy-usage-of-a-job">Estimating Power and Energy Usage of a Job</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#power-measurements">Power Measurements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#energy-measurements">Energy Measurements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#faq-about-data-management">FAQ about Data Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#what-file-system-to-use-for-different-data">What file system to use for different data?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#what-data-quotas-do-exist-and-how-to-list-usage">What data quotas do exist and how to list usage?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-compare-and-transfer-large-datasets">How to compare and transfer large datasets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#mpifileutils-clis-subset">mpifileutils CLIs (subset)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#example-compare-content-of-two-directories">Example: compare content of two directories</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-modify-the-users-s-environment">How to modify the users’s environment.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-make-the-currently-enabled-budget-visible">How to make the currently enabled budget visible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-can-i-recall-migrated-data">How can I recall migrated data?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-can-i-see-which-data-is-migrated">How can I see which data is migrated?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-restore-files">How to restore files?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#linux-commands-to-manage-acls">Linux commands to manage ACLs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#which-files-have-an-access-control-list">Which files have an access control list?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-avoid-multiple-ssh-connections-on-data-transfer">How to avoid multiple SSH connections on data transfer?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-ensure-correct-group-id-for-your-project-data">How to ensure correct group ID for Your project data?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ai-overview.html">AI Workloads on JUPITER</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#working-with-jsc-filesystems-and-ai">Working with JSC Filesystems and AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#installing-python-software-for-ai">Installing Python software for AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#integrating-with-vscode">Integrating with VSCode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#git-on-hpc">Git on HPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#pytorch-usage-and-common-problems-guide">PyTorch Usage and Common Problems Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#quickstart-guide-for-pytorch-lightning-and-hydra">Quickstart guide for PyTorch Lightning and Hydra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#handling-datasets-with-many-files">Handling Datasets with Many Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#vllm-installation">VLLM installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#scraping-workflows">Scraping Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#blablador">Blablador</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#application-specific-ai-documentation">Application-Specific AI documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance.html">Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accounting.html">Accounting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="accounting.html#accounting-mode">Accounting Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounting.html#command-description">Command description</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="jsctools.html">JSC Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#judoor">JuDoor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#status-page">Status Page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="jsctools.html#notifications">Notifications</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#mail">Mail</a></li>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#browser">Browser</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="jsctools.html#message-of-the-day-motd">Message of the Day (MOTD)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#llview-job-reporting">LLview Job Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#pinning-tool">Pinning Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#jube-benchmarking-environment">JUBE Benchmarking Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#user-tool-jutil">User tool jutil</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="jsctools.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#available-subcommands">Available subcommands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#available-actions">Available actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#available-options">Available options</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="jsctools.html#allowed-user-interfaces">Allowed user interfaces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#unicore-access">UNICORE access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#blablador-documentation">BLABLADOR documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="container-runtime.html">Container Runtime on JUPITER</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#what-containers-provide">What Containers Provide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#getting-access">Getting Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#apptainer-on-system-name">Apptainer on JUPITER</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#backwards-compatibility-to-singularity">Backwards compatibility to Singularity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#apptainer-images">Apptainer Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#launching-containers-via-slurm">Launching Containers via Slurm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#interfacing-with-the-system-environment">Interfacing with the System Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="container-runtime.html#the-two-models">The two Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="container-runtime.html#containerized-applications">Containerized Applications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="container-runtime.html#user-defined-software-stack">User-Defined Software Stack</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#container-build-system">Container Build System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#building-container-images-via-cli">Building Container Images via CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#container-build-system-rest-api">Container Build System REST API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#apptainer-image-building">Apptainer image building</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#converting-dockerfiles-to-apptainer-recipes">Converting Dockerfiles to Apptainer recipes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#rootless-builds">Rootless builds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#rootfull-builds">Rootfull builds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parallel-tools.html">Parallel Debugging and Performance Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="parallel-tools.html#debugging-with-totalview-on-system-name">Debugging with TotalView on JUPITER</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel-tools.html#using-totalview">Using TotalView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel-tools.html#memory-debugging-with-totalview">Memory Debugging with TotalView</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="jacamar.html">Jacamar CI Runners</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="jacamar.html#getting-access">Getting Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jacamar.html#runners-tags-on-system-name">Runners Tags on JUPITER</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jacamar.html#jacamar-example-gitlab-ci-yml-file">Jacamar Example <code class="docutils literal notranslate"><span class="pre">.gitlab-ci.yml</span></code> File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">System Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#current-state">Current state</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#installed-software">Installed software</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#changelog-entries">Changelog entries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#software-update">2026-08-27 Software update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#update-type-os-packages">Update type: OS Packages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="changelog.html#os-packages">OS Packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id1">2026-08-10 Software update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#id2">Update type: OS Packages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="changelog.html#id3">OS Packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id4">2026-07-15 Software update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#id5">Update type: OS Packages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="changelog.html#id6">OS Packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#general-update">2026-06-10 General update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#update-type-delayed-entry-update">Update type: Delayed entry update</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#update-ucx">2025-07-02 Update UCX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#update-type-sw-modules">Update type: SW Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stages-changelog.html">Software Stages Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2026">Changelog for stage 2026</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#version-changes-in-packages-of-major-importance">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#general-software-stack-changes">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#notable-new-software">Notable new software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#known-issues">Known issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#notable-change-history">Notable Change History</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2025">Changelog for stage 2025</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id1">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id2">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id3">Notable Change History</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2024">Changelog for stage 2024</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id4">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id5">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#software-distribution-related-changes">Software distribution-related changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#wip-packages">WIP packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#deprecated-packages">Deprecated packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#renamed-packages">Renamed packages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2023">Changelog for stage 2023</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id6">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id7">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id8">Software distribution-related changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id9">WIP packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id10">Deprecated packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id11">Renamed packages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2022">Changelog for stage 2022</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id12">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id13">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id14">Software distribution-related changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id15">WIP packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id16">Deprecated packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id17">Renamed packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #023D6B" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">JUPITER user documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Build-Up Operation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-up-operation">
+<span id="buildup"></span><h1>Build-Up Operation<a class="headerlink" href="#build-up-operation" title="Link to this heading"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>JUPITER is currently in a Pre-Access phase, rather than production. Many details change
+during this Pre-Access phase, and so this documentation may slip out of synchronisation with the current state
+of the system or be incomplete.</p>
+<p>In the case where information seems to be incorrect or out of date, please contact <a class="reference external" href="mailto:sc&#37;&#52;&#48;fz-juelich&#46;de">sc<span>&#64;</span>fz-juelich<span>&#46;</span>de</a>.</p>
+</div>
+<p>JUPITER is currently in build-up. During this pre-production operation, some elements of the environment are not yet production-ready and/or equalized to the other JSC system. Find here some notes.</p>
+<section id="slurm-mpi">
+<h2>Slurm &amp; MPI<a class="headerlink" href="#slurm-mpi" title="Link to this heading"></a></h2>
+<p>JUPITER currently deploys a different Slurm version compared to other JSC systems. Some plugins and customization are not available, while other features exist temporarily.</p>
+<section id="prolog-epilog-runtime-customization-preps-framework">
+<h3>Prolog/Epilog Runtime Customization (PrEpS Framework)<a class="headerlink" href="#prolog-epilog-runtime-customization-preps-framework" title="Link to this heading"></a></h3>
+<p>Slurm traditionally allows runtime customization through <strong>SPANK plugins</strong> (Slurm Plugin Architecture for Node and Job Control). SPANK plugins are a very powerful way to extend and tweak the capabilities of SLURM according to site needs. The present however a higher barrier for development and deployment, hindering a little bit quick deployments for tweaks that would be applied at the beginning of a job for the whole node. For that reason we are exploring a mechanism to change job and node wide settings (ie: triggered in all the nodes of the job at the beginning and cleaned up at the end). The current implementation relies on the <code class="docutils literal notranslate"><span class="pre">--comment</span></code> option provided by SLURM to pass arbitrary strings as comments for the job. This mechanism leverages Slurm’s native Prolog/Epilog hooks, which allow actions to be executed automatically before a job starts and after it finishes on allocated nodes.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This mechanism is exploratory. The main benefit would be much faster development and deployment of features that require changes at the beginning of a job (and cleaned up at the end). If this approach proves to be reliable and benefitial we might move that mechanism out of the <code class="docutils literal notranslate"><span class="pre">--comment</span></code> option and have a custom SPANK plugin for these options, having the flexibility of this approach without abusing the <code class="docutils literal notranslate"><span class="pre">--comment</span></code> option.</p>
+</div>
+<p>This mechanism allows selected node-level settings to be:</p>
+<ul class="simple">
+<li><p>Applied automatically before job execution</p></li>
+<li><p>Reverted safely after job completion</p></li>
+<li><p>Optionally overridden by users at submission time</p></li>
+</ul>
+<section id="user-controlled-runtime-tuning">
+<h4>User-Controlled Runtime Tuning<a class="headerlink" href="#user-controlled-runtime-tuning" title="Link to this heading"></a></h4>
+<p>User overrides are currently passed via Slurm’s <code class="docutils literal notranslate"><span class="pre">--comment</span></code> option:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --comment="KEY=VALUE;KEY=VALUE"</span>
+</pre></div>
+</div>
+<p>These values are mapped to PrEpS configuration modules.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--comment</span></code> option of sbatch passes user-specific overrides to the PrEpS framework.
+Multiple overrides can be specified as a semicolon-separated list, e.g.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --comment="CPU_POWER_CAP=200000000;NVIDIA_GPU_CLOCKS=990"</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This interface is experimental and may evolve into a dedicated Slurm plugin.</p>
+</div>
+</section>
+</section>
+<section id="currently-supported-options">
+<h3>Currently Supported Options<a class="headerlink" href="#currently-supported-options" title="Link to this heading"></a></h3>
+<p>CPU related options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CPU_POWER_CAP</span></code> – Set the Grace CPU power cap in µW (default: <code class="docutils literal notranslate"><span class="pre">100000000</span></code>). The Grace CPU may use up to this amount as its share of the 680 W superchip module power. Defaults to 100W, but tunable to upper and lower values up to 300W. The maximum value is 300000000 (300W).
+Altering the CPU power cap can result in lower power to the GPU, as CPU+GPU must share the 680W total powercap for the full   superchip.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CPU_FREQUENCY_MIN=VALUE</span></code> – Minimum CPU frequency (kHz) (default: <code class="docutils literal notranslate"><span class="pre">81000</span></code>). This is the minimum frequency that the CPU is supposed to use during the lifetime of the job. Whether this is respected or not depends on the CPU governor selected.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CPU_FREQUENCY_MAX=VALUE</span></code> – Maximum CPU frequency (kHz) (default: <code class="docutils literal notranslate"><span class="pre">3456000</span></code>). This is the maximum frequency that the CPU is supposed to use during the lifetime of the job. Whether this is respected or not depends on the CPU governor selected.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CPU_GOVERNOR={</span> <span class="pre">conservative</span> <span class="pre">|</span> <span class="pre">ondemand</span> <span class="pre">|</span> <span class="pre">userspace</span> <span class="pre">|</span> <span class="pre">powersave</span> <span class="pre">|</span> <span class="pre">performance</span> <span class="pre">|</span> <span class="pre">schedutil}</span></code> – CPU frequency scaling governor (default: <code class="docutils literal notranslate"><span class="pre">performance</span></code>).</p></li>
+</ul>
+<p>NVIDIA GPUs</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NVIDIA_GPU_CLOCKS=VALUE[,VALUE]</span></code> – Lock GPU clocks in MHz (no default locking). Takes a single value as argument, or a range of 2 comma-separated values. For supported values refer to <code class="docutils literal notranslate"><span class="pre">nvidia-smi</span> <span class="pre">-q</span> <span class="pre">-d</span> <span class="pre">SUPPORTED_CLOCKS</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NVIDIA_POWER_LIMIT=GPU_POWER_LIMIT,MODULE_POWER_LIMIT</span></code> – GPU and module power limit in watts (default: <code class="docutils literal notranslate"><span class="pre">680,680</span></code>). I takes 2 comma-separated values, the first one limiting the GPU power consumption, and the second one limiting the power consumption of the whole module (GPU, CPU and CPU memory). The module value has to be greater or equal to the GPU value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUDA_MPS={0</span> <span class="pre">|</span> <span class="pre">1</span> <span class="pre">|</span> <span class="pre">yes</span> <span class="pre">|</span> <span class="pre">no</span> <span class="pre">|</span> <span class="pre">enable</span> <span class="pre">|</span> <span class="pre">disable}</span></code> – Enables CUDA Multi-Process Service (default: disabled).</p></li>
+</ul>
+<p>Memory &amp; Kernel</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">THP={always</span> <span class="pre">|</span> <span class="pre">madvise</span> <span class="pre">|</span> <span class="pre">never}</span></code> – Transparent Huge Pages mode (default: <code class="docutils literal notranslate"><span class="pre">madvise</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">THP_SHMEM={advise</span> <span class="pre">|</span> <span class="pre">always</span> <span class="pre">|</span> <span class="pre">deny</span> <span class="pre">|</span> <span class="pre">force</span> <span class="pre">|</span> <span class="pre">never}</span></code> – THP behavior for shared memory segments</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KERNEL_PARAMETERS=kernel.perf_event_paranoid={</span> <span class="pre">-1</span> <span class="pre">|</span> <span class="pre">0</span> <span class="pre">|</span> <span class="pre">1</span> <span class="pre">|</span> <span class="pre">2</span> <span class="pre">}</span></code> – Additional kernel parameters applied at job runtime. Currently just <cite>kernel.perf_event_paranoid</cite> is supported.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<p>Disable Transparent Huge Pages and limit Grace CPU power to 200 W:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --comment="THP=never;CPU_POWER_CAP=200000000"</span>
+</pre></div>
+</div>
+<p>Set GPU application clocks for performance-focused workloads:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --comment="NVIDIA_GPU_CLOCKS=990"</span>
+</pre></div>
+</div>
+</section>
+<section id="gh200-superchip-power-cap">
+<h3>GH200 Superchip Power Cap<a class="headerlink" href="#gh200-superchip-power-cap" title="Link to this heading"></a></h3>
+<p>Each GH200 superchip, comprised of CPU and GPU, is power-capped to 680 W on compute nodes (900 W on login nodes). Within this TDP, the CPU is currently
+power-capped to 100 W per default, i.e. it may use up to 100 W of these 680 W. The CPU power cap may be set to as much as 300 W, or even below 100 W with
+the above-mentioned methods. In any case, the GPU on the superchip may use then use the remaining power budget for its operation. Refer to <a class="reference external" href="https://docs.nvidia.com/dccpu/grace-perf-tuning-guide/power-thermals.html#gpu-and-module-power-management">NVIDIA’s Grace documentation</a>
+for more details.</p>
+</section>
+<section id="tuning-for-large-scale-execution">
+<h3>Tuning for Large-Scale Execution<a class="headerlink" href="#tuning-for-large-scale-execution" title="Link to this heading"></a></h3>
+<p>As you are using JUPITER, your workloads probably demand large-scale execution with many Slurm tasks / MPI processes. You might want to experiment with the following options.</p>
+<dl>
+<dt>Module: <code class="docutils literal notranslate"><span class="pre">UCX-settings/RC-CUDA</span></code> vs. <code class="docutils literal notranslate"><span class="pre">UCX-settings/DC-CUDA</span></code></dt><dd><p>When loading an MPI framework on the system, like OpenMPI, the UCX-settings module will be loaded automatically with the RC-CUDA flavor. Especially for larger task counts it may advisable to change to <code class="docutils literal notranslate"><span class="pre">UCX-settings/DC-CUDA</span></code>, to make use of <em>dynamic</em> connections, rather than <em>reliable</em> connections. This is facilitated by setting the <code class="docutils literal notranslate"><span class="pre">UCX_TLS</span></code> environment variable, which you maybe interested in inspecting.</p>
+</dd>
+<dt>Rendezvous threshold: <code class="docutils literal notranslate"><span class="pre">UCX_RNDV_THRESH</span></code></dt><dd><p>UCX uses heuristics to determine which protocol to use for data exchange. Setting the variable and giving an explicit size may optimize communication bandwidth. Exapmle: <code class="docutils literal notranslate"><span class="pre">UCX_RNDV_THRESH=intra:131072,inter:131072</span></code></p>
+</dd>
+<dt>Further UCX variables</dt><dd><p>Other UCX variable settings which proved useful for some users are: <code class="docutils literal notranslate"><span class="pre">UCX_RNDV_SCHEME=put_zcopy</span></code>, <code class="docutils literal notranslate"><span class="pre">UCX_MAX_RNDV_RAILS=1</span></code>.</p>
+<p>Additionally, the latest UCX releases changed the heuristics for selecting internal protocols and thresholds. Those heuristics have been problematic at large scale in some cases, resulting in subpar performance. If you run at a scale of more than 200 nodes please consider exploring <code class="docutils literal notranslate"><span class="pre">UCX_PROTO_ENABLE=no</span></code> or manually tune <code class="docutils literal notranslate"><span class="pre">UCX_RNDV_THRES</span></code>, <code class="docutils literal notranslate"><span class="pre">UCX_RNDV_SCHEME</span></code>. If you see big differences in performance please contact support at <a class="reference external" href="mailto:sc&#37;&#52;&#48;fz-juelich&#46;de">sc<span>&#64;</span>fz-juelich<span>&#46;</span>de</a>.</p>
+</dd>
+</dl>
+</section>
+<section id="health-checker">
+<h3>Health Checker<a class="headerlink" href="#health-checker" title="Link to this heading"></a></h3>
+<p>Currently, a different health checker is deployed compare to our production machines. While thorough, some of the more nimble health checks might not be done.</p>
+</section>
+<section id="affinity">
+<h3>Affinity<a class="headerlink" href="#affinity" title="Link to this heading"></a></h3>
+<p>The GH200 superchip is – NUMA-wise – not as complex as other processors operated by JSC. The following options will result in a good affinity for standard cases</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>srun<span class="w"> </span>--tasks-per-node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">72</span><span class="w"> </span>./app
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="affinity.html#processor-affinity"><span class="std std-ref">Processor Affinity</span></a>.</p>
+</section>
+</section>
+<section id="stability">
+<h2>Stability<a class="headerlink" href="#stability" title="Link to this heading"></a></h2>
+<p>A large amount of work is currently done non-stop on the system, with many operations inducing noise into the system, especially within the network. Sub-standard performance and even occasional job failures might occur; please report them only if you think an underlying, general issue can be see.</p>
+</section>
+<section id="storage-mounts">
+<h2>Storage Mounts<a class="headerlink" href="#storage-mounts" title="Link to this heading"></a></h2>
+<p>JUPITER has two filesystems, both entirely new: ExaSTORE and ExaFLASH.</p>
+<p>ExaSTORE is already (nearly) fully available and mounted at <code class="docutils literal notranslate"><span class="pre">/e/</span></code>. The JUST6 filesystem from the non-JUPITER datacenter is also available (<code class="docutils literal notranslate"><span class="pre">/p/</span></code>), but <strong>only on the login nodes</strong>. All project-related environment variables like <code class="docutils literal notranslate"><span class="pre">$PROJECT_cjsc</span></code> point to the new file system. A fully automated data movement solution to move data between JUST6 and ExaSTORE will be documented and made available soon.</p>
+<p>ExaSTORE storage is based on spinning disks and includes in its final setup 22 building blocks. Available are:</p>
+<ul class="simple">
+<li><p><cite>$PROJECT</cite>: 2 ExaSTORE building blocks for mid-term storage and operation</p></li>
+<li><p><cite>$HOME</cite> : Small, per-user space for configuration files. Shares the building block with <cite>$PROJECT</cite></p></li>
+<li><p><cite>$SCRATCH</cite>: Fast, temporary storage. Not accessed files are deleted after 90 days. Shares 20 ExaSTORE building blocks with <cite>$DATA</cite></p></li>
+<li><p><cite>$DATA</cite>: Mid-term storage available on specific request (following the data project workflow). Shares 20 ExaSTORE building block with <cite>$SCRATCH</cite></p></li>
+</ul>
+<p>Each building block has a theoretical bandwidth of about 60 GB/s. Depending on many factors, including number of used client nodes and I/O access pattern, a total theoretical bandwidth of 1.2 TB/s for reading and 1 TB/s for writing can be expected on <cite>$SCRATCH</cite>.</p>
+<p>ExaFLASH is currently in acceptance and will be made available soon at <code class="docutils literal notranslate"><span class="pre">$FSCRATCH</span></code>. It is entirely flash-storage-based and has higher access bandwidths.</p>
+</section>
+<section id="system-name-specific-known-issues">
+<h2>JUPITER Specific known issues<a class="headerlink" href="#system-name-specific-known-issues" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">orphan<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<section id="slurm-backend-change">
+<h3>SLURM Backend Change<a class="headerlink" href="#slurm-backend-change" title="Link to this heading"></a></h3>
+<p><strong>Added:</strong> 2026-08-20</p>
+<p><strong>Affects:</strong> JUPITER</p>
+<p><strong>Description:</strong> On 2026-08-27, JUPITER will be in maintenance for a change in its SLURM setup. With this change the
+slurmd daemons running on the compute nodes will be replaced by psid/psslurm.</p>
+<p><strong>Status:</strong> informational</p>
+<p><strong>Action required:</strong></p>
+<ul class="simple">
+<li><p>Due to a backwards incompatible change in the PMIx setup (<code class="docutils literal notranslate"><span class="pre">`SLURM_MPI_TYPE`</span></code>), all jobs will be put on hold.
+If you are sure that your job will run you can release them after the maintenance with <code class="docutils literal notranslate"><span class="pre">`scontrol</span> <span class="pre">release</span> <span class="pre">&lt;jobid&gt;`</span></code>.
+Example of these cases would be single process jobs that do not depend on <code class="docutils literal notranslate"><span class="pre">`SLURM_MPI_TYPE`</span></code> to be set correctly, or
+jobs in which the modules are loaded as part of the job before the srun command is executed (<code class="docutils literal notranslate"><span class="pre">`SLURM_MPI_TYPE`</span></code> is
+set as part of the module loading process). For this reason, if you want to make sure your job runs after
+the maintenance <strong>load the necessary modules in the job script</strong>. That will set <code class="docutils literal notranslate"><span class="pre">`SLURM_MPI_TYPE`</span></code> to the correct value.</p></li>
+<li><p>For the reason stated above, jobs submitted before the maintenance that depend on <code class="docutils literal notranslate"><span class="pre">`SLURM_MPI_TYPE`</span></code> having
+the correct value before submission will not work after the maintenance.</p></li>
+<li><p>The daemons responsible for resource management are swapped, which in other circumstances/systems could affect
+things like pinning and GPU visibility. Due to the relatively straight forward NUMA topology in JUPITER,
+no major effects are expected here.
+The logic handling the prologue and epilogue and PRePs plugins is also different. There is therefore a
+chance for new  issues to be exposed. However our testing did not discover anything that would
+affect you as a user.</p></li>
+<li><p>Jobs that remain on hold 14 days after the maintenance will be cancelled.</p></li>
+</ul>
+</section>
+<section id="openmp-acc-device-offloading-with-gcc-aarch64">
+<h3>OpenMP/ACC device offloading with GCC/AArch64<a class="headerlink" href="#openmp-acc-device-offloading-with-gcc-aarch64" title="Link to this heading"></a></h3>
+<p><strong>Added:</strong> 2026-02-17</p>
+<p><strong>Affects:</strong> JUPITER</p>
+<p><strong>Description:</strong> Attempting to build a code with GCC 13.x/14.x using OpenMP/ACC device offloading on the AArch64 architecture fails at the LTO stage:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96265">https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96265</a></p></li>
+<li><p><a class="reference external" href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111937">https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111937</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Status:</strong> Will not be fixed until next software Stage.</p>
+<p><strong>Workaround/Suggested Action:</strong> Instead of compiling with GCC, use Clang+LLVM or Nvidia’s HPC compilers for building codes which rely on device offloading.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="data-transfer.html" class="btn btn-neutral float-left" title="Data Transfer to and from JUPITER" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="known-issues.html" class="btn btn-neutral float-right" title="Known Issues on JUPITER" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <div class="footer" role="contentinfo">
+        <p>
+                &#169; 2026, JUPITER administrators. Documentation distributed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            <ul class="links">
+                <li>
+                    <a href="https://www.fz-juelich.de/en/legal-notice">Legal Notice</a>
+                </li>
+                <li class="bordered">
+                    <a href="https://www.fz-juelich.de/en/privacy-policy">Data Protection</a>
+                </li>
+                <li>
+                    <a href="https://www.fz-juelich.de/en/declaration-of-accessibility">Accessibility</a>
+                </li>
+            </ul>
+        </p>
+    </div>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

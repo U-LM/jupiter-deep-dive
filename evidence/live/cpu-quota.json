@@ -1,0 +1,19 @@
+[
+  {
+    "acct-mode": "fixed",
+    "coreh-quota-total": "1008000",
+    "project": "E-DEV-2026D09-128",
+    "coreh-consumed-total": "0",
+    "coreh-consumed-prev-month": "0",
+    "cont-state": "normal",
+    "coreh-consumed-curr-month": "0",
+    "coreh-avail": "1008000",
+    "budget-account": "e-dev-2026d09-128",
+    "acct-period-end": "2027-02-28",
+    "cont-partition": "JUPITER_BOOSTER",
+    "coreh-avail-percent": "100",
+    "system": "jupiter",
+    "acct-period-start": "2026-09-01",
+    "project-state": "A"
+  }
+]

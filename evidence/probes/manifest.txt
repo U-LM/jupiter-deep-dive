@@ -1,0 +1,7 @@
+captured_at_utc=2026-09-02T01:01:25Z
+topology_job=1618998
+one_gpu_job=1618999
+command_artifacts_added_at_utc=2026-09-02T08:52:32Z
+command_artifact_provenance=post-hoc copies from local examples; submit-time hashes unavailable
+topology_command=reconstructed-jupiter-topology-1618998.sbatch
+one_gpu_command=reconstructed-jupiter-one-gpu-1618999.sbatch

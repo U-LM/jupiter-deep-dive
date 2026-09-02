@@ -1,0 +1,1021 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Batch system &mdash; JUPITER user documentation  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=9c2bc42b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Processor Affinity" href="affinity.html" />
+    <link rel="prev" title="Building Software" href="compile.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #023D6B" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            JUPITER user documentation
+              <img src="_static/FZJ_logo_white.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="access.html">Access</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="access.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="access.html#ssh-login">SSH Login</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="access.html#restrictions">Restrictions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="access.html#openssh">OpenSSH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="access.html#openssh-installation">OpenSSH Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#openssh-key-generation">OpenSSH Key Generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#key-upload-key-restriction">Key Upload, Key Restriction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#logging-in-to-system-name">Logging in to JUPITER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#key-agent">Key Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#openssh-configuration">OpenSSH Configuration</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="access.html#x-forwarding">X Forwarding</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="access.html#putty">PuTTY</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="access.html#putty-installation">PuTTY Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#putty-key-generation">PuTTY Key Generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="access.html#putty-configuration">PuTTY Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="access.html#mfa-with-totp">MFA with TOTP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="access.html#mfa-persistent-connection">MFA Persistent Connection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="access.html#login-nodes">Login Nodes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="access.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="access.html#alternative-login-methods">Alternative Login Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#jupiter-hardware-overview">JUPITER Hardware Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#jupiter-booster-design">JUPITER Booster Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#jupiter-cluster-design">JUPITER Cluster Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#network-design">Network Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#software-overview">Software Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#shell">Shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#active-project">Active project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#available-file-systems">Available file systems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="environment.html#file-systems-for-compute-projects">File systems for compute projects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#home-directory-home">Home directory ($HOME)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#project-directory-project">Project directory ($PROJECT)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#working-directory-scratch">Working directory ($SCRATCH)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html#file-systems-for-data-projects">File systems for data projects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#data-directory-data">Data directory ($DATA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="environment.html#archive-directory-archive">Archive directory ($ARCHIVE)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#machine-identification-file">Machine identification file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#transferring-files-with-scp-rsync-etc">Transferring files with <code class="docutils literal notranslate"><span class="pre">scp</span></code>, <code class="docutils literal notranslate"><span class="pre">rsync</span></code>, etc.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#using-git-on-system-name">Using Git on JUPITER</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="compile.html">Building Software</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="compile.html#compiled-languages">Compiled Languages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#compilers">Compilers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#mpi-compiler-wrappers">MPI Compiler Wrappers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#cuda">CUDA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#build-systems">Build Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#exotic-languages">Exotic Languages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="compile.html#interpreted-languages">Interpreted Languages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#python">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#julia">Julia</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="compile.html#pre-compiled-binaries">Pre-Compiled Binaries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="compile.html#conda-mamba">Conda/Mamba</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Batch system</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#slurm-partitions">Slurm Partitions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-overview">Hardware Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#available-partitions">Available Partitions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#internet-access">Internet Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#allocations-jobs-and-job-steps">Allocations, Jobs and Job Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#writing-a-batch-script">Writing a Batch Script</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#job-script-examples">Job Script Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#generic-resources-features-and-topology-aware-allocations">Generic Resources, Features and Topology-aware Allocations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-steps">Job Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependency-chains">Dependency Chains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interactive-sessions">Interactive Sessions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hold-and-release-batch-jobs">Hold and Release Batch Jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#slurm-commands">Slurm commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary-of-sbatch-and-srun-options">Summary of sbatch and srun Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cpu-limiting-options">CPU Limiting Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="affinity.html">Processor Affinity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="affinity.html#slurm-options">Slurm options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#terminology">Terminology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#cpu-bind"><code class="docutils literal notranslate"><span class="pre">--cpu-bind</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#implicit-types">Implicit types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#explicit-types">Explicit types</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#distribution"><code class="docutils literal notranslate"><span class="pre">--distribution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#first-part-node-level">First part (<code class="docutils literal notranslate"><span class="pre">node_level</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#second-part-socket-level">Second part (<code class="docutils literal notranslate"><span class="pre">socket_level</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#third-part-core-level">Third part (<code class="docutils literal notranslate"><span class="pre">core_level</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affinity.html#fourth-part">Fourth part</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#hint"><code class="docutils literal notranslate"><span class="pre">--hint</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="affinity.html#affinity-visualization-tool">Affinity visualization tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="affinity.html#affinity-examples">Affinity examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#default-processor-affinity">Default processor affinity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affinity.html#further-examples">Further examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mpmd.html">MPMD: Multiple Program Multiple Data Execution Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mpmd.html#basic-functionality">Basic Functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpmd.html#advanced-concurrent-gpu-and-cpu-usage">Advanced Concurrent GPU and CPU Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mpmd.html#step-1-remove-global-core-affinity">Step 1 - Remove Global Core Affinity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpmd.html#step-2-individual-affinities">Step 2 - Individual Affinities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gpu-computing.html">GPU Computing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#system-name-gpu-nodes">JUPITER GPU Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#gpu-visibility-affinity">GPU Visibility/Affinity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#setting-gpu-clock-rates">Setting GPU Clock Rates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#nvidia-profiling-tools-and-clock-speed">NVIDIA Profiling Tools and Clock Speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#cuda-mps-multiple-mpi-ranks-per-gpu">CUDA MPS: Multiple MPI Ranks per GPU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu-computing.html#job-script-examples">Job Script Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="filesystems.html">GPFS File Systems in the Jülich Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="filesystems.html#best-practice-notes">Best practice notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-data-rules.html">HPC Data Rules for GPFS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hpc-data-rules.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hpc-data-rules.html#file-system-and-group-project-directories">File system and group/project-directories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hpc-data-rules.html#user-home-directory">User $HOME Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hpc-data-rules.html#user-data">User data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datamover.html">Data Mover Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datamover.html#technical-concept">Technical Concept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datamover.html#data-mover-command-line-interface-cli">Data Mover Command Line Interface (CLI)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#the-nodeum-tool">The Nodeum Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datamover.html#data-transfer-task">Data transfer task</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#create-copy-or-move-data-task">Create <em>copy</em> or <em>move</em> data task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#example-copying-data">Example: copying data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#task-handling">Task handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#list-all-created-tasks">List all created tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datamover.html#list-task-details">List task details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data-transfer.html">Data Transfer to and from JUPITER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="buildup.html">Build-Up Operation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="buildup.html#slurm-mpi">Slurm &amp; MPI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="buildup.html#prolog-epilog-runtime-customization-preps-framework">Prolog/Epilog Runtime Customization (PrEpS Framework)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="buildup.html#user-controlled-runtime-tuning">User-Controlled Runtime Tuning</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="buildup.html#currently-supported-options">Currently Supported Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="buildup.html#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="buildup.html#gh200-superchip-power-cap">GH200 Superchip Power Cap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="buildup.html#tuning-for-large-scale-execution">Tuning for Large-Scale Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="buildup.html#health-checker">Health Checker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="buildup.html#affinity">Affinity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="buildup.html#stability">Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildup.html#storage-mounts">Storage Mounts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildup.html#system-name-specific-known-issues">JUPITER Specific known issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="buildup.html#slurm-backend-change">SLURM Backend Change</a></li>
+<li class="toctree-l3"><a class="reference internal" href="buildup.html#openmp-acc-device-offloading-with-gcc-aarch64">OpenMP/ACC device offloading with GCC/AArch64</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="known-issues.html">Known Issues on JUPITER</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="known-issues.html#open-issues">Open Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="known-issues.html#recently-resolved-and-closed-issues">Recently Resolved and Closed Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#general-faq">General FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-generate-and-upload-ssh-keys">How to generate and upload ssh keys?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#my-job-failed-with-transport-retry-count-exceeded">My job failed with “Transport retry count exceeded”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#my-job-failed-was-killed-for-no-apparent-reason">My job failed/was killed for no apparent reason</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-can-a-compute-node-in-an-active-allocation-be-accessed">How can a compute node in an active allocation be accessed?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#estimating-power-and-energy-usage-of-a-job">Estimating Power and Energy Usage of a Job</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#power-measurements">Power Measurements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#energy-measurements">Energy Measurements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#faq-about-data-management">FAQ about Data Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#what-file-system-to-use-for-different-data">What file system to use for different data?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#what-data-quotas-do-exist-and-how-to-list-usage">What data quotas do exist and how to list usage?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-compare-and-transfer-large-datasets">How to compare and transfer large datasets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#mpifileutils-clis-subset">mpifileutils CLIs (subset)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#example-compare-content-of-two-directories">Example: compare content of two directories</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-modify-the-users-s-environment">How to modify the users’s environment.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-make-the-currently-enabled-budget-visible">How to make the currently enabled budget visible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-can-i-recall-migrated-data">How can I recall migrated data?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-can-i-see-which-data-is-migrated">How can I see which data is migrated?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-restore-files">How to restore files?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#linux-commands-to-manage-acls">Linux commands to manage ACLs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#which-files-have-an-access-control-list">Which files have an access control list?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-avoid-multiple-ssh-connections-on-data-transfer">How to avoid multiple SSH connections on data transfer?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#how-to-ensure-correct-group-id-for-your-project-data">How to ensure correct group ID for Your project data?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ai-overview.html">AI Workloads on JUPITER</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#working-with-jsc-filesystems-and-ai">Working with JSC Filesystems and AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#installing-python-software-for-ai">Installing Python software for AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#integrating-with-vscode">Integrating with VSCode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#git-on-hpc">Git on HPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#pytorch-usage-and-common-problems-guide">PyTorch Usage and Common Problems Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#quickstart-guide-for-pytorch-lightning-and-hydra">Quickstart guide for PyTorch Lightning and Hydra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#handling-datasets-with-many-files">Handling Datasets with Many Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#vllm-installation">VLLM installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#scraping-workflows">Scraping Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#blablador">Blablador</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ai-overview.html#application-specific-ai-documentation">Application-Specific AI documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance.html">Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accounting.html">Accounting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="accounting.html#accounting-mode">Accounting Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounting.html#command-description">Command description</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="jsctools.html">JSC Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#judoor">JuDoor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#status-page">Status Page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="jsctools.html#notifications">Notifications</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#mail">Mail</a></li>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#browser">Browser</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="jsctools.html#message-of-the-day-motd">Message of the Day (MOTD)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#llview-job-reporting">LLview Job Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#pinning-tool">Pinning Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#jube-benchmarking-environment">JUBE Benchmarking Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#user-tool-jutil">User tool jutil</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="jsctools.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#available-subcommands">Available subcommands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#available-actions">Available actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="jsctools.html#available-options">Available options</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="jsctools.html#allowed-user-interfaces">Allowed user interfaces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#unicore-access">UNICORE access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jsctools.html#blablador-documentation">BLABLADOR documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="container-runtime.html">Container Runtime on JUPITER</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#what-containers-provide">What Containers Provide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#getting-access">Getting Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#apptainer-on-system-name">Apptainer on JUPITER</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#backwards-compatibility-to-singularity">Backwards compatibility to Singularity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#apptainer-images">Apptainer Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#launching-containers-via-slurm">Launching Containers via Slurm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#interfacing-with-the-system-environment">Interfacing with the System Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="container-runtime.html#the-two-models">The two Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="container-runtime.html#containerized-applications">Containerized Applications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="container-runtime.html#user-defined-software-stack">User-Defined Software Stack</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#container-build-system">Container Build System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#building-container-images-via-cli">Building Container Images via CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#container-build-system-rest-api">Container Build System REST API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="container-runtime.html#apptainer-image-building">Apptainer image building</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#converting-dockerfiles-to-apptainer-recipes">Converting Dockerfiles to Apptainer recipes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#rootless-builds">Rootless builds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="container-runtime.html#rootfull-builds">Rootfull builds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parallel-tools.html">Parallel Debugging and Performance Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="parallel-tools.html#debugging-with-totalview-on-system-name">Debugging with TotalView on JUPITER</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel-tools.html#using-totalview">Using TotalView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel-tools.html#memory-debugging-with-totalview">Memory Debugging with TotalView</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="jacamar.html">Jacamar CI Runners</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="jacamar.html#getting-access">Getting Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jacamar.html#runners-tags-on-system-name">Runners Tags on JUPITER</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jacamar.html#jacamar-example-gitlab-ci-yml-file">Jacamar Example <code class="docutils literal notranslate"><span class="pre">.gitlab-ci.yml</span></code> File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">System Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#current-state">Current state</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#installed-software">Installed software</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#changelog-entries">Changelog entries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#software-update">2026-08-27 Software update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#update-type-os-packages">Update type: OS Packages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="changelog.html#os-packages">OS Packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id1">2026-08-10 Software update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#id2">Update type: OS Packages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="changelog.html#id3">OS Packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id4">2026-07-15 Software update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#id5">Update type: OS Packages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="changelog.html#id6">OS Packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#general-update">2026-06-10 General update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#update-type-delayed-entry-update">Update type: Delayed entry update</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#update-ucx">2025-07-02 Update UCX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="changelog.html#update-type-sw-modules">Update type: SW Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stages-changelog.html">Software Stages Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2026">Changelog for stage 2026</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#version-changes-in-packages-of-major-importance">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#general-software-stack-changes">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#notable-new-software">Notable new software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#known-issues">Known issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#notable-change-history">Notable Change History</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2025">Changelog for stage 2025</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id1">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id2">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id3">Notable Change History</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2024">Changelog for stage 2024</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id4">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id5">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#software-distribution-related-changes">Software distribution-related changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#wip-packages">WIP packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#deprecated-packages">Deprecated packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#renamed-packages">Renamed packages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2023">Changelog for stage 2023</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id6">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id7">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id8">Software distribution-related changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id9">WIP packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id10">Deprecated packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id11">Renamed packages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stages-changelog.html#changelog-for-stage-2022">Changelog for stage 2022</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id12">General software stack changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id13">Version changes in packages of major importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id14">Software distribution-related changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id15">WIP packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id16">Deprecated packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stages-changelog.html#id17">Renamed packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #023D6B" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">JUPITER user documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Batch system</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="batch-system">
+<span id="batchsystem"></span><h1>Batch system<a class="headerlink" href="#batch-system" title="Link to this heading"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>JUPITER is currently in a Early-Access phase, rather than production. Many details change
+during this Early-Access phase, and so this documentation may slip out of synchronisation with the current state
+of the system or be incomplete.</p>
+<p>Specific buildup information for JUPITER can be found on this page: <a class="reference internal" href="buildup.html#buildup"><span class="std std-ref">Build-Up Operation</span></a>.</p>
+<p>In the case where information seems to be incorrect or out of date, please contact <a class="reference external" href="mailto:sc&#37;&#52;&#48;fz-juelich&#46;de">sc<span>&#64;</span>fz-juelich<span>&#46;</span>de</a>.</p>
+<p>A Slurm backend change will require all jobs submitted before 2026-08-27 to be put on hold and manually continued or resubmitted.
+Pinning may also be affected. Further details here: <a class="reference internal" href="known-issues.html#known-issues"><span class="std std-ref">Known Issues on JUPITER</span></a>.</p>
+</div>
+<p>JUPITER is accessed through a dedicated set of login nodes used to write and compile applications as well as to perform pre- and post-processing of simulation data.
+Access to the compute nodes in the system is controlled by the workload manager.</p>
+<p>On JUPITER the Slurm (Simple Linux Utility for Resource Management) Workload Manager, a free open-source resource manager and batch system,
+is employed. Slurm is a modern, extensible batch system that is widely deployed around the world on clusters of various sizes.</p>
+<p>A Slurm installation consists of several programs and daemons. The <code class="docutils literal notranslate"><span class="pre">slurmctld</span></code> daemon is the central brain of the batch system responsible
+for monitoring the available resources and scheduling batch jobs. The <code class="docutils literal notranslate"><span class="pre">slurmctld</span></code> runs on an administrative node with a special setup to
+ensure availability in the case of hardware failures. Most user programs such as <code class="docutils literal notranslate"><span class="pre">srun</span></code>, <code class="docutils literal notranslate"><span class="pre">sbatch</span></code>, <code class="docutils literal notranslate"><span class="pre">salloc</span></code> and <code class="docutils literal notranslate"><span class="pre">scontrol</span></code> interact with
+the <code class="docutils literal notranslate"><span class="pre">slurmctld</span></code>. For the purpose of job accounting <code class="docutils literal notranslate"><span class="pre">slurmctld</span></code> communicates with the <code class="docutils literal notranslate"><span class="pre">slurmdbd</span></code> database daemon.
+Information from the accounting database can be queries using the <code class="docutils literal notranslate"><span class="pre">sacct</span></code> command.
+Slurm combines the functionality of the batch system and resource management. For this purpose Slurm provides the <code class="docutils literal notranslate"><span class="pre">slurmd</span></code> daemon which
+runs on the compute nodes and interacts with <code class="docutils literal notranslate"><span class="pre">slurmctld</span></code>. For the executing of user processes <code class="docutils literal notranslate"><span class="pre">slurmstepd</span></code> instances are spawned by
+<code class="docutils literal notranslate"><span class="pre">slurmd</span></code> to shepherd the user processes.</p>
+<p>On JUPITER no <code class="docutils literal notranslate"><span class="pre">slurmd</span></code> is running on the compute nodes. Instead the process management is performed by <code class="docutils literal notranslate"><span class="pre">psid</span></code>, the management daemon from the
+Parastation Cluster Suite. A plugin <code class="docutils literal notranslate"><span class="pre">psslurm</span></code> to <code class="docutils literal notranslate"><span class="pre">psid</span></code> replaces <code class="docutils literal notranslate"><span class="pre">slurmd</span></code> on the compute nodes of JUPITER. Therefore only one daemon is
+required on the compute nodes for the resource management which minimizes jitter that could affect large-scale applications.</p>
+<section id="slurm-partitions">
+<span id="batch-avail-partitions"></span><h2>Slurm Partitions<a class="headerlink" href="#slurm-partitions" title="Link to this heading"></a></h2>
+<p>In Slurm multiple nodes can be grouped into partitions which are sets of nodes with associated limits (for wall-clock time, job size, etc.).
+In practice these partitions can be used for example to signal need for resources that have certain hardware characteristics (normal, large memory, accelerated, etc.) or that are dedicated to specific workloads (large production jobs, small debugging jobs, visualization, etc.).</p>
+<section id="hardware-overview">
+<h3>Hardware Overview<a class="headerlink" href="#hardware-overview" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Quantity</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Standard</p></td>
+<td><p>5884</p></td>
+<td><p>288 cores, 480 GiB</p></td>
+</tr>
+<tr class="row-odd"><td><p>Login</p></td>
+<td><p>12</p></td>
+<td><p>72 cores, 574 GiB</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="available-partitions">
+<span id="batch-available-partitions"></span><h3>Available Partitions<a class="headerlink" href="#available-partitions" title="Link to this heading"></a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Compute nodes are used exclusively by jobs of a single user; no node sharing between jobs is done.
+The smallest allocation unit is one node (288 cores).
+Users will be charged for the number of compute nodes multiplied with the wall-clock time used.
+On each node, a share of the available memory is reserved and not available for application usage.</p>
+</div>
+<p>In the current Early Access phase there is only one partition <code class="docutils literal notranslate"><span class="pre">booster</span></code>, and <code class="docutils literal notranslate"><span class="pre">nocont</span></code> usage is disabled.</p>
+<p>A limit regarding the maximum number of running jobs per user is enforced.
+The precise values are adjusted to optimize system utilization.
+In general, the limit for the number of running jobs is lower for nocont projects.</p>
+<p>JUPITER partitions - under construction</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Partition</p></th>
+<th class="head"><p>Resource</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">booster</span></code></p></td>
+<td><p>max. wallclock time</p></td>
+<td><p>12 h</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>default wallclock time</p></td>
+<td><p>1 h</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>min. / max. number of nodes</p></td>
+<td><p>1 / Size of system</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>node types</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mem480</span></code> (480 GiB)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="internet-access">
+<span id="id1"></span><h2>Internet Access<a class="headerlink" href="#internet-access" title="Link to this heading"></a></h2>
+<p>Internet access is allowed on the login nodes to facilitate development activities.
+If your production jobs require files available on the internet, consider downloading them first on the login nodes and using them from the jobs (some frameworks allow runs on “offline mode”).
+If this is not sufficient, and you need to run a “scraping” style workflow, please contact your Project Mentor or contact SC-Support at <a class="reference external" href="mailto:sc&#37;&#52;&#48;fz-juelich&#46;de">sc<span>&#64;</span>fz-juelich<span>&#46;</span>de</a> for assistance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the internet access is allowed, only a few ports (as the usual HTTP/S 80/443) are open, while many other ports are blocked.</p>
+</div>
+</section>
+<section id="allocations-jobs-and-job-steps">
+<span id="batch-allocations"></span><h2>Allocations, Jobs and Job Steps<a class="headerlink" href="#allocations-jobs-and-job-steps" title="Link to this heading"></a></h2>
+<p>In Slurm a job is an allocation of selected resources for a specific amount of time. A job allocation can be requested using <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> and <code class="docutils literal notranslate"><span class="pre">salloc</span></code>.
+Within a job multiple job steps can be executed using <code class="docutils literal notranslate"><span class="pre">srun</span></code> that use all or a subset of the allocated compute nodes. Job steps may execute at
+the same time if the resource allocation permits it.</p>
+</section>
+<section id="writing-a-batch-script">
+<h2>Writing a Batch Script<a class="headerlink" href="#writing-a-batch-script" title="Link to this heading"></a></h2>
+<p>Users submit batch applications (usually bash scripts) using the <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> command. The script is executed on the first compute node in the allocation. To execute parallel MPI tasks users call <code class="docutils literal notranslate"><span class="pre">srun</span></code> within their script.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">mpiexec</span></code> is not supported on JUPITER and has to be replaced by <code class="docutils literal notranslate"><span class="pre">srun</span></code>.</p>
+</div>
+<p>The minimal template to be filled is</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/bash -x
+#SBATCH --account=&lt;budget account&gt;
+# budget account where contingent is taken from
+#SBATCH --nodes=&lt;no of nodes&gt;
+#SBATCH --ntasks=&lt;no of tasks (MPI processes)&gt;
+# can be omitted if --nodes and --ntasks-per-node
+# are given
+#SBATCH --ntasks-per-node=&lt;no of tasks per node&gt;
+# if keyword omitted: Max. 288 tasks per node
+# (SMT enabled, see comment below)
+#SBATCH --cpus-per-task=&lt;no of threads per task&gt;
+# for OpenMP/hybrid jobs only
+#SBATCH --output=&lt;path of output file&gt;
+# if keyword omitted: Default is slurm-%j.out in
+# the submission directory (%j is replaced by
+# the job ID).
+#SBATCH --error=&lt;path of error file&gt;
+# if keyword omitted: Default is slurm-%j.out in
+# the submission directory.
+#SBATCH --time=&lt;walltime&gt;
+#SBATCH --partition=all
+
+# *** start of job script ***
+# Note: The current working directory at this point is
+# the directory where sbatch was executed.
+
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
+srun &lt;executable&gt;
+</pre></div>
+</div>
+<p>Multiple <code class="docutils literal notranslate"><span class="pre">srun</span></code> calls can be placed in a single batch script.
+Options such as <code class="docutils literal notranslate"><span class="pre">--account</span></code>, <code class="docutils literal notranslate"><span class="pre">--nodes</span></code>, <code class="docutils literal notranslate"><span class="pre">--ntasks</span></code> and <code class="docutils literal notranslate"><span class="pre">--ntasks-per-node</span></code> are by default taken from the <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> arguments but can be overwritten for each <code class="docutils literal notranslate"><span class="pre">srun</span></code> invocation.</p>
+<p>Multiple <code class="docutils literal notranslate"><span class="pre">srun</span></code> calls can be placed in a single batch script.
+Options such as <code class="docutils literal notranslate"><span class="pre">--account</span></code>, <code class="docutils literal notranslate"><span class="pre">--nodes</span></code>, <code class="docutils literal notranslate"><span class="pre">--ntasks</span></code> and <code class="docutils literal notranslate"><span class="pre">--ntasks-per-node</span></code> are by default taken from the <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> arguments but can be overwritten for each <code class="docutils literal notranslate"><span class="pre">srun</span></code> invocation.</p>
+<p>The default partition on JUPITER, which is used if <code class="docutils literal notranslate"><span class="pre">--partition</span></code> is omitted, is the <code class="docutils literal notranslate"><span class="pre">booster</span></code> partition.</p>
+<section id="job-script-examples">
+<span id="batch-job-example"></span><h3>Job Script Examples<a class="headerlink" href="#job-script-examples" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For more information about the use of <code class="docutils literal notranslate"><span class="pre">--cpus-per-task</span></code>, <code class="docutils literal notranslate"><span class="pre">SRUN_CPUS_PER_TASK</span></code> and <code class="docutils literal notranslate"><span class="pre">SBATCH_CPUS_PER_TASK</span></code> after the update to Slurm version 23.02, please refer to the
+affinity documention found here: <a class="reference external" href="https://apps.fz-juelich.de/jsc/hps/jureca/affinity.html">https://apps.fz-juelich.de/jsc/hps/jureca/affinity.html</a></p>
+</div>
+<p><strong>Example 1:</strong> MPI application starting 1552 tasks on 4 nodes using 288 CPUs per node (no SMT) running for max. 15 minutes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/bash -x
+#SBATCH --account=&lt;budget&gt;
+#SBATCH --nodes=4
+#SBATCH --ntasks=1552
+#SBATCH --output=mpi-out.%j
+#SBATCH --error=mpi-err.%j
+#SBATCH --time=00:15:00
+#SBATCH --partition=all
+
+srun ./mpi-prog
+</pre></div>
+</div>
+<p><strong>Example 2:</strong> A simple way to get good affinity between CPU sockets and GPUs</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/bin/bash -x
+#SBATCH --account=&lt;budget&gt;
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=72
+#SBATCH --gpus-per-task=1
+#SBATCH --output=mpi-out.%j
+#SBATCH --error=mpi-err.%j
+#SBATCH --time=00:15:00
+#SBATCH --partition=all
+
+srun ./mpi-prog
+</pre></div>
+</div>
+<p>The job script is submitted using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sbatch &lt;jobscript&gt;
+</pre></div>
+</div>
+<p>On success, <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> writes the job ID to standard out.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>One can also define <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> options on the command line, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sbatch --nodes=4 --acount=&lt;budget&gt; --time=01:00:00 &lt;jobscript&gt;
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="generic-resources-features-and-topology-aware-allocations">
+<span id="batch-generic-resources"></span><h2>Generic Resources, Features and Topology-aware Allocations<a class="headerlink" href="#generic-resources-features-and-topology-aware-allocations" title="Link to this heading"></a></h2>
+<p>All nodes on JUPITER Booster are identical, so there is no need to differentiate via Slurms generic resources or feature mechanisms.
+However, <code class="docutils literal notranslate"><span class="pre">--gres=gpu:4</span></code> is automatically applied to all jobs where <code class="docutils literal notranslate"><span class="pre">gres</span></code> is not explicitly set. This can be changed to
+another number if you do not wish to use all GPUs on a node for testing, but it is expected that production workloads use all available
+GPUs per node.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The charged computing time is independent of the number of specified GPUs. Production workloads must use all available GPU resources per node.</p>
+</div>
+<p>SLURM is configured with the topology plugin, and therefore it tries to allocate jobs on physical proximity.  With the Slurm submission option
+<code class="docutils literal notranslate"><span class="pre">--switches=&lt;count&gt;[&#64;max-time]</span></code> users can request the maximum count of leaf switches that will be used for their jobs. This is
+especially useful for network-bound applications, where network locality and maximum network performance is required. Optionally users can define also the maximum
+time to wait for the given number of switches to be available. Take into account that each switch is connected to 16 nodes.</p>
+<p>Another possiblity is the use of node features. Each node has associated features describing its rack and DragonFly group. For instance <code class="docutils literal notranslate"><span class="pre">jpbo-001-01</span></code>
+has <code class="docutils literal notranslate"><span class="pre">rack001,dfpg01</span></code> as features, for rack <code class="docutils literal notranslate"><span class="pre">001</span></code> and DragonFly group <code class="docutils literal notranslate"><span class="pre">01</span></code>. There are 25 possible DragonFly groups. For information on how to leverage
+these features via the <code class="docutils literal notranslate"><span class="pre">--constraint</span></code> option please refer to <a class="reference external" href="https://slurm.schedmd.com/sbatch.html#SECTION_OPTIONS">https://slurm.schedmd.com/sbatch.html#SECTION_OPTIONS</a></p>
+<p>Beyond the options above, users who need finer control can use the <code class="docutils literal notranslate"><span class="pre">--nodelists</span></code> option on SLURM to be explicit about job placement.
+Node names are defined in the format <code class="docutils literal notranslate"><span class="pre">jpbo-XXX-YY</span></code>, where <code class="docutils literal notranslate"><span class="pre">XXX</span></code> is the rack number, and <code class="docutils literal notranslate"><span class="pre">YY</span></code> is the node number within each rack.
+DragonFly Plus groups are composed of 5 racks each (so racks 001-005 are the first group, 006-010 the second, etc.). There are 48 nodes per rack, except in rack
+123 that has 28 nodes, and in racks 124 and 125 that have no nodes on them.</p>
+</section>
+<section id="job-steps">
+<span id="batch-jobsteps"></span><h2>Job Steps<a class="headerlink" href="#job-steps" title="Link to this heading"></a></h2>
+<p>The example below shows a job script where two different job steps are initiated within one job. In total 96 cores are allocated on
+two nodes where <code class="docutils literal notranslate"><span class="pre">-n</span> <span class="pre">288</span></code> causes that each job step uses 48 cores on one of the compute nodes. Additionally in this example the option
+<code class="docutils literal notranslate"><span class="pre">--exclusive</span></code> is passed to <code class="docutils literal notranslate"><span class="pre">srun</span></code> to ensure that distinct cores are allocated to each job step.:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash -x</span>
+<span class="c1">#SBATCH --account=&lt;budget&gt;</span>
+<span class="c1">#SBATCH --nodes=2</span>
+<span class="c1">#SBATCH --ntasks=576</span>
+<span class="c1">#SBATCH --ntasks-per-node=288</span>
+<span class="c1">#SBATCH --output=mpi-out.%j</span>
+<span class="c1">#SBATCH --error=mpi-err.%j</span>
+<span class="c1">#SBATCH --time=00:20:00</span>
+
+srun<span class="w"> </span>--exclusive<span class="w"> </span>-n<span class="w"> </span><span class="m">288</span><span class="w"> </span>./mpi-prog1<span class="w"> </span><span class="p">&amp;</span>
+srun<span class="w"> </span>--exclusive<span class="w"> </span>-n<span class="w"> </span><span class="m">288</span><span class="w"> </span>./mpi-prog2<span class="w"> </span><span class="p">&amp;</span>
+
+<span class="nb">wait</span>
+</pre></div>
+</div>
+</section>
+<section id="dependency-chains">
+<span id="batch-dependency-chains"></span><h2>Dependency Chains<a class="headerlink" href="#dependency-chains" title="Link to this heading"></a></h2>
+<p>Slurm supports dependency chains, i.e., collections of batch jobs with defined dependencies. Dependencies can be defined using the <code class="docutils literal notranslate"><span class="pre">--dependency</span></code> argument to <code class="docutils literal notranslate"><span class="pre">sbatch</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sbatch --dependency=afterany:&lt;jobid&gt; &lt;jobscript&gt;
+</pre></div>
+</div>
+<p>Slurm will guarantee that the new batch job (whose job ID is returned by sbatch) does not start before <code class="docutils literal notranslate"><span class="pre">&lt;jobid&gt;</span></code> terminates (successfully or not).
+It is possible to specify other types of dependencies, such as afterok which ensures that the new job will only start if <code class="docutils literal notranslate"><span class="pre">&lt;jobid&gt;</span></code> finished
+successfully.</p>
+<p>Below an example script for the handling of job chains is provided. The script submits a chain of <code class="docutils literal notranslate"><span class="pre">${NO_OF_JOBS}</span></code> jobs. A job will only start after
+successful completion of its predecessor. Please note that a job which exceeds its time-limit is not marked successful.:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash -x</span>
+<span class="c1"># submit a chain of jobs with dependency</span>
+<span class="c1"># number of jobs to submit</span>
+<span class="nv">NO_OF_JOBS</span><span class="o">=</span>&lt;no<span class="w"> </span>of<span class="w"> </span>jobs&gt;
+<span class="c1"># define jobscript</span>
+<span class="nv">JOB_SCRIPT</span><span class="o">=</span>&lt;jobscript&gt;
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"sbatch </span><span class="si">${</span><span class="nv">JOB_SCRIPT</span><span class="si">}</span><span class="s2">"</span>
+<span class="nv">JOBID</span><span class="o">=</span><span class="k">$(</span>sbatch<span class="w"> </span><span class="si">${</span><span class="nv">JOB_SCRIPT</span><span class="si">}</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $(NF)}'</span><span class="k">)</span>
+<span class="nv">I</span><span class="o">=</span><span class="m">0</span>
+<span class="k">while</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="si">${</span><span class="nv">I</span><span class="si">}</span><span class="w"> </span>-le<span class="w"> </span><span class="si">${</span><span class="nv">NO_OF_JOBS</span><span class="si">}</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"sbatch --dependency=afterok:</span><span class="si">${</span><span class="nv">JOBID</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">JOB_SCRIPT</span><span class="si">}</span><span class="s2">"</span>
+<span class="nv">JOBID</span><span class="o">=</span><span class="k">$(</span>sbatch<span class="w"> </span>--dependency<span class="o">=</span>afterok:<span class="si">${</span><span class="nv">JOBID</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">JOB_SCRIPT</span><span class="si">}</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $(NF)}'</span><span class="k">)</span>
+<span class="nb">let</span><span class="w"> </span><span class="nv">I</span><span class="o">=</span><span class="si">${</span><span class="nv">I</span><span class="si">}</span>+1
+<span class="k">done</span>
+</pre></div>
+</div>
+</section>
+<section id="interactive-sessions">
+<span id="batch-interactive-sessions"></span><h2>Interactive Sessions<a class="headerlink" href="#interactive-sessions" title="Link to this heading"></a></h2>
+<p>Interactive sessions can be allocated using the <code class="docutils literal notranslate"><span class="pre">salloc</span></code> command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ salloc --partition=&lt;devel|dc-cpu-devel|...&gt; --nodes=2 --account=&lt;budget&gt; --time=00:30:00
+</pre></div>
+</div>
+<p>Once an allocation has been made <code class="docutils literal notranslate"><span class="pre">salloc</span></code> will start a shell on the login node (submission host). One can then execute <code class="docutils literal notranslate"><span class="pre">srun</span></code> from within the shell, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ srun --ntasks=4 --ntasks-per-node=2 --cpus-per-task=7 ./hybrid-prog
+</pre></div>
+</div>
+<p>The interactive session is terminated by exiting the shell. In order to obtain a shell on the first allocated compute nodes one can start a remote shell from within the <code class="docutils literal notranslate"><span class="pre">salloc</span></code> session and connect it to a pseudo terminal using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ srun --cpu_bind=none --nodes=2 --pty /bin/bash -i
+</pre></div>
+</div>
+<p>The option <code class="docutils literal notranslate"><span class="pre">--cpu_bind=none</span></code> is used to disable CPU binding for the spawned shell. In order to execute MPI application one uses <code class="docutils literal notranslate"><span class="pre">srun</span></code> again from the remote shell. To support X11 forwarding the <code class="docutils literal notranslate"><span class="pre">--forward-x</span></code> option to <code class="docutils literal notranslate"><span class="pre">srun</span></code> is available. X11 forwarding is required for users who want to use applications or tools with provide a GUI.</p>
+<p>Below a transcript of an exemplary interactive session is shown.
+<code class="docutils literal notranslate"><span class="pre">srun</span></code> can be run within the allocation without delay (note that the first <code class="docutils literal notranslate"><span class="pre">srun</span></code> execution may take slightly longer due to the necessary node health checking performed upon the invocation of the very first <code class="docutils literal notranslate"><span class="pre">srun</span></code> command within the session).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[user1@jpbl-s01-02 ~]$ hostname
+jpbl-s01-02
+[user1@jpbl-s01-02 ~]$ salloc -n 2 --nodes=2 --account=&lt;budget&gt; --time=00:05:00
+salloc: Pending job allocation 56168
+salloc: job 56168 queued and waiting for resources
+salloc: job 56168 has been allocated resources
+salloc: Granted job allocation 56168
+salloc: Waiting for resource configuration
+salloc: Nodes jpbo-003-[02,12] are ready for job
+[user1@jpbl-s01-02 ~]$ hostname
+jpbl-s01-02
+[user1@jpbl-s01-02 ~]$ srun --ntasks 2 --ntasks-per-node=2 hostname
+jpbo-003-02.jupiter.internal
+jpbo-003-12.jupiter.internal
+[user1@jpbl-s01-02 ~]$  srun --cpu-bind=none --nodes=1 --pty /bin/bash -i
+[user1@jpbo-003-02 ~]$ hostname
+jpbo-003-02.jupiter.internal
+[user1@jpbo-003-02 ~]$ exit
+exit
+srun: error: jpbo-003-02: task 0: Exited with exit code 1
+[user1@jpbl-s01-02 ~]$ hostname
+jpbl-s01-02
+[user1@jpbl-s01-02 ~]$ exit
+exit
+salloc: Relinquishing job allocation 56168
+[user1@jpbl-s01-02 ~]$ hostname
+jpbl-s01-02
+</pre></div>
+</div>
+<p>To support X11 forwarding the <code class="docutils literal notranslate"><span class="pre">--forward-x</span></code> option to <code class="docutils literal notranslate"><span class="pre">srun</span></code> is available.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Your account will be charged per allocation whether the compute nodes are used or not.
+Batch submission is the preferred way to execute jobs.</p>
+</div>
+</section>
+<section id="hold-and-release-batch-jobs">
+<span id="batch-hold-release-jobs"></span><h2>Hold and Release Batch Jobs<a class="headerlink" href="#hold-and-release-batch-jobs" title="Link to this heading"></a></h2>
+<p>Jobs that are in pending state (i.e., not yet running) can be put in hold using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>scontrol hold &lt;jobid&gt;
+</pre></div>
+</div>
+<p>Jobs that are in hold are still reported as pending (<em>PD</em>) by <code class="docutils literal notranslate"><span class="pre">squeue</span></code> but the <code class="docutils literal notranslate"><span class="pre">Reason</span></code> shown by <code class="docutils literal notranslate"><span class="pre">squeue</span></code> or <code class="docutils literal notranslate"><span class="pre">scontrol</span> <span class="pre">show</span> <span class="pre">job</span></code> is changed to <code class="docutils literal notranslate"><span class="pre">JobHeldUser</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[user1@jpbl-s02-04 ~]$ scontrol show job &lt;jobid&gt;
+   JobId=&lt;jobid&gt; JobName=jobscript.sh
+   UserId=XXX(nnnn) GroupId=XXX(nnnn) MCS_label=N/A
+   Priority=0 Nice=0 Account=XXX QOS=normal
+   JobState=PENDING Reason=JobHeldUser Dependency=(null)
+   Requeue=0 Restarts=0 BatchFlag=0 Reboot=0 ExitCode=0:0
+   RunTime=00:00:00 TimeLimit=01:00:00 TimeMin=N/A
+   SubmitTime=2025-06-17T16:19:01 EligibleTime=Unknown
+   AccrueTime=Unknown
+   StartTime=Unknown EndTime=Unknown Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2025-06-17T16:19:01 Scheduler=Main
+   Partition=XXX AllocNode:Sid=jpbl-s02-04-interconnect-1.jupiter.internal:79762
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=
+   NumNodes=1-1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=1,mem=878562M,node=1,billing=1
+   AllocTRES=(null)
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=0 MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=NO Contiguous=0 Licenses=(null) Network=(null)
+   Command=hostname
+   WorkDir=/XXX
+</pre></div>
+</div>
+<p>The job can be released using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ scontrol release &lt;jobid&gt;
+</pre></div>
+</div>
+</section>
+<section id="slurm-commands">
+<span id="batch-slurm-commands"></span><h2>Slurm commands<a class="headerlink" href="#slurm-commands" title="Link to this heading"></a></h2>
+<p>Below a list of the most important Slurm user commands available on JUPITER is given.</p>
+<dl>
+<dt><strong>sbatch</strong></dt><dd><p>is used to submit a batch script (which can be a bash, Perl or Python script)</p>
+<p>The script will be executed on the first node in the
+allocation chosen by the scheduler. The working directory coincides with the working directory of the sbatch program. Within the script one or
+multiple srun commands can be used to create job steps and execute (MPI) parallel applications.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">mpiexec</span></code> is not supported on JUPITER. <code class="docutils literal notranslate"><span class="pre">srun</span></code> is the only supported method to spawn MPI applications.</p>
+</div>
+</dd>
+<dt><strong>salloc</strong></dt><dd><p>is used to request an allocation</p>
+<p>When the job is started, a shell (or other program specified on the command line) is started on the
+submission host (login node). From the shell <code class="docutils literal notranslate"><span class="pre">srun</span></code> can be used to interactively spawn parallel applications. The allocation is released
+when the user exits the shell.</p>
+</dd>
+<dt><strong>srun</strong></dt><dd><p>is mainly used to create a job step within an job</p>
+<p><code class="docutils literal notranslate"><span class="pre">srun</span></code> can be executed without arguments except the program to use the full allocation
+or with additional arguments to restrict the job step resources to a subset of the allocated processors.</p>
+</dd>
+<dt><strong>squeue</strong></dt><dd><p>allows to query the list of pending and running jobs</p>
+<p>By default it reports the list of pending jobs sorted by priority and the list of
+running jobs sorted separately according to the job priority.</p>
+</dd>
+<dt><strong>scancel</strong></dt><dd><p>is used to cancel pending or running jobs or to send signals to processes in running jobs or job steps</p>
+<p>Example: <code class="docutils literal notranslate"><span class="pre">scancel</span> <span class="pre">&lt;jobid&gt;</span></code></p>
+</dd>
+<dt><strong>scontrol</strong></dt><dd><p>can be used to query information about compute nodes and running or recently completed jobs</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scontrol</span> <span class="pre">show</span> <span class="pre">job</span> <span class="pre">&lt;jobid&gt;</span></code> to show detailed information about pending, running or recently completed jobs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scontrol</span> <span class="pre">update</span> <span class="pre">job</span> <span class="pre">&lt;jobid&gt;</span> <span class="pre">set</span> <span class="pre">...</span></code> to update a pending job</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For old jobs <code class="docutils literal notranslate"><span class="pre">scontrol</span> <span class="pre">show</span> <span class="pre">job</span> <span class="pre">&lt;jobid&gt;</span></code> will not work and <code class="docutils literal notranslate"><span class="pre">sacct</span> <span class="pre">-j</span> <span class="pre">&lt;jobid&gt;</span></code> should be used instead.</p>
+</div>
+</dd>
+<dt><strong>sacct</strong></dt><dd><p>is used to retrieve accounting information for jobs and job steps</p>
+<p>For older jobs <code class="docutils literal notranslate"><span class="pre">sacct</span></code> queries the accounting database.</p>
+<p>Example: <code class="docutils literal notranslate"><span class="pre">sacct</span> <span class="pre">-j</span> <span class="pre">&lt;jobid&gt;</span></code></p>
+</dd>
+<dt><strong>sinfo</strong></dt><dd><p>is used to retrieve information about the partitions and node states</p>
+</dd>
+<dt><strong>sprio</strong></dt><dd><p>can be used to query job priorities</p>
+</dd>
+<dt><strong>smap</strong></dt><dd><p>graphically shows the state of the partitions and nodes using a curses interface</p>
+<blockquote>
+<div><p>We recommend Llview as an alternative which is supported on all JSC machines.</p>
+</div></blockquote>
+</dd>
+<dt><strong>sattach</strong></dt><dd><p>allows to attach to the standard input, output or error of a running job</p>
+</dd>
+<dt><strong>sstat</strong></dt><dd><p>allows to query information about a running job</p>
+</dd>
+</dl>
+</section>
+<section id="summary-of-sbatch-and-srun-options">
+<span id="slurm-options"></span><h2>Summary of sbatch and srun Options<a class="headerlink" href="#summary-of-sbatch-and-srun-options" title="Link to this heading"></a></h2>
+<p>The following list summarizes important <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> and <code class="docutils literal notranslate"><span class="pre">srun</span></code> command options:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--account</span></code></dt><dd><p>Budget account where contingent is taken from.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--nodes</span></code></dt><dd><p>Number of compute nodes used by the job. Can be omitted if <code class="docutils literal notranslate"><span class="pre">--ntasks</span></code> and <code class="docutils literal notranslate"><span class="pre">--ntasks-per-node</span></code> is given.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--ntasks</span></code></dt><dd><p>Number of tasks (MPI processes). Can be omitted if <code class="docutils literal notranslate"><span class="pre">--nnodes</span></code> and <code class="docutils literal notranslate"><span class="pre">--ntasks-per-node</span></code> is given. <a class="footnote-reference brackets" href="#ntasks" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--ntasks-per-node</span></code></dt><dd><p>Number of tasks per compute nodes.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--cpus-per-task</span></code></dt><dd><p>Number of logical CPUs (hardware threads) per task. This option is only relevant for hybrid/OpenMP jobs.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--job-name</span></code></dt><dd><p>A name for the job</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--output</span></code></dt><dd><p>Path to the job’s standard output. Slurm supports format strings containing replacement symbols such as <code class="docutils literal notranslate"><span class="pre">%j</span></code> (job ID). <a class="footnote-reference brackets" href="#stdcombine" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--error</span></code></dt><dd><p>Path to the job’s standard error. Slurm supports format strings containing replacement symbols such as <code class="docutils literal notranslate"><span class="pre">%j</span></code> (job ID).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--time</span></code></dt><dd><p>Maximal wall-clock time of the job.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--partition</span></code></dt><dd><p>Partition to be used, e.g. <code class="docutils literal notranslate"><span class="pre">batch</span></code> or <code class="docutils literal notranslate"><span class="pre">large</span></code>. If omitted, <code class="docutils literal notranslate"><span class="pre">batch</span></code> is the default.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--mail-user</span></code></dt><dd><p>Define the mail address to receive mail notification.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--mail-type</span></code></dt><dd><p>Define when to send a mail notifications. <a class="footnote-reference brackets" href="#mail-type" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--pty</span> <span class="pre">(srun</span> <span class="pre">only)</span></code></dt><dd><p>Execute the first task in pseudo terminal mode.</p>
+</dd>
+</dl>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="ntasks" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
+<p>If <code class="docutils literal notranslate"><span class="pre">--ntasks</span></code> is omitted the number of nodes can be specified as a range <code class="docutils literal notranslate"><span class="pre">--nodes=&lt;min</span> <span class="pre">no.</span> <span class="pre">of</span> <span class="pre">nodes&gt;-&lt;max</span> <span class="pre">no.</span> <span class="pre">of</span> <span class="pre">nodes&gt;</span></code> allowing the scheduler to start the job with fewer nodes than the maximum requested if this reduces wait time.</p>
+</aside>
+<aside class="footnote brackets" id="stdcombine" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">2</a><span class="fn-bracket">]</span></span>
+<p><code class="docutils literal notranslate"><span class="pre">stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">stderr</span></code> can be combined by specifying the same file for the <code class="docutils literal notranslate"><span class="pre">--output</span></code> and <code class="docutils literal notranslate"><span class="pre">--error</span></code> option.</p>
+</aside>
+<aside class="footnote brackets" id="mail-type" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
+<p>Valid types: <code class="docutils literal notranslate"><span class="pre">BEGIN</span></code>, <code class="docutils literal notranslate"><span class="pre">END</span></code>, <code class="docutils literal notranslate"><span class="pre">FAIL</span></code>, <code class="docutils literal notranslate"><span class="pre">REQUEUE</span></code>, <code class="docutils literal notranslate"><span class="pre">ALL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME_LIMIT</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME_LIMIT_90</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME_LIMIT_80</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME_LIMIT_50</span></code>, <code class="docutils literal notranslate"><span class="pre">ARRAY_TASKS</span></code> to receive emails when events occur. Multiple type values may be specified in a comma separated list.</p>
+</aside>
+</aside>
+<p>More information is available on the man pages of <code class="docutils literal notranslate"><span class="pre">sbatch</span></code>, <code class="docutils literal notranslate"><span class="pre">srun</span></code> and <code class="docutils literal notranslate"><span class="pre">salloc</span></code> which can be retrieved on the login nodes with the commands <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">sbatch</span></code>, <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">srun</span></code> and <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">salloc</span></code>, respectively, or in the <a class="reference external" href="https://slurm.schedmd.com/documentation.html">Slurm documentation</a>.</p>
+</section>
+<section id="cpu-limiting-options">
+<span id="cpulimits"></span><h2>CPU Limiting Options<a class="headerlink" href="#cpu-limiting-options" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Each JUPITER node includes 4 Grace Hopper Superchips.
+Each Superchip is comprised of a CPU and GPU, and each Superchip receives a fixed total power budget of 680 W.</p>
+<p>By default, the CPU for each Superchip is limited to a power budget of 100 W, to maximise performance
+from the GPU, which for many applications will be delivering the bulk of compute performance.
+However, in some cases, where work is split between CPU and GPU, it may be advantageous to
+to rebalance the power budget between CPU and GPU.</p>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="compile.html" class="btn btn-neutral float-left" title="Building Software" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="affinity.html" class="btn btn-neutral float-right" title="Processor Affinity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <div class="footer" role="contentinfo">
+        <p>
+                &#169; 2026, JUPITER administrators. Documentation distributed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            <ul class="links">
+                <li>
+                    <a href="https://www.fz-juelich.de/en/legal-notice">Legal Notice</a>
+                </li>
+                <li class="bordered">
+                    <a href="https://www.fz-juelich.de/en/privacy-policy">Data Protection</a>
+                </li>
+                <li>
+                    <a href="https://www.fz-juelich.de/en/declaration-of-accessibility">Accessibility</a>
+                </li>
+            </ul>
+        </p>
+    </div>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

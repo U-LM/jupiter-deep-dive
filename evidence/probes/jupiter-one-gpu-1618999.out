@@ -1,0 +1,10 @@
+2026-09-02T01:01:14Z
+jpbo-026-13.jupiter.internal
+JobId=1618999 JobName=jp-one-gpu UserId=[redacted-user]([redacted-id]) GroupId=[redacted-user]([redacted-id]) MCS_label=N/A Priority=352010 Nice=0 Account=e-dev-2026d09-128 QOS=normal JobState=RUNNING Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:13 TimeLimit=00:02:00 TimeMin=N/A SubmitTime=2026-09-02T02:59:54 EligibleTime=2026-09-02T02:59:54 AccrueTime=2026-09-02T02:59:54 StartTime=2026-09-02T03:01:01 EndTime=2026-09-02T03:03:05 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-02T03:01:01 Scheduler=Backfill Partition=booster AllocNode:Sid=jpbl-s03-01-interconnect-1.jupiter.internal:1627510 ReqNodeList=(null) ExcNodeList=(null) NodeList=jpbo-026-13 BatchHost=jpbo-026-13 NumNodes=1 NumCPUs=288 NumTasks=1 CPUs/Task=72 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=72,mem=878535M,node=1,billing=72,gres/gpu=1 AllocTRES=cpu=288,node=1,billing=288,gres/gpu=4,gres/gpu:gh200=4 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=72 MinMemoryNode=0 MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Contiguous=0 Licenses=(null) Network=(null) Command=/e/home/jusers/[redacted-user]/jupiter/eurohpc-agent-bridge/jobs/jupiter_one_gpu_accounting_probe.sbatch WorkDir=/e/home/jusers/[redacted-user]/jupiter StdErr=/e/home/jusers/[redacted-user]/jupiter/jupiter-one-gpu-1618999.out StdIn=/dev/null StdOut=/e/home/jusers/[redacted-user]/jupiter/jupiter-one-gpu-1618999.out TresPerJob=gres/gpu:1 TresPerTask=cpu=72 
+cpu-bind=MASK - jpbo-026-13, task  0  0 [152144]: mask 0xffffffffffffffffff set
+Cpus_allowed_list:	0-71
+CUDA_VISIBLE_DEVICES=0
+GPU 0: NVIDIA GH200 120GB (UUID: GPU-7eef73dc-bb63-7495-7aed-838f74698af4)
+GPU 1: NVIDIA GH200 120GB (UUID: GPU-5e4f3876-87a2-3d8a-56b9-676ad4e54f14)
+GPU 2: NVIDIA GH200 120GB (UUID: GPU-26b7e719-8881-d982-4247-bf52296d9f2f)
+GPU 3: NVIDIA GH200 120GB (UUID: GPU-1de0776f-140f-12aa-2f7d-4eeff20f140d)

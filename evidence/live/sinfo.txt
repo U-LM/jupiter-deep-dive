@@ -1,0 +1,17 @@
+booster*|up|infinite|1|drain*|gpu:gh200:4(S:0-3)|878535|288
+booster*|up|infinite|10|drain|gpu:gh200:4(S:0-3)|878535|288
+booster*|up|infinite|16|resv|gpu:gh200:4(S:0-3)|878535|288
+booster*|up|infinite|5348|alloc|gpu:gh200:4(S:0-3)|878535|288
+booster*|up|infinite|268|idle|gpu:gh200:4(S:0-3)|878535|288
+largebooster|down|infinite|1|inval|gpu:gh200:4(S:0-3)|878535|288
+largebooster|down|infinite|1|inval|gpu:gh200:3(S:0,2-3)|878535|288
+largebooster|down|infinite|175|drain*|gpu:gh200:4(S:0-3)|878535|288
+largebooster|down|infinite|2|drain*|gpu:gh200:4|878535|288
+largebooster|down|infinite|1|drain*|gpu:gh200:3(S:1-3)|878535|288
+largebooster|down|infinite|1|drain*|gpu:gh200:1(S:0)|878535|288
+largebooster|down|infinite|25|down*|gpu:gh200:4(S:0-3)|878535|288
+largebooster|down|infinite|43|drain|gpu:gh200:4(S:0-3)|878535|288
+largebooster|down|infinite|16|resv|gpu:gh200:4(S:0-3)|878535|288
+largebooster|down|infinite|5348|alloc|gpu:gh200:4(S:0-3)|878535|288
+largebooster|down|infinite|270|idle|gpu:gh200:4(S:0-3)|878535|288
+largebooster|down|infinite|1|down|gpu:gh200:4(S:0-3)|878535|288

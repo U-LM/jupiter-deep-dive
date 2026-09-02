@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://u-lm.github.io/schemas/jupiter-deep-dive-v1.json",
+  "title": "JUPITER Deep Dive evidence model",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "generatedAt",
+    "allocation",
+    "sources",
+    "facts",
+    "probes",
+    "calculations",
+    "storageTiers",
+    "workloadScenarios",
+    "openQuestions"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "title": { "type": "string", "minLength": 1 },
+    "allocation": {
+      "type": "object",
+      "required": ["account", "system", "partition", "periodStart", "periodEnd", "sourceIds"],
+      "properties": {
+        "account": { "type": "string" },
+        "system": { "type": "string" },
+        "partition": { "type": "string" },
+        "periodStart": { "type": "string", "format": "date" },
+        "periodEnd": { "type": "string", "format": "date" },
+        "sourceIds": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/source" },
+      "minItems": 1
+    },
+    "facts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/fact" },
+      "minItems": 1
+    },
+    "probes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/probe" }
+    },
+    "calculations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/calculation" }
+    },
+    "storageTiers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/storageTier" }
+    },
+    "workloadScenarios": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/scenario" }
+    },
+    "openQuestions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/openQuestion" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "evidenceType": {
+      "enum": ["official", "observed", "derived", "inferred"]
+    },
+    "confidence": {
+      "enum": ["high", "medium", "low"]
+    },
+    "source": {
+      "type": "object",
+      "required": ["id", "title", "publisher", "url", "retrievedAt", "version", "kind", "confidence"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9.-]+$" },
+        "title": { "type": "string" },
+        "publisher": { "type": "string" },
+        "url": { "type": "string" },
+        "snapshotPath": { "type": "string" },
+        "retrievedAt": { "type": "string", "format": "date" },
+        "version": { "type": "string", "minLength": 1 },
+        "updatedAt": { "type": "string" },
+        "kind": { "enum": ["web", "live", "artifact"] },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      },
+      "additionalProperties": false
+    },
+    "fact": {
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "value",
+        "unit",
+        "scope",
+        "evidenceType",
+        "confidence",
+        "sourceIds"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9.-]+$" },
+        "label": { "type": "string" },
+        "value": {},
+        "unit": { "type": "string" },
+        "scope": { "type": "string" },
+        "evidenceType": { "$ref": "#/$defs/evidenceType" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceIds": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "probe": {
+      "type": "object",
+      "required": ["id", "status", "evidenceType", "confidence", "scope", "sourceIds", "artifactPaths", "summary"],
+      "properties": {
+        "id": { "type": "string" },
+        "jobId": { "type": ["string", "null"] },
+        "status": { "enum": ["complete", "pending", "failed"] },
+        "evidenceType": { "$ref": "#/$defs/evidenceType" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "scope": { "type": "string" },
+        "sourceIds": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "artifactPaths": { "type": "array", "items": { "type": "string" } },
+        "commandArtifactPath": { "type": "string" },
+        "commandProvenance": { "type": "string" },
+        "summary": { "type": "string" },
+        "maxNodeHours": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "calculation": {
+      "type": "object",
+      "required": ["id", "label", "formula", "result", "unit", "scope", "evidenceType", "confidence", "sourceIds"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "formula": { "type": "string" },
+        "result": { "type": "number" },
+        "unit": { "type": "string" },
+        "scope": { "type": "string" },
+        "evidenceType": { "$ref": "#/$defs/evidenceType" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceIds": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      },
+      "additionalProperties": false
+    },
+    "storageTier": {
+      "type": "object",
+      "required": ["id", "path", "softLimitGB", "hardLimitGB", "retention", "backup", "backupMethod", "use", "scope", "evidenceType", "confidence", "sourceIds"],
+      "properties": {
+        "id": { "type": "string" },
+        "path": { "type": "string" },
+        "softLimitGB": { "type": "number" },
+        "hardLimitGB": { "type": "number" },
+        "softInodes": { "type": "integer" },
+        "hardInodes": { "type": "integer" },
+        "retention": { "type": "string" },
+        "backup": { "type": "boolean" },
+        "backupMethod": { "type": "string" },
+        "use": { "type": "string" },
+        "scope": { "type": "string" },
+        "evidenceType": { "$ref": "#/$defs/evidenceType" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceIds": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      },
+      "additionalProperties": false
+    },
+    "scenario": {
+      "type": "object",
+      "required": ["id", "title", "layout", "utilization", "recommendation", "template", "scope", "evidenceType", "confidence", "sourceIds"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "layout": { "type": "string" },
+        "utilization": { "type": "string" },
+        "recommendation": { "enum": ["preferred", "conditional", "avoid"] },
+        "template": { "type": "string" },
+        "notes": { "type": "string" },
+        "scope": { "type": "string" },
+        "evidenceType": { "$ref": "#/$defs/evidenceType" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "sourceIds": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      },
+      "additionalProperties": false
+    },
+    "openQuestion": {
+      "type": "object",
+      "required": ["id", "question", "resolution", "sourceIds"],
+      "properties": {
+        "id": { "type": "string" },
+        "question": { "type": "string" },
+        "resolution": { "type": "string" },
+        "status": { "enum": ["open", "resolved", "deferred"] },
+        "sourceIds": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

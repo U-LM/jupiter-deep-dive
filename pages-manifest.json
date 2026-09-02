@@ -1,0 +1,260 @@
+{
+  "artifact": "JUPITER Booster technical deep dive",
+  "visibility": "public static artifact; private bridge source excluded",
+  "redaction": {
+    "filesChanged": 10,
+    "policy": "local paths, JSC user name and numeric user id removed"
+  },
+  "files": [
+    {
+      "path": ".nojekyll",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "README.md",
+      "sha256": "6318a091f77aa1136e569624f2df7e329f49fa9559dac81d10474e7e9c802925",
+      "bytes": 2723
+    },
+    {
+      "path": "allocation-accounting.md",
+      "sha256": "6c078cc4718a1396fffe029b7f668dd4f6932591e1cdcf8466bebcaab3925e50",
+      "bytes": 3277
+    },
+    {
+      "path": "evidence/live/SHA256SUMS",
+      "sha256": "5b0adf659030ddf73ce8d6f3fa6911f2d3ee3c20ce83269bbf8b746bed6f702d",
+      "bytes": 1020
+    },
+    {
+      "path": "evidence/live/association.txt",
+      "sha256": "d6e5569a57b3eedae641d00714fb0cea5bdfdad2428542fcb154f0c30551b5b1",
+      "bytes": 127
+    },
+    {
+      "path": "evidence/live/baseline-job.txt",
+      "sha256": "abdb12ad0ef6d3b3485b15c186c6fdb12da2d1c20a75d45e0ce7baecec8f1b81",
+      "bytes": 298
+    },
+    {
+      "path": "evidence/live/cpu-quota.json",
+      "sha256": "5c8a4bc2aa20674307d7b89a6de5093973fce58c4a47278c1b97b1884c53cfd9",
+      "bytes": 521
+    },
+    {
+      "path": "evidence/live/data-quota.json",
+      "sha256": "aa89e9a1144d9d8f45e4d864d02d98feab6ce88737fcc60a9a48d36a3dc20429",
+      "bytes": 1366
+    },
+    {
+      "path": "evidence/live/manifest.txt",
+      "sha256": "f06345592d6a37219e5f9a80a99fe58507b1fd893b632c595fdac1bbbc558ac9",
+      "bytes": 106
+    },
+    {
+      "path": "evidence/live/partition-booster.txt",
+      "sha256": "002da3438b89807145cc81b8fdb9002a04d8c5ff663a25be42d9401e8ae3a9d9",
+      "bytes": 3477
+    },
+    {
+      "path": "evidence/live/partition-largebooster.txt",
+      "sha256": "01ebba0b764e65c739481a3325ef61194542ef59df3b5da550bbb621f3a7c9a0",
+      "bytes": 2806
+    },
+    {
+      "path": "evidence/live/project.json",
+      "sha256": "c64f6d6ed664d32436dbaa8ec26fecbb3b45fab71d4dd24f67b058745acedcb8",
+      "bytes": 359
+    },
+    {
+      "path": "evidence/live/reservations.txt",
+      "sha256": "cfedec11e1e634e2ba56bdf334c5229759f6be068814ab1084d6ee3ad4c3c734",
+      "bytes": 674
+    },
+    {
+      "path": "evidence/live/sinfo.txt",
+      "sha256": "309a28f46369604718e9961508fa8f4e3b3f8f0394abd34bd58e5f9b7dbca88d",
+      "bytes": 1085
+    },
+    {
+      "path": "evidence/live/slurm-config.txt",
+      "sha256": "79ff344db27283668a95714e5fd4d858650dd3641d820199867ccfd20ae3938f",
+      "bytes": 288
+    },
+    {
+      "path": "evidence/live/user-data-quota.json",
+      "sha256": "94fed7c23394aab59493517fd70ff2db903826fc55d5af5e28345134dd50fa43",
+      "bytes": 763
+    },
+    {
+      "path": "evidence/official/SHA256SUMS",
+      "sha256": "fd3a10a9528a71a2db5fd095efb218b902c8f43931a797e3abc80e23fe5bf767",
+      "bytes": 1294
+    },
+    {
+      "path": "evidence/official/eurohpc-systems.html",
+      "sha256": "4b925016c000db6ed04b655873da2ad78d106ed2b999752418cbad8cbe8bbcb1",
+      "bytes": 137930
+    },
+    {
+      "path": "evidence/official/eviden-xh3000.pdf",
+      "sha256": "4e8b065ce057999adc81818ce6ac4d0174c8808a4f839b2a8459fe2aee695d88",
+      "bytes": 6479730
+    },
+    {
+      "path": "evidence/official/jsc-accounting.html",
+      "sha256": "bab3267623db8525187d73f3c4959ce7829a93d35343774f1cc1f9b787fbe898",
+      "bytes": 46104
+    },
+    {
+      "path": "evidence/official/jsc-affinity.html",
+      "sha256": "173b65390adeec24ffe317b528d338e0243bc2b7347b3979a0d7cd59d8da112f",
+      "bytes": 91365
+    },
+    {
+      "path": "evidence/official/jsc-batch.html",
+      "sha256": "25e813206e51af9db85e2826db3e61df6e4488fd76a91bf4fe8b9d94965e866d",
+      "bytes": 85209
+    },
+    {
+      "path": "evidence/official/jsc-buildup.html",
+      "sha256": "b3c4f8e5f67f7881fabe5418c5afafeb2344b655ffc9044bb8580a6ec1fd8e99",
+      "bytes": 62262
+    },
+    {
+      "path": "evidence/official/jsc-config.html",
+      "sha256": "ae68200c6ba010e7978da947582730e766283eb0d0a30477d6133bae1f68106e",
+      "bytes": 47788
+    },
+    {
+      "path": "evidence/official/jsc-data-transfer.html",
+      "sha256": "aa6d401d567fd87cfadecdf1e48fd5ffb0b8827da89160ebb3a4e4456fab382a",
+      "bytes": 42984
+    },
+    {
+      "path": "evidence/official/jsc-datamover.html",
+      "sha256": "0427f10e4ffba6beffe7aa106f2de8210d1a6542875f9b986bda6954d725cf46",
+      "bytes": 62847
+    },
+    {
+      "path": "evidence/official/jsc-filesystems.html",
+      "sha256": "62d2de78445ca859faf8358cc8bf3f16f6f66f511a768ddc6a4839083bf40c7e",
+      "bytes": 51051
+    },
+    {
+      "path": "evidence/official/jsc-gpu.html",
+      "sha256": "a3c7a23fd8a99c1426db4fde29406e7c676dfc8820a51e558ad198606d60ff66",
+      "bytes": 53020
+    },
+    {
+      "path": "evidence/official/jsc-tech.html",
+      "sha256": "5abeca6756f73194f91d8d6383828460f193d15af538f892d8d1b6ea90b3d33f",
+      "bytes": 326472
+    },
+    {
+      "path": "evidence/official/nvidia-cuda-memory.html",
+      "sha256": "0c14b553b394a2840f28fc19b62c09a98acc43b8af8ee6088a2772c8a95132ad",
+      "bytes": 86116
+    },
+    {
+      "path": "evidence/official/nvidia-grace.html",
+      "sha256": "504bde5f763d21a57d021d7d802e3c1ac196afe241d7cc01c1646e81b5b655fb",
+      "bytes": 34296
+    },
+    {
+      "path": "evidence/official/nvidia-nccl.html",
+      "sha256": "45e6a273a148b99b56efeff5e47aab32bd3fa52563798c35114d26c38e8fdc20",
+      "bytes": 97520
+    },
+    {
+      "path": "evidence/probes/SHA256SUMS",
+      "sha256": "ce4b90c977ed4704f8346b9bf72504eb0d9a94a07e72e86431412921dd7ab3ed",
+      "bytes": 853
+    },
+    {
+      "path": "evidence/probes/cpu-quota-after.json",
+      "sha256": "22d532978f18fcfa79714c78f35eb90eaf25690a911595f7fb388d88c5306f34",
+      "bytes": 521
+    },
+    {
+      "path": "evidence/probes/job-ids.txt",
+      "sha256": "8bb68d22e4755b01d0ddfb0bedeeb9e293876e19f0e78abf4420d965099b8a03",
+      "bytes": 41
+    },
+    {
+      "path": "evidence/probes/jupiter-gpu-check-1618664.out",
+      "sha256": "b0b30adfcf10ee4900bc25d6d0662196a1dd83c98dbb2b483f5f05e374123f2e",
+      "bytes": 2822
+    },
+    {
+      "path": "evidence/probes/jupiter-one-gpu-1618999.out",
+      "sha256": "95d9f6f381efad8fe18097a2c8f68306fe3a4700822b1041bce384b9b62e2653",
+      "bytes": 1975
+    },
+    {
+      "path": "evidence/probes/jupiter-topology-1618998.out",
+      "sha256": "42072fe8f61f6241284e81d787eb5e3c0328264087cd0f59687a1168606de95a",
+      "bytes": 37265
+    },
+    {
+      "path": "evidence/probes/manifest.txt",
+      "sha256": "f1683627772a179bf39512d3822451fa74f784ad1b050064cf5f886b97e8fde6",
+      "bytes": 350
+    },
+    {
+      "path": "evidence/probes/reconstructed-jupiter-one-gpu-1618999.sbatch",
+      "sha256": "4ea47d14ea046080f5f6599bc762690f5b46d6c536c65c84ee0141e2fed8e2ac",
+      "bytes": 562
+    },
+    {
+      "path": "evidence/probes/reconstructed-jupiter-topology-1618998.sbatch",
+      "sha256": "f045f2ea2cda9da7b31ab3fc3362b67b8d8879ad25114207a9b92afd9b4ee062",
+      "bytes": 2093
+    },
+    {
+      "path": "evidence/probes/sacct-probes.txt",
+      "sha256": "7b2c5ea07b723aa4a2df81e421e7139be655f34ac06aaf75b4d04eb3b9875473",
+      "bytes": 466
+    },
+    {
+      "path": "evidence-register.md",
+      "sha256": "80c5fdbb2f0d74e65c5fcce559a870bb79d238222187e64cf40590590dcdfffc",
+      "bytes": 25565
+    },
+    {
+      "path": "facts.json",
+      "sha256": "fef0fd7b34e08d36de023e75207ff445c9ea8eb76b960f4f74c8f93ce4085319",
+      "bytes": 41586
+    },
+    {
+      "path": "facts.schema.json",
+      "sha256": "ef8afc72e063acbd2b2d476115e3c3cd46d8ab2ea655c40f4051ec652ae0c712",
+      "bytes": 7298
+    },
+    {
+      "path": "index.html",
+      "sha256": "cc0332d5e1e100d9a6f52525e7c8c5ef697b60e257924aca314873ca3be26101",
+      "bytes": 137866
+    },
+    {
+      "path": "node-gh200-numa.md",
+      "sha256": "2a30c9ad77c1b8d16b94c321b21b5125d034b32447df8598d1a1c9383b5e15d6",
+      "bytes": 4303
+    },
+    {
+      "path": "storage.md",
+      "sha256": "531da909bc025711de1e9839428d8139da7c2f77bc8509bfea1067a022be967b",
+      "bytes": 4486
+    },
+    {
+      "path": "system-architecture.md",
+      "sha256": "16d4c669b04fd44a9ba95466412314799dcc2f358b0c694ed4819addf5641f20",
+      "bytes": 4071
+    },
+    {
+      "path": "workload-playbook.md",
+      "sha256": "46334fd3cd76fbcca1f588712086da49e251f7207d4b7c06ce9b6f2a9bb6bb7c",
+      "bytes": 7500
+    }
+  ]
+}

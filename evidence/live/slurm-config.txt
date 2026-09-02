@@ -1,0 +1,6 @@
+AccountingStorageType   = accounting_storage/slurmdbd
+DefMemPerNode           = UNLIMITED
+JobAcctGatherType       = jobacct_gather/linux
+PriorityType            = priority/multifactor
+SelectType              = select/cons_tres
+SelectTypeParameters    = CR_CORE,CR_CORE_DEFAULT_DIST_BLOCK

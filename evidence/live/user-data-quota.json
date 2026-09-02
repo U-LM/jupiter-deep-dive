@@ -1,0 +1,33 @@
+[
+  {
+    "username": "[redacted-user]",
+    "group": "e-dev-2026d09-128",
+    "filesystem": "exa_project1",
+    "storage": "exasm"
+  },
+  {
+    "group": "e-dev-2026d09-128",
+    "username": "[redacted-user]",
+    "storage": "exasm",
+    "filesystem": "exa_fscratch"
+  },
+  {
+    "username": "[redacted-user]",
+    "filesystem": "exa_scratch",
+    "storage": "exasm",
+    "group": "e-dev-2026d09-128"
+  },
+  {
+    "storage": "exasm",
+    "inode-hard-limit": "82000",
+    "data-usage": "0",
+    "inode-soft-limit": "80000",
+    "data-hard-limit": "20.981GB",
+    "inode-usage": "11",
+    "data-soft-limit": "19.074GB",
+    "filesystem": "exa_home",
+    "group": "[redacted-user]",
+    "last-updated": "2026-09-02 01:20:00",
+    "username": "[redacted-user]"
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "unixgroup": "e-dev-2026d09-128",
+    "gid": "35434",
+    "project-type": "C",
+    "members": "[redacted-user]",
+    "PI-uid": "[redacted-user]",
+    "project-state": "A",
+    "directories": "PROJECT:/e/project1/e-dev-2026d09-128,FSCRATCH:/e/fscratch/e-dev-2026d09-128,SCRATCH:/e/scratch/e-dev-2026d09-128",
+    "project": "e-dev-2026d09-128"
+  }
+]

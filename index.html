@@ -1399,20 +1399,16 @@
           const x = margin + rack * (rackWidth + gap);
           box(x, 48, rackWidth, height - 78, "#f6f8fa", "#6d7782");
           textLabel(`Rack ${rack + 1}`, x + rackWidth / 2, 68, 11, "#30363d", "center");
-          const nodeGap = 3;
-          const cols = 6;
-          const rows = nodes / cols;
-          const nodeWidth = (rackWidth - 14 - nodeGap * (cols - 1)) / cols;
-          const nodeHeight = (height - 116 - nodeGap * (rows - 1)) / rows;
+          const nodeGap = 1;
+          const nodeWidth = rackWidth - 14;
+          const nodeHeight = (height - 118 - nodeGap * (nodes - 1)) / nodes;
           for (let node = 0; node < nodes; node += 1) {
-            const nodeCol = node % cols;
-            const nodeRow = Math.floor(node / cols);
             context.fillStyle = "#246b3c";
             context.fillRect(
-              x + 7 + nodeCol * (nodeWidth + nodeGap),
-              82 + nodeRow * (nodeHeight + nodeGap),
-              Math.max(3, nodeWidth),
-              Math.max(4, nodeHeight),
+              x + 7,
+              82 + node * (nodeHeight + nodeGap),
+              nodeWidth,
+              Math.max(2, nodeHeight),
             );
           }
         }

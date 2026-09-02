@@ -66,6 +66,27 @@ is `800 Gbit/s`. The common fabric uses NVIDIA Quantum InfiniBand NDR in a
 DragonFly+ topology with adaptive routing. Each node has one HCA local to each
 Grace CPU locality group, confirmed by probe `1618998`.
 
+### Data-path bandwidth
+
+| Path or component | Published peak | Decimal comparison | Scope and limitation |
+| --- | ---: | ---: | --- |
+| HBM3 ↔ local Hopper GPU | 4 TB/s | 4,000 GB/s | per GPU local-memory peak |
+| Grace LPDDR5X ↔ local CPU | 512 GB/s | 512 GB/s | per 120 GB Grace CPU memory controller |
+| paired Grace CPU ↔ Hopper GPU | 900 GB/s aggregate | 900 GB/s | coherent NVLink-C2C inside one GH200 |
+| Hopper GPU ↔ Hopper GPU | 300 GB/s aggregate | 150 GB/s per direction | per GPU pair over NVLink4 inside one node |
+| node ↔ L1 fabric | 4 × 200 Gbit/s | 100 GB/s raw per node | endpoint injection ceiling across four HCAs |
+| switch ↔ switch | 400 Gbit/s per link | 50 GB/s raw per link | DragonFly+ building block; not rack throughput |
+| node ↔ node, same rack | no fixed figure published | ≤100 GB/s raw per endpoint | route, rails, protocol and contention apply |
+| rack ↔ rack, same group | no aggregate published | 50 GB/s raw per switch link | number of active links and routes varies |
+| DragonFly+ group ↔ group | no aggregate published | 50 GB/s raw per switch link | adaptive routing; endpoint injection still applies |
+
+One full Booster DragonFly+ group contains `15` L1 and `16` L2 switches. JSC
+publishes link rates, but it does not publish a single guaranteed application
+throughput for a node pair, rack pair or group pair. Converting `Gbit/s` to
+`GB/s` divides by eight and still leaves protocol overhead, collective algorithm,
+message-size, congestion and placement effects. Multi-node planning therefore
+needs measured NCCL or CUDA-aware MPI bandwidth for the actual Slurm layout.
+
 The machine uses Eviden BullSequana XH3000 direct liquid cooling. Cooling and
 rack packaging are system-level characteristics; they do not change the Slurm
 billing unit.

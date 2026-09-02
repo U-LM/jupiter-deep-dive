@@ -218,13 +218,13 @@
     },
     {
       "path": "evidence-register.md",
-      "sha256": "80c5fdbb2f0d74e65c5fcce559a870bb79d238222187e64cf40590590dcdfffc",
-      "bytes": 25565
+      "sha256": "1195a5c6f8fa6123890317aab6e2c847a1e67614668a24feb8547a7bbf0aa7cc",
+      "bytes": 27338
     },
     {
       "path": "facts.json",
-      "sha256": "fef0fd7b34e08d36de023e75207ff445c9ea8eb76b960f4f74c8f93ce4085319",
-      "bytes": 41586
+      "sha256": "943a47707bebe8bb09d97e664a4a879027a2046c0adc0d0cdd2e5575c3e3bef4",
+      "bytes": 44373
     },
     {
       "path": "facts.schema.json",
@@ -233,8 +233,8 @@
     },
     {
       "path": "index.html",
-      "sha256": "38c5d3730def9b67a8c4369c89b7a9aad6eff90b44b9bfe516304ad261151ab1",
-      "bytes": 137663
+      "sha256": "5e887da76a22ec785bc79ff370ba8cca6972f01dfeed6ab5357f788e6e3080f9",
+      "bytes": 155487
     },
     {
       "path": "node-gh200-numa.md",
@@ -248,8 +248,8 @@
     },
     {
       "path": "system-architecture.md",
-      "sha256": "16d4c669b04fd44a9ba95466412314799dcc2f358b0c694ed4819addf5641f20",
-      "bytes": 4071
+      "sha256": "5311f0c571ad75bbe7129d5526ede7a66205a392e8e9b010b958b3dea2cd820e",
+      "bytes": 5707
     },
     {
       "path": "workload-playbook.md",

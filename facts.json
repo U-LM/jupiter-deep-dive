@@ -489,11 +489,31 @@
       "sourceIds": ["jsc-config"]
     },
     {
+      "id": "interconnect.gpu-pair-direction",
+      "label": "NVLink4 bandwidth per GPU-pair direction",
+      "value": 150,
+      "unit": "GB/s",
+      "scope": "one direction between a Booster node GPU pair",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
       "id": "network.hca-per-node",
       "label": "ConnectX-7 NDR200 HCAs per node",
       "value": 4,
       "unit": "HCAs",
       "scope": "Booster node",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "network.hca-link",
+      "label": "InfiniBand bandwidth per node HCA",
+      "value": 200,
+      "unit": "Gbit/s",
+      "scope": "one Booster node ConnectX-7 HCA to L1",
       "evidenceType": "official",
       "confidence": "high",
       "sourceIds": ["jsc-config"]
@@ -508,6 +528,58 @@
       "confidence": "high",
       "sourceIds": ["jsc-config"],
       "note": "4 HCAs × 200 Gbit/s."
+    },
+    {
+      "id": "network.bandwidth-node-bytes",
+      "label": "Nominal raw network injection per node",
+      "value": 100,
+      "unit": "GB/s",
+      "scope": "Booster node decimal line-rate equivalent",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"],
+      "note": "800 Gbit/s divided by 8; protocol and application throughput are lower."
+    },
+    {
+      "id": "network.switch-link",
+      "label": "InfiniBand bandwidth per inter-switch link",
+      "value": 400,
+      "unit": "Gbit/s",
+      "scope": "one DragonFly+ switch-to-switch link",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "network.switch-link-bytes",
+      "label": "Raw bandwidth per inter-switch link",
+      "value": 50,
+      "unit": "GB/s",
+      "scope": "one DragonFly+ switch-to-switch link decimal equivalent",
+      "evidenceType": "derived",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"],
+      "note": "400 Gbit/s divided by 8; this is a link rate, not rack-to-rack throughput."
+    },
+    {
+      "id": "network.l1-switches-group",
+      "label": "L1 switches per full Booster DragonFly+ group",
+      "value": 15,
+      "unit": "switches",
+      "scope": "one full Booster DragonFly+ group",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "network.l2-switches-group",
+      "label": "L2 switches per full Booster DragonFly+ group",
+      "value": 16,
+      "unit": "switches",
+      "scope": "one full Booster DragonFly+ group",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"]
     },
     {
       "id": "numa.ids",
@@ -604,6 +676,17 @@
       "evidenceType": "official",
       "confidence": "high",
       "sourceIds": ["jsc-config"]
+    },
+    {
+      "id": "topology.dragonfly-groups-total",
+      "label": "DragonFly+ groups across the common JUPITER fabric",
+      "value": 27,
+      "unit": "groups",
+      "scope": "common JUPITER fabric: Booster, Cluster and administrative systems",
+      "evidenceType": "official",
+      "confidence": "high",
+      "sourceIds": ["jsc-config"],
+      "note": "25 Booster groups, one Cluster group and one administrative group."
     },
     {
       "id": "topology.nodes-group",

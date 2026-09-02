@@ -1071,7 +1071,7 @@
         </div>
         <div class="canvas-shell">
           <canvas id="topology-canvas" width="1160" height="420" aria-label="Interactive JUPITER topology diagram">
-            JUPITER topology: 25 DragonFly+ groups, up to five racks per group, 48 nodes per full rack and four GH200 per node.
+            JUPITER topology: 27 DragonFly+ groups on the common fabric, including 25 Booster groups, with up to five racks per Booster group, 48 nodes per full rack and four GH200 per node.
           </canvas>
         </div>
         <div id="locality-grid" class="locality-grid" aria-label="NUMA locality groups"></div>
@@ -1429,38 +1429,68 @@
       }
 
       function drawSystem(width, height) {
-        const groups = number("topology.dragonfly-groups");
-        const cols = 5;
-        const rows = Math.ceil(groups / cols);
-        const margin = 28;
-        const gap = 10;
-        const labelSpace = 40;
-        const cellWidth = (width - margin * 2 - gap * (cols - 1)) / cols;
-        const cellHeight = (height - margin * 2 - labelSpace - gap * (rows - 1)) / rows;
-        textLabel(`${format(installedNodes)} nodes · ${format(installedNodes * gpusPerNode)} GH200`, margin, 20, 13);
+        const boosterGroups = number("topology.dragonfly-groups");
+        const totalGroups = number("topology.dragonfly-groups-total");
+        const compact = width < 620;
+        const centerX = width / 2;
+        const centerY = compact ? 220 : 218;
+        const radiusX = Math.min(width * 0.42, 430);
+        const radiusY = compact ? 142 : 150;
+        const nodeRadius = compact ? 8 : 12;
+        const centers = Array.from({ length: totalGroups }, (_, index) => {
+          const angle = -Math.PI / 2 + (index * Math.PI * 2) / totalGroups;
+          return [
+            centerX + Math.cos(angle) * radiusX,
+            centerY + Math.sin(angle) * radiusY,
+          ];
+        });
+
+        textLabel(`${format(installedNodes)} Booster nodes · ${format(installedNodes * gpusPerNode)} GH200`, 18, 20, compact ? 10 : 13);
         textLabel(
-          `Global DragonFly+ · ${number("network.switch-link")} Gbit/s per switch link · adaptive routing`,
-          margin,
-          42,
-          10,
+          `DragonFly+ global links · ${number("network.switch-link")} Gbit/s each · adaptive routing`,
+          18,
+          40,
+          compact ? 8 : 10,
           "#145da0",
         );
-        for (let index = 0; index < groups; index += 1) {
-          const col = index % cols;
-          const row = Math.floor(index / cols);
-          const x = margin + col * (cellWidth + gap);
-          const y = margin + labelSpace + row * (cellHeight + gap);
-          box(x, y, cellWidth, cellHeight, index === 24 ? "#faf0d5" : "#e8f1f8", "#6d7782");
-          textLabel(`G${index + 1}`, x + 6, y + 15, 10);
-          const rackGap = 3;
-          const rackWidth = (cellWidth - 12 - rackGap * 4) / 5;
-          for (let rack = 0; rack < 5; rack += 1) {
-            const rackX = x + 6 + rack * (rackWidth + rackGap);
-            context.fillStyle = index === 24 && rack >= 3 ? "#d6d9dd" : "#145da0";
-            context.fillRect(rackX, y + 24, rackWidth, Math.max(5, cellHeight - 31));
+
+        context.save();
+        context.strokeStyle = "#4682b4";
+        context.lineWidth = compact ? 0.45 : 0.65;
+        context.globalAlpha = compact ? 0.12 : 0.15;
+        for (let first = 0; first < centers.length; first += 1) {
+          for (let second = first + 1; second < centers.length; second += 1) {
+            context.beginPath();
+            context.moveTo(centers[first][0], centers[first][1]);
+            context.lineTo(centers[second][0], centers[second][1]);
+            context.stroke();
           }
         }
-        byId("topology-status").textContent = `${groups} Booster groups · ${number("network.switch-link")} Gbit/s per switch link · adaptive routing`;
+        context.restore();
+
+        centers.forEach(([x, y], index) => {
+          const isCluster = index === boosterGroups;
+          const isAdmin = index === boosterGroups + 1;
+          context.beginPath();
+          context.arc(x, y, nodeRadius, 0, Math.PI * 2);
+          context.fillStyle = isCluster ? "#145da0" : isAdmin ? "#9a2f2f" : "#246b3c";
+          context.fill();
+          context.strokeStyle = "#ffffff";
+          context.lineWidth = 1;
+          context.stroke();
+          const label = isCluster ? "C" : isAdmin ? "A" : String(index + 1);
+          textLabel(label, x, y + (compact ? 2.5 : 3), compact ? 6 : 8, "#ffffff", "center");
+        });
+
+        badgeLabel("logical group connectivity", centerX, centerY - 3, compact ? 8 : 10, "#145da0");
+        badgeLabel(
+          `${boosterGroups} Booster · 1 Cluster · 1 Admin`,
+          centerX,
+          height - 13,
+          compact ? 8 : 10,
+          "#30363d",
+        );
+        byId("topology-status").textContent = `${totalGroups} groups: ${boosterGroups} Booster + 1 Cluster + 1 Admin · ${number("network.switch-link")} Gbit/s inter-switch links · adaptive routing`;
       }
 
       function drawGroup(width, height) {

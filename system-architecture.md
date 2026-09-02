@@ -73,6 +73,7 @@ Grace CPU locality group, confirmed by probe `1618998`.
 | HBM3 ↔ local Hopper GPU | 4 TB/s | 4,000 GB/s | per GPU local-memory peak |
 | Grace LPDDR5X ↔ local CPU | 512 GB/s | 512 GB/s | per 120 GB Grace CPU memory controller |
 | paired Grace CPU ↔ Hopper GPU | 900 GB/s aggregate | 900 GB/s | coherent NVLink-C2C inside one GH200 |
+| Grace CPU ↔ Grace CPU | 100 GB/s per direction | 200 GB/s aggregate pair notation | cNVLink CPU pair; JSC summary wording differs, so do not treat as measured throughput |
 | Hopper GPU ↔ Hopper GPU | 300 GB/s aggregate | 150 GB/s per direction | per GPU pair over NVLink4 inside one node |
 | node ↔ L1 fabric | 4 × 200 Gbit/s | 100 GB/s raw per node | endpoint injection ceiling across four HCAs |
 | switch ↔ switch | 400 Gbit/s per link | 50 GB/s raw per link | DragonFly+ building block; not rack throughput |
@@ -81,7 +82,9 @@ Grace CPU locality group, confirmed by probe `1618998`.
 | DragonFly+ group ↔ group | no aggregate published | 50 GB/s raw per switch link | adaptive routing; endpoint injection still applies |
 
 One full Booster DragonFly+ group contains `15` L1 and `16` L2 switches. JSC
-publishes link rates, but it does not publish a single guaranteed application
+shows node HCAs connected to L1 with split cables and L2 global links leaving the
+group. The third rack contains the sixteenth L2 switch; each rack contains three
+L1 switches. JSC publishes link rates, but it does not publish a single guaranteed application
 throughput for a node pair, rack pair or group pair. Converting `Gbit/s` to
 `GB/s` divides by eight and still leaves protocol overhead, collective algorithm,
 message-size, congestion and placement effects. Multi-node planning therefore

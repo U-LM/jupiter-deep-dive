@@ -499,6 +499,17 @@
       "sourceIds": ["jsc-config"]
     },
     {
+      "id": "interconnect.cpu-pair-direction",
+      "label": "cNVLink bandwidth per Grace CPU-pair direction",
+      "value": 100,
+      "unit": "GB/s",
+      "scope": "one direction between a Booster node Grace CPU pair",
+      "evidenceType": "official",
+      "confidence": "medium",
+      "sourceIds": ["jsc-config", "jsc-tech"],
+      "note": "The current configuration page states 100 GB/s per direction; wording differs across JSC summaries, so this value is not used as a measured application-throughput claim."
+    },
+    {
       "id": "network.hca-per-node",
       "label": "ConnectX-7 NDR200 HCAs per node",
       "value": 4,

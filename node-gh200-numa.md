@@ -12,6 +12,7 @@ Probe `1618998` ran on `jpbo-024-02` for 19 seconds with four Slurm tasks,
 | Grace LPDDR5X | 120 GB | 480 GB | `official` |
 | Hopper HBM3 | 96 GB | 384 GB | `official`, `observed` |
 | NVLink-C2C | 900 GB/s aggregate | 4 links | `official` |
+| Grace CPU-pair cNVLink | 100 GB/s per direction | collapsed CPU-pair fabric | `official`, medium confidence |
 | ConnectX-7 NDR200 | 1 local HCA | 4 HCAs | `official`, `observed` |
 
 The label `NVIDIA GH200 120GB` printed by `nvidia-smi -L` does not mean that the

@@ -4,6 +4,8 @@
 зафіксований 2 вересня 2026 року. Канонічною моделлю даних є
 [`facts.json`](facts.json); Markdown і HTML мають узгоджуватися з нею.
 
+Публічна інтерактивна версія: [u-lm.github.io/jupiter-deep-dive](https://u-lm.github.io/jupiter-deep-dive/).
+
 ## Документи
 
 - [System architecture](system-architecture.md)
@@ -12,11 +14,7 @@
 - [Storage](storage.md)
 - [Workload playbook](workload-playbook.md)
 - [Evidence register](evidence-register.md)
-- [Standalone HTML](site/index.html)
-- [Tester first pass](review/tester-first-pass.md)
-- [Tester second pass](review/tester-second-pass.md)
-- [Release-candidate tester review](review/tester-release-candidate.md)
-- [Review disposition](review/review-disposition.md)
+- [Published HTML](index.html)
 
 ## Типи доказів
 

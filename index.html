@@ -1432,65 +1432,87 @@
         const boosterGroups = number("topology.dragonfly-groups");
         const totalGroups = number("topology.dragonfly-groups-total");
         const compact = width < 620;
-        const centerX = width / 2;
-        const centerY = compact ? 220 : 218;
-        const radiusX = Math.min(width * 0.42, 430);
-        const radiusY = compact ? 142 : 150;
-        const nodeRadius = compact ? 8 : 12;
-        const centers = Array.from({ length: totalGroups }, (_, index) => {
-          const angle = -Math.PI / 2 + (index * Math.PI * 2) / totalGroups;
-          return [
-            centerX + Math.cos(angle) * radiusX,
-            centerY + Math.sin(angle) * radiusY,
-          ];
-        });
+        const margin = compact ? 12 : 24;
+        const fabricTop = 50;
+        const fabricHeight = 43;
+        const gridTop = 112;
+        const gridLeft = margin + (compact ? 12 : 20);
+        const gridRight = width - margin;
+        const rowGap = compact ? 5 : 7;
+        const columnGap = compact ? 5 : 8;
+        const rows = 5;
+        const columns = 5;
+        const cellWidth = (gridRight - gridLeft - columnGap * (columns - 1)) / columns;
+        const cellHeight = (height - gridTop - 20 - rowGap * (rows - 1)) / rows;
 
         textLabel(`${format(installedNodes)} Booster nodes · ${format(installedNodes * gpusPerNode)} GH200`, 18, 20, compact ? 10 : 13);
         textLabel(
-          `DragonFly+ global links · ${number("network.switch-link")} Gbit/s each · adaptive routing`,
+          "25 Booster groups · 5 racks per full group · common network",
           18,
           40,
           compact ? 8 : 10,
-          "#145da0",
+          "#58616b",
         );
 
-        context.save();
-        context.strokeStyle = "#4682b4";
-        context.lineWidth = compact ? 0.45 : 0.65;
-        context.globalAlpha = compact ? 0.12 : 0.15;
-        for (let first = 0; first < centers.length; first += 1) {
-          for (let second = first + 1; second < centers.length; second += 1) {
-            context.beginPath();
-            context.moveTo(centers[first][0], centers[first][1]);
-            context.lineTo(centers[second][0], centers[second][1]);
-            context.stroke();
-          }
-        }
-        context.restore();
-
-        centers.forEach(([x, y], index) => {
-          const isCluster = index === boosterGroups;
-          const isAdmin = index === boosterGroups + 1;
+        box(margin, fabricTop, width - margin * 2, fabricHeight, "#e8f1f8", "#145da0");
+        textLabel("COLLAPSED DRAGONFLY+ GLOBAL FABRIC", width / 2, fabricTop + 17, compact ? 8 : 10, "#145da0", "center");
+        textLabel(
+          `${totalGroups} groups · full group-level connectivity · ${number("network.switch-link")} Gbit/s per inter-switch link`,
+          width / 2,
+          fabricTop + 34,
+          compact ? 7 : 9,
+          "#30363d",
+          "center",
+        );
+        [["C", "#145da0"], ["A", "#9a2f2f"]].forEach(([label, fill], index) => {
+          const x = margin + 14 + index * (compact ? 18 : 22);
+          const y = fabricTop + fabricHeight / 2;
           context.beginPath();
-          context.arc(x, y, nodeRadius, 0, Math.PI * 2);
-          context.fillStyle = isCluster ? "#145da0" : isAdmin ? "#9a2f2f" : "#246b3c";
+          context.arc(x, y, compact ? 7 : 9, 0, Math.PI * 2);
+          context.fillStyle = fill;
           context.fill();
-          context.strokeStyle = "#ffffff";
-          context.lineWidth = 1;
-          context.stroke();
-          const label = isCluster ? "C" : isAdmin ? "A" : String(index + 1);
-          textLabel(label, x, y + (compact ? 2.5 : 3), compact ? 6 : 8, "#ffffff", "center");
+          textLabel(label, x, y + 2.5, compact ? 6 : 7, "#ffffff", "center");
         });
 
-        badgeLabel("logical group connectivity", centerX, centerY - 3, compact ? 8 : 10, "#145da0");
-        badgeLabel(
-          `${boosterGroups} Booster · 1 Cluster · 1 Admin`,
-          centerX,
-          height - 13,
-          compact ? 8 : 10,
-          "#30363d",
-        );
-        byId("topology-status").textContent = `${totalGroups} groups: ${boosterGroups} Booster + 1 Cluster + 1 Admin · ${number("network.switch-link")} Gbit/s inter-switch links · adaptive routing`;
+        const trunkX = margin + (compact ? 4 : 7);
+        context.strokeStyle = "#145da0";
+        context.lineWidth = compact ? 1 : 1.5;
+        context.beginPath();
+        context.moveTo(trunkX, fabricTop + fabricHeight);
+        context.lineTo(trunkX, height - 17);
+        context.stroke();
+
+        for (let row = 0; row < rows; row += 1) {
+          const cellTop = gridTop + row * (cellHeight + rowGap);
+          const railY = cellTop - 4;
+          context.strokeStyle = "#4682b4";
+          context.lineWidth = compact ? 0.75 : 1;
+          context.beginPath();
+          context.moveTo(trunkX, railY);
+          context.lineTo(gridRight, railY);
+          context.stroke();
+          for (let column = 0; column < columns; column += 1) {
+            const index = row * columns + column;
+            const x = gridLeft + column * (cellWidth + columnGap);
+            const centerX = x + cellWidth / 2;
+            context.beginPath();
+            context.moveTo(centerX, railY);
+            context.lineTo(centerX, cellTop);
+            context.stroke();
+            const partial = index === boosterGroups - 1;
+            box(x, cellTop, cellWidth, cellHeight, partial ? "#faf0d5" : "#f6f8fa", "#6d7782");
+            textLabel(`G${index + 1}`, x + 5, cellTop + 12, compact ? 7 : 9, "#30363d");
+            const rackGap = compact ? 2 : 3;
+            const rackWidth = (cellWidth - 10 - rackGap * 4) / 5;
+            for (let rack = 0; rack < 5; rack += 1) {
+              const rackX = x + 5 + rack * (rackWidth + rackGap);
+              context.fillStyle = partial && rack >= 3 ? "#d6d9dd" : "#246b3c";
+              context.fillRect(rackX, cellTop + 18, rackWidth, Math.max(5, cellHeight - 23));
+            }
+          }
+        }
+        textLabel("C = Cluster · A = Admin · blue rails collapse the full group-to-group fabric", width / 2, height - 5, compact ? 7 : 9, "#58616b", "center");
+        byId("topology-status").textContent = `${totalGroups} groups: ${boosterGroups} Booster + 1 Cluster + 1 Admin · collapsed full connectivity · ${number("network.switch-link")} Gbit/s inter-switch links`;
       }
 
       function drawGroup(width, height) {

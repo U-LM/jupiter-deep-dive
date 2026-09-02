@@ -233,8 +233,8 @@
     },
     {
       "path": "index.html",
-      "sha256": "c7e7ed4ed29fc553c70b5bce0fc0751350b64a515bddcdde8f12d7411204b1ab",
-      "bytes": 158617
+      "sha256": "02f76642be1a661a5a871aabcf3ab1566a5596784a3d4cf69372114bf239e7a9",
+      "bytes": 159969
     },
     {
       "path": "node-gh200-numa.md",
